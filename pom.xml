@@ -21,69 +21,71 @@
     <camunda-7-test-framework.version>1.0.0</camunda-7-test-framework.version>
     <pia-camunda-7.version>7.21.0.0</pia-camunda-7.version>
 
-    <tmf-v4-models.version>1.0.1</tmf-v4-models.version>
-    <tmf-620-model.version>4.1.0.1</tmf-620-model.version>
-    <tmf-622-model.version>4.0.0.1</tmf-622-model.version>
-    <tmf-629-model.version>4.0.0.1</tmf-629-model.version>
-    <tmf-632-model.version>4.0.0.1</tmf-632-model.version>
-    <tmf-633-model.version>4.0.0.1</tmf-633-model.version>
-    <tmf-634-model.version>4.1.0.1</tmf-634-model.version>
-    <tmf-637-model.version>4.0.0.1</tmf-637-model.version>
-    <tmf-638-model.version>4.0.0.1</tmf-638-model.version>
-    <tmf-639-model.version>4.0.0.1</tmf-639-model.version>
-    <tmf-641-model.version>4.1.0.1</tmf-641-model.version>
-    <tmf-648-model.version>4.0.0.1</tmf-648-model.version>
-    <tmf-651-model.version>4.0.0.1</tmf-651-model.version>
-    <tmf-652-model.version>4.0.0.1</tmf-652-model.version>
-    <tmf-663-model.version>4.0.0.1</tmf-663-model.version>
-    <tmf-666-model.version>4.0.0.1</tmf-666-model.version>
-    <tmf-669-model.version>4.0.0.1</tmf-669-model.version>
-    <tmf-673-model.version>4.0.1.1</tmf-673-model.version>
-    <tmf-674-model.version>4.0.0.1</tmf-674-model.version>
-    <tmf-675-model.version>4.0.0.1</tmf-675-model.version>
-    <tmf-customer-model.version>4.0.0.1</tmf-customer-model.version>
-    <tmf-resource-model.version>4.1.0.1</tmf-resource-model.version>
-    <tmf-service-model.version>4.1.0.1</tmf-service-model.version>
-    <tmf-product-model.version>4.1.0.1</tmf-product-model.version>
-    <tmf-common-model.version>4.1.0.1</tmf-common-model.version>
+    <tmf-v4-models.version>1.0.2</tmf-v4-models.version>
+    <tmf-620-v4-model.version>4.1.0.2</tmf-620-v4-model.version>
+    <tmf-622-v4-model.version>4.0.0.2</tmf-622-v4-model.version>
+    <tmf-629-v4-model.version>4.0.0.2</tmf-629-v4-model.version>
+    <tmf-632-v4-model.version>4.0.0.2</tmf-632-v4-model.version>
+    <tmf-633-v4-model.version>4.0.0.2</tmf-633-v4-model.version>
+    <tmf-634-v4-model.version>4.1.0.2</tmf-634-v4-model.version>
+    <tmf-637-v4-model.version>4.0.0.2</tmf-637-v4-model.version>
+    <tmf-638-v4-model.version>4.0.0.2</tmf-638-v4-model.version>
+    <tmf-639-v4-model.version>4.0.0.2</tmf-639-v4-model.version>
+    <tmf-641-v4-model.version>4.1.0.2</tmf-641-v4-model.version>
+    <tmf-648-v4-model.version>4.0.0.2</tmf-648-v4-model.version>
+    <tmf-651-v4-model.version>4.0.0.2</tmf-651-v4-model.version>
+    <tmf-652-v4-model.version>4.0.0.2</tmf-652-v4-model.version>
+    <tmf-663-v4-model.version>4.0.0.2</tmf-663-v4-model.version>
+    <tmf-666-v4-model.version>4.0.0.2</tmf-666-v4-model.version>
+    <tmf-669-v4-model.version>4.0.0.2</tmf-669-v4-model.version>
+    <tmf-673-v4-model.version>4.0.1.2</tmf-673-v4-model.version>
+    <tmf-674-v4-model.version>4.0.0.2</tmf-674-v4-model.version>
+    <tmf-675-v4-model.version>4.0.0.2</tmf-675-v4-model.version>
+    <tmf-customer-v4-model.version>4.0.0.2</tmf-customer-v4-model.version>
+    <tmf-resource-v4-model.version>4.1.0.2</tmf-resource-v4-model.version>
+    <tmf-service-v4-model.version>4.1.0.2</tmf-service-v4-model.version>
+    <tmf-product-v4-model.version>4.1.0.2</tmf-product-v4-model.version>
+    <tmf-common-v4-model.version>4.1.0.2</tmf-common-v4-model.version>
 
-    <dnext-tmf-v4-models.version>1.0.1</dnext-tmf-v4-models.version>
-    <dnext-tmf-620-model.version>4.0.0.1</dnext-tmf-620-model.version>
-    <dnext-tmf-622-model.version>4.0.0.1</dnext-tmf-622-model.version>
-    <dnext-tmf-638-model.version>4.0.0.1</dnext-tmf-638-model.version>
-    <dnext-tmf-641-model.version>4.1.0.1</dnext-tmf-641-model.version>
-    <dnext-tmf-663-model.version>4.1.0.1</dnext-tmf-663-model.version>
-    <dnext-tmf-666-model.version>4.0.0.1</dnext-tmf-666-model.version>
-    <dnext-tmf-common-model.version>4.1.0.1</dnext-tmf-common-model.version>
+    <dnext-tmf-v4-models.version>1.0.2</dnext-tmf-v4-models.version>
+    <dnext-tmf-620-v4-model.version>4.0.0.2</dnext-tmf-620-v4-model.version>
+    <dnext-tmf-622-v4-model.version>4.0.0.2</dnext-tmf-622-v4-model.version>
+    <dnext-tmf-638-v4-model.version>4.0.0.2</dnext-tmf-638-v4-model.version>
+    <dnext-tmf-641-v4-model.version>4.1.0.2</dnext-tmf-641-v4-model.version>
+    <dnext-tmf-663-v4-model.version>4.1.0.2</dnext-tmf-663-v4-model.version>
+    <dnext-tmf-666-v4-model.version>4.0.0.2</dnext-tmf-666-v4-model.version>
+    <dnext-tmf-common-v4-model.version>4.1.0.2</dnext-tmf-common-v4-model.version>
 
-    <tmf-v4-utils.version>1.0.1</tmf-v4-utils.version>
-    <tmf-622-util.version>1.0.1</tmf-622-util.version>
-    <tmf-641-util.version>1.0.1</tmf-641-util.version>
-    <tmf-common-util.version>1.0.1</tmf-common-util.version>
+    <tmf-v4-utils.version>1.0.2</tmf-v4-utils.version>
+    <tmf-622-v4-util.version>1.0.2</tmf-622-v4-util.version>
+    <tmf-641-v4-util.version>1.0.2</tmf-641-v4-util.version>
+    <tmf-common-v4-util.version>1.0.2</tmf-common-v4-util.version>
 
-    <pia-web-clients.version>1.0.2</pia-web-clients.version>
-    <pia-webclients-common.version>1.0.2</pia-webclients-common.version>
-    <pia-openid-webclient-provider.version>1.0.2</pia-openid-webclient-provider.version>
-    <pia-basic-webclient-provider.version>1.0.2</pia-basic-webclient-provider.version>
-    <test-all-clients.version>1.0.2</test-all-clients.version>
+    <pia-web-clients.version>1.0.3</pia-web-clients.version>
+    <pia-webclients-common.version>1.0.3</pia-webclients-common.version>
+    <pia-openid-webclient-provider.version>1.0.3</pia-openid-webclient-provider.version>
+    <pia-basic-webclient-provider.version>1.0.3</pia-basic-webclient-provider.version>
+    <test-all-clients.version>1.0.3</test-all-clients.version>
 
-    <tmf-v4-clients.version>1.0.1</tmf-v4-clients.version>
-    <tmf-620-client.version>1.0.1</tmf-620-client.version>
-    <tmf-622-client.version>1.0.1</tmf-622-client.version>
-    <tmf-629-client.version>1.0.1</tmf-629-client.version>
-    <tmf-632-client.version>1.0.1</tmf-632-client.version>
-    <tmf-633-client.version>1.0.1</tmf-633-client.version>
-    <tmf-634-client.version>1.0.1</tmf-634-client.version>
-    <tmf-637-client.version>1.0.1</tmf-637-client.version>
-    <tmf-638-client.version>1.0.1</tmf-638-client.version>
-    <tmf-639-client.version>1.0.1</tmf-639-client.version>
-    <tmf-641-client.version>1.0.1</tmf-641-client.version>
-    <tmf-648-client.version>1.0.1</tmf-648-client.version>
-    <tmf-652-client.version>1.0.1</tmf-652-client.version>
-    <tmf-663-client.version>1.0.1</tmf-663-client.version>
-    <tmf-666-client.version>1.0.1</tmf-666-client.version>
-    <tmf-669-client.version>1.0.1</tmf-669-client.version>
-    <tmf-client-common.version>1.0.1</tmf-client-common.version>
+    <tmf-clients-base.version>1.0.0</tmf-clients-base.version>
+
+    <tmf-v4-clients.version>1.0.2</tmf-v4-clients.version>
+    <tmf-620-v4-client.version>1.0.2</tmf-620-v4-client.version>
+    <tmf-622-v4-client.version>1.0.2</tmf-622-v4-client.version>
+    <tmf-629-v4-client.version>1.0.2</tmf-629-v4-client.version>
+    <tmf-632-v4-client.version>1.0.2</tmf-632-v4-client.version>
+    <tmf-633-v4-client.version>1.0.2</tmf-633-v4-client.version>
+    <tmf-634-v4-client.version>1.0.2</tmf-634-v4-client.version>
+    <tmf-637-v4-client.version>1.0.2</tmf-637-v4-client.version>
+    <tmf-638-v4-client.version>1.0.2</tmf-638-v4-client.version>
+    <tmf-639-v4-client.version>1.0.2</tmf-639-v4-client.version>
+    <tmf-641-v4-client.version>1.0.2</tmf-641-v4-client.version>
+    <tmf-648-v4-client.version>1.0.2</tmf-648-v4-client.version>
+    <tmf-652-v4-client.version>1.0.2</tmf-652-v4-client.version>
+    <tmf-663-v4-client.version>1.0.2</tmf-663-v4-client.version>
+    <tmf-666-v4-client.version>1.0.2</tmf-666-v4-client.version>
+    <tmf-669-v4-client.version>1.0.2</tmf-669-v4-client.version>
+    <tmf-hub-v4-client.version>1.0.2</tmf-hub-v4-client.version>
 
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
@@ -148,123 +150,123 @@
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-620-model</artifactId>
-        <version>${tmf-620-model.version}</version>
+        <artifactId>tmf-620-v4-model</artifactId>
+        <version>${tmf-620-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-model</artifactId>
-        <version>${tmf-622-model.version}</version>
+        <artifactId>tmf-622-v4-model</artifactId>
+        <version>${tmf-622-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-629-model</artifactId>
-        <version>${tmf-629-model.version}</version>
+        <artifactId>tmf-629-v4-model</artifactId>
+        <version>${tmf-629-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-632-model</artifactId>
-        <version>${tmf-632-model.version}</version>
+        <artifactId>tmf-632-v4-model</artifactId>
+        <version>${tmf-632-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-633-model</artifactId>
-        <version>${tmf-633-model.version}</version>
+        <artifactId>tmf-633-v4-model</artifactId>
+        <version>${tmf-633-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-634-model</artifactId>
-        <version>${tmf-634-model.version}</version>
+        <artifactId>tmf-634-v4-model</artifactId>
+        <version>${tmf-634-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-637-model</artifactId>
-        <version>${tmf-637-model.version}</version>
+        <artifactId>tmf-637-v4-model</artifactId>
+        <version>${tmf-637-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-638-model</artifactId>
-        <version>${tmf-638-model.version}</version>
+        <artifactId>tmf-638-v4-model</artifactId>
+        <version>${tmf-638-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-639-model</artifactId>
-        <version>${tmf-639-model.version}</version>
+        <artifactId>tmf-639-v4-model</artifactId>
+        <version>${tmf-639-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-model</artifactId>
-        <version>${tmf-641-model.version}</version>
+        <artifactId>tmf-641-v4-model</artifactId>
+        <version>${tmf-641-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-648-model</artifactId>
-        <version>${tmf-648-model.version}</version>
+        <artifactId>tmf-648-v4-model</artifactId>
+        <version>${tmf-648-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-651-model</artifactId>
-        <version>${tmf-651-model.version}</version>
+        <artifactId>tmf-651-v4-model</artifactId>
+        <version>${tmf-651-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-652-model</artifactId>
-        <version>${tmf-652-model.version}</version>
+        <artifactId>tmf-652-v4-model</artifactId>
+        <version>${tmf-652-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-663-model</artifactId>
-        <version>${tmf-663-model.version}</version>
+        <artifactId>tmf-663-v4-model</artifactId>
+        <version>${tmf-663-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-666-model</artifactId>
-        <version>${tmf-666-model.version}</version>
+        <artifactId>tmf-666-v4-model</artifactId>
+        <version>${tmf-666-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-669-model</artifactId>
-        <version>${tmf-669-model.version}</version>
+        <artifactId>tmf-669-v4-model</artifactId>
+        <version>${tmf-669-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-673-model</artifactId>
-        <version>${tmf-673-model.version}</version>
+        <artifactId>tmf-673-v4-model</artifactId>
+        <version>${tmf-673-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-674-model</artifactId>
-        <version>${tmf-674-model.version}</version>
+        <artifactId>tmf-674-v4-model</artifactId>
+        <version>${tmf-674-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-675-model</artifactId>
-        <version>${tmf-675-model.version}</version>
+        <artifactId>tmf-675-v4-model</artifactId>
+        <version>${tmf-675-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-customer-model</artifactId>
-        <version>${tmf-customer-model.version}</version>
+        <artifactId>tmf-customer-v4-model</artifactId>
+        <version>${tmf-customer-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-resource-model</artifactId>
-        <version>${tmf-resource-model.version}</version>
+        <artifactId>tmf-resource-v4-model</artifactId>
+        <version>${tmf-resource-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-service-model</artifactId>
-        <version>${tmf-service-model.version}</version>
+        <artifactId>tmf-service-v4-model</artifactId>
+        <version>${tmf-service-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-product-model</artifactId>
-        <version>${tmf-product-model.version}</version>
+        <artifactId>tmf-product-v4-model</artifactId>
+        <version>${tmf-product-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-common-model</artifactId>
-        <version>${tmf-common-model.version}</version>
+        <artifactId>tmf-common-v4-model</artifactId>
+        <version>${tmf-common-v4-model.version}</version>
       </dependency>
 
       <!-- DNext TMF v4 Model Extensions -->
@@ -275,38 +277,38 @@
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-620-model</artifactId>
-        <version>${dnext-tmf-620-model.version}</version>
+        <artifactId>dnext-tmf-620-v4-model</artifactId>
+        <version>${dnext-tmf-620-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-622-model</artifactId>
-        <version>${dnext-tmf-622-model.version}</version>
+        <artifactId>dnext-tmf-622-v4-model</artifactId>
+        <version>${dnext-tmf-622-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-638-model</artifactId>
-        <version>${dnext-tmf-638-model.version}</version>
+        <artifactId>dnext-tmf-638-v4-model</artifactId>
+        <version>${dnext-tmf-638-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-641-model</artifactId>
-        <version>${dnext-tmf-641-model.version}</version>
+        <artifactId>dnext-tmf-641-v4-model</artifactId>
+        <version>${dnext-tmf-641-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-663-model</artifactId>
-        <version>${dnext-tmf-663-model.version}</version>
+        <artifactId>dnext-tmf-663-v4-model</artifactId>
+        <version>${dnext-tmf-663-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-666-model</artifactId>
-        <version>${dnext-tmf-666-model.version}</version>
+        <artifactId>dnext-tmf-666-v4-model</artifactId>
+        <version>${dnext-tmf-666-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-common-model</artifactId>
-        <version>${dnext-tmf-common-model.version}</version>
+        <artifactId>dnext-tmf-common-v4-model</artifactId>
+        <version>${dnext-tmf-common-v4-model.version}</version>
       </dependency>
 
       <!-- TMF v4 Utils -->
@@ -317,18 +319,18 @@
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-util</artifactId>
-        <version>${tmf-622-util.version}</version>
+        <artifactId>tmf-622-v4-util</artifactId>
+        <version>${tmf-622-v4-util.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-util</artifactId>
-        <version>${tmf-641-util.version}</version>
+        <artifactId>tmf-641-v4-util</artifactId>
+        <version>${tmf-641-v4-util.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-common-util</artifactId>
-        <version>${tmf-common-util.version}</version>
+        <artifactId>tmf-common-v4-util</artifactId>
+        <version>${tmf-common-v4-util.version}</version>
       </dependency>
 
       <!-- PiA Web Clients -->
@@ -358,6 +360,13 @@
         <version>${test-all-clients.version}</version>
       </dependency>
 
+      <!-- TMF Clients Base -->
+      <dependency>
+        <groupId>com.pia.commons</groupId>
+        <artifactId>tmf-clients-base</artifactId>
+        <version>${tmf-clients-base.version}</version>
+      </dependency>
+
       <!-- TMF v4 Clients -->
       <dependency>
         <groupId>com.pia.commons</groupId>
@@ -366,83 +375,83 @@
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-620-client</artifactId>
-        <version>${tmf-620-client.version}</version>
+        <artifactId>tmf-620-v4-client</artifactId>
+        <version>${tmf-620-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-client</artifactId>
-        <version>${tmf-622-client.version}</version>
+        <artifactId>tmf-622-v4-client</artifactId>
+        <version>${tmf-622-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-629-client</artifactId>
-        <version>${tmf-629-client.version}</version>
+        <artifactId>tmf-629-v4-client</artifactId>
+        <version>${tmf-629-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-632-client</artifactId>
-        <version>${tmf-632-client.version}</version>
+        <artifactId>tmf-632-v4-client</artifactId>
+        <version>${tmf-632-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-633-client</artifactId>
-        <version>${tmf-633-client.version}</version>
+        <artifactId>tmf-633-v4-client</artifactId>
+        <version>${tmf-633-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-634-client</artifactId>
-        <version>${tmf-634-client.version}</version>
+        <artifactId>tmf-634-v4-client</artifactId>
+        <version>${tmf-634-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-637-client</artifactId>
-        <version>${tmf-637-client.version}</version>
+        <artifactId>tmf-637-v4-client</artifactId>
+        <version>${tmf-637-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-638-client</artifactId>
-        <version>${tmf-638-client.version}</version>
+        <artifactId>tmf-638-v4-client</artifactId>
+        <version>${tmf-638-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-639-client</artifactId>
-        <version>${tmf-639-client.version}</version>
+        <artifactId>tmf-639-v4-client</artifactId>
+        <version>${tmf-639-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-client</artifactId>
-        <version>${tmf-641-client.version}</version>
+        <artifactId>tmf-641-v4-client</artifactId>
+        <version>${tmf-641-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-648-client</artifactId>
-        <version>${tmf-648-client.version}</version>
+        <artifactId>tmf-648-v4-client</artifactId>
+        <version>${tmf-648-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-652-client</artifactId>
-        <version>${tmf-652-client.version}</version>
+        <artifactId>tmf-652-v4-client</artifactId>
+        <version>${tmf-652-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-663-client</artifactId>
-        <version>${tmf-663-client.version}</version>
+        <artifactId>tmf-663-v4-client</artifactId>
+        <version>${tmf-663-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-666-client</artifactId>
-        <version>${tmf-666-client.version}</version>
+        <artifactId>tmf-666-v4-client</artifactId>
+        <version>${tmf-666-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-669-client</artifactId>
-        <version>${tmf-669-client.version}</version>
+        <artifactId>tmf-669-v4-client</artifactId>
+        <version>${tmf-669-v4-client.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-client-common</artifactId>
-        <version>${tmf-client-common.version}</version>
+        <artifactId>tmf-hub-v4-client</artifactId>
+        <version>${tmf-hub-v4-client.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
