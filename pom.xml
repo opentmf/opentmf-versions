@@ -10,7 +10,7 @@
   </description>
 
   <properties>
-    <pia-security.version>1.0.1</pia-security.version>
+    <pia-security.version>1.0.2</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
     <pia-db-lock-service.version>1.0.1</pia-db-lock-service.version>
     <pia-bpmn-sync-service.version>1.0.1</pia-bpmn-sync-service.version>
@@ -19,7 +19,7 @@
     <camunda-incident-logger.version>1.0.0</camunda-incident-logger.version>
     <dynamic-mock-expectations.version>1.0.0</dynamic-mock-expectations.version>
     <camunda-7-test-framework.version>1.0.0</camunda-7-test-framework.version>
-    <pia-camunda-7.version>7.21.0.0</pia-camunda-7.version>
+    <pia-camunda-7.version>22.0.0</pia-camunda-7.version>
 
     <tmf-v4-models.version>1.0.2</tmf-v4-models.version>
     <tmf-620-v4-model.version>4.1.0.2</tmf-620-v4-model.version>
