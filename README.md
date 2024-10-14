@@ -20,6 +20,8 @@ In order to easily obtain the compatible versions of the latest released pia-com
 
 RELEASE is a reserved word for Maven. It means the latest released version, snapshots not included.
 
+Instead of using the keyword RELEASE, it is also possible to explicitly specify a version for tmf-commons-versions to achieve predictable builds even in the future.
+
 And then you can depend on any com.pia.commons project without specifying a version. For example:
 
 ```xml
