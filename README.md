@@ -32,3 +32,9 @@ And then you can depend on any com.pia.commons project without specifying a vers
   </dependency>
 </dependencies>
 ```
+## Release Notes
+### 1.0.0 - 1.0.4
+- Initial Releases
+### 1.0.5
+- Updated pia-security to 1.0.3
+- Updated pia-camunda-7 to 22.0.2 (to use pia-security 1.0.3)
