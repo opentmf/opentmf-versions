@@ -12,9 +12,9 @@
   <properties>
     <pia-security.version>1.0.3</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
-    <pia-db-lock-service.version>1.0.3</pia-db-lock-service.version>
-    <pia-bpmn-sync-service.version>1.0.3</pia-bpmn-sync-service.version>
-    <pia-catalog-sync-service.version>1.0.2</pia-catalog-sync-service.version>
+    <pia-db-lock-service.version>1.0.4</pia-db-lock-service.version>
+    <pia-bpmn-sync-service.version>1.0.4</pia-bpmn-sync-service.version>
+    <pia-catalog-sync-service.version>1.0.3</pia-catalog-sync-service.version>
 
     <camunda-incident-logger.version>1.0.1</camunda-incident-logger.version>
     <dynamic-mock-expectations.version>1.0.0</dynamic-mock-expectations.version>
@@ -61,33 +61,33 @@
     <tmf-641-v4-util.version>1.0.2</tmf-641-v4-util.version>
     <tmf-common-v4-util.version>1.0.2</tmf-common-v4-util.version>
 
-    <pia-web-clients.version>1.0.5</pia-web-clients.version>
-    <pia-webclients-common.version>1.0.5</pia-webclients-common.version>
-    <pia-openid-webclient-provider.version>1.0.5</pia-openid-webclient-provider.version>
-    <pia-openid-webclients-starter.version>1.0.5</pia-openid-webclients-starter.version>
-    <pia-basic-webclient-provider.version>1.0.5</pia-basic-webclient-provider.version>
-    <pia-basic-webclients-starter.version>1.0.5</pia-basic-webclients-starter.version>
-    <test-all-clients.version>1.0.5</test-all-clients.version>
+    <pia-web-clients.version>1.0.6</pia-web-clients.version>
+    <pia-webclients-common.version>1.0.6</pia-webclients-common.version>
+    <pia-openid-webclient-provider.version>1.0.6</pia-openid-webclient-provider.version>
+    <pia-openid-webclients-starter.version>1.0.6</pia-openid-webclients-starter.version>
+    <pia-basic-webclient-provider.version>1.0.6</pia-basic-webclient-provider.version>
+    <pia-basic-webclients-starter.version>1.0.66</pia-basic-webclients-starter.version>
+    <test-all-clients.version>1.0.6</test-all-clients.version>
 
-    <tmf-clients-base.version>1.0.2</tmf-clients-base.version>
+    <tmf-clients-base.version>1.0.3</tmf-clients-base.version>
 
-    <tmf-v4-clients.version>1.0.4</tmf-v4-clients.version>
-    <tmf-620-v4-client.version>1.0.4</tmf-620-v4-client.version>
-    <tmf-622-v4-client.version>1.0.4</tmf-622-v4-client.version>
-    <tmf-629-v4-client.version>1.0.4</tmf-629-v4-client.version>
-    <tmf-632-v4-client.version>1.0.4</tmf-632-v4-client.version>
-    <tmf-633-v4-client.version>1.0.4</tmf-633-v4-client.version>
-    <tmf-634-v4-client.version>1.0.4</tmf-634-v4-client.version>
-    <tmf-637-v4-client.version>1.0.4</tmf-637-v4-client.version>
-    <tmf-638-v4-client.version>1.0.4</tmf-638-v4-client.version>
-    <tmf-639-v4-client.version>1.0.4</tmf-639-v4-client.version>
-    <tmf-641-v4-client.version>1.0.4</tmf-641-v4-client.version>
-    <tmf-648-v4-client.version>1.0.4</tmf-648-v4-client.version>
-    <tmf-652-v4-client.version>1.0.4</tmf-652-v4-client.version>
-    <tmf-663-v4-client.version>1.0.4</tmf-663-v4-client.version>
-    <tmf-666-v4-client.version>1.0.4</tmf-666-v4-client.version>
-    <tmf-669-v4-client.version>1.0.4</tmf-669-v4-client.version>
-    <tmf-hub-v4-client.version>1.0.4</tmf-hub-v4-client.version>
+    <tmf-v4-clients.version>1.0.5</tmf-v4-clients.version>
+    <tmf-620-v4-client.version>1.0.5</tmf-620-v4-client.version>
+    <tmf-622-v4-client.version>1.0.5</tmf-622-v4-client.version>
+    <tmf-629-v4-client.version>1.0.5</tmf-629-v4-client.version>
+    <tmf-632-v4-client.version>1.0.5</tmf-632-v4-client.version>
+    <tmf-633-v4-client.version>1.0.5</tmf-633-v4-client.version>
+    <tmf-634-v4-client.version>1.0.5</tmf-634-v4-client.version>
+    <tmf-637-v4-client.version>1.0.5</tmf-637-v4-client.version>
+    <tmf-638-v4-client.version>1.0.5</tmf-638-v4-client.version>
+    <tmf-639-v4-client.version>1.0.5</tmf-639-v4-client.version>
+    <tmf-641-v4-client.version>1.0.5</tmf-641-v4-client.version>
+    <tmf-648-v4-client.version>1.0.5</tmf-648-v4-client.version>
+    <tmf-652-v4-client.version>1.0.5</tmf-652-v4-client.version>
+    <tmf-663-v4-client.version>1.0.5</tmf-663-v4-client.version>
+    <tmf-666-v4-client.version>1.0.5</tmf-666-v4-client.version>
+    <tmf-669-v4-client.version>1.0.5</tmf-669-v4-client.version>
+    <tmf-hub-v4-client.version>1.0.5</tmf-hub-v4-client.version>
 
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>

@@ -38,3 +38,11 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.0.5
 - Updated pia-security to 1.0.3
 - Updated pia-camunda-7 to 22.0.2 (to use pia-security 1.0.3)
+### 1.0.6
+- Updated pia-web-clients to 1.0.5
+- Updated pia-db-lock-service to 1.0.3
+- Updated pia-bpmn-sync-service to 1.0.3
+- Updated pia-catalog-sync-service to 1.0.2
+- Updated pia-web-clients to 1.0.5
+- Updated tmf-clients-base to 1.0.2
+- Updated tmf-v4-clients to 1.0.4
