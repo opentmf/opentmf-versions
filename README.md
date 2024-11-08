@@ -46,3 +46,5 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated pia-web-clients to 1.0.5
 - Updated tmf-clients-base to 1.0.2
 - Updated tmf-v4-clients to 1.0.4
+### 1.0.7
+- Updated dnext-tmf-v4-model versions
