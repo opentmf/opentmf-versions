@@ -10,11 +10,11 @@
   </description>
 
   <properties>
-    <pia-security.version>1.0.3</pia-security.version>
+    <pia-security.version>1.0.5</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
-    <pia-db-lock-service.version>1.0.4</pia-db-lock-service.version>
-    <pia-bpmn-sync-service.version>1.0.4</pia-bpmn-sync-service.version>
-    <pia-catalog-sync-service.version>1.0.3</pia-catalog-sync-service.version>
+    <pia-db-lock-service.version>1.0.5</pia-db-lock-service.version>
+    <pia-bpmn-sync-service.version>1.0.5</pia-bpmn-sync-service.version>
+    <pia-catalog-sync-service.version>1.0.4</pia-catalog-sync-service.version>
 
     <camunda-incident-logger.version>1.0.1</camunda-incident-logger.version>
     <dynamic-mock-expectations.version>1.0.0</dynamic-mock-expectations.version>

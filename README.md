@@ -48,3 +48,8 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated tmf-v4-clients to 1.0.4
 ### 1.0.7
 - Updated dnext-tmf-v4-models versions
+### 1.0.8
+- pia-security: 1.0.3 -> 1.0.5
+- pia-db-lock-service: 1.0.4 -> 1.0.5
+- pia-bpmn-sync-service: 1.0.4 -> 1.0.5
+- pia-catalog-sync-service: 1.0.3 -> 1.0.4
