@@ -53,3 +53,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - pia-db-lock-service: 1.0.4 -> 1.0.5
 - pia-bpmn-sync-service: 1.0.4 -> 1.0.5
 - pia-catalog-sync-service: 1.0.3 -> 1.0.4
+### 1.0.9
+- adds tmf-681 v4 model and tmf-client 
+- dependency updates of dnext tmf v4 models and tmf v4 utils
