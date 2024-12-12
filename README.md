@@ -1,6 +1,12 @@
 # pia-commons-versions
 A Super pom project that exposes the latest release versions of pia-commons artifacts.
 
+The following image is a conceptual view of the artifacts whose compatible release versions are provided within this super pom project.
+
+![](pia-libraries..png)
+
+Note that many of those libraries are super pom projects themselves, providing several more artifacts. 
+
 ## Usage
 In order to easily obtain the compatible versions of the latest released pia-commons libraries in your projects, import this super pom dependencies:
 
@@ -17,10 +23,12 @@ In order to easily obtain the compatible versions of the latest released pia-com
   </dependencies>
 </dependencyManagement>
 ```
-
-RELEASE is a reserved word for Maven. It means the latest released version, snapshots not included.
-
-Instead of using the keyword RELEASE, it is also possible to explicitly specify a version for tmf-commons-versions to achieve predictable builds even in the future.
+**Heads Up**
+> RELEASE is a reserved word for Maven. It means the latest released version of an artifact, excluding snapshots.
+> 
+> Despite providing the comfort of always using the latest released version of an artifact, the use of the RELEASE keyword is discouraged by Maven, because the build will produce a different result on subsequent builds when a new version of the dependent artifact is released.
+> 
+> Therefore, instead of using the keyword RELEASE, it is **_recommended_** to explicitly specify a version for tmf-commons-versions to achieve predictable builds even in the future.
 
 And then you can depend on any com.pia.commons project without specifying a version. For example:
 
@@ -56,3 +64,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.0.9
 - adds tmf-681 v4 model and tmf-client 
 - dependency updates of dnext tmf v4 models and tmf v4 utils
+### 1.1.0
+- updates many library versions to their latest
+- includes the fix in quoteClientProvider bean name
