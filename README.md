@@ -3,7 +3,7 @@ A Super pom project that exposes the latest release versions of pia-commons arti
 
 The following image is a conceptual view of the artifacts whose compatible release versions are provided within this super pom project.
 
-![](pia-libraries..png)
+![](pia-libraries.png)
 
 Note that many of those libraries are super pom projects themselves, providing several more artifacts. 
 
