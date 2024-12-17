@@ -10,16 +10,17 @@
   </description>
 
   <properties>
-    <pia-security.version>1.0.5</pia-security.version>
+    <pia-security.version>1.0.7</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
     <pia-db-lock-service.version>1.0.6</pia-db-lock-service.version>
     <pia-bpmn-sync-service.version>1.0.6</pia-bpmn-sync-service.version>
     <pia-catalog-sync-service.version>1.0.5</pia-catalog-sync-service.version>
+    <auditor-aware-jpa.version>1.0.1</auditor-aware-jpa.version>
 
     <camunda-incident-logger.version>1.0.2</camunda-incident-logger.version>
     <dynamic-mock-expectations.version>1.0.0</dynamic-mock-expectations.version>
     <camunda-7-test-framework.version>1.0.2</camunda-7-test-framework.version>
-    <pia-camunda-7.version>22.0.4</pia-camunda-7.version>
+    <pia-camunda-7.version>22.0.6</pia-camunda-7.version>
 
     <tmf-v4-models.version>1.0.3</tmf-v4-models.version>
     <tmf-620-v4-model.version>4.1.0.3</tmf-620-v4-model.version>
@@ -48,14 +49,15 @@
     <tmf-product-v4-model.version>4.1.0.3</tmf-product-v4-model.version>
     <tmf-common-v4-model.version>4.1.0.3</tmf-common-v4-model.version>
 
-    <dnext-tmf-v4-models.version>1.0.4</dnext-tmf-v4-models.version>
-    <dnext-tmf-620-v4-model.version>4.0.0.4</dnext-tmf-620-v4-model.version>
-    <dnext-tmf-622-v4-model.version>4.0.0.4</dnext-tmf-622-v4-model.version>
-    <dnext-tmf-638-v4-model.version>4.0.0.4</dnext-tmf-638-v4-model.version>
-    <dnext-tmf-641-v4-model.version>4.1.0.4</dnext-tmf-641-v4-model.version>
-    <dnext-tmf-663-v4-model.version>4.1.0.4</dnext-tmf-663-v4-model.version>
-    <dnext-tmf-666-v4-model.version>4.0.0.4</dnext-tmf-666-v4-model.version>
-    <dnext-tmf-common-v4-model.version>4.1.0.4</dnext-tmf-common-v4-model.version>
+    <dnext-tmf-v4-models.version>1.0.5</dnext-tmf-v4-models.version>
+    <dnext-tmf-620-v4-model.version>4.0.0.5</dnext-tmf-620-v4-model.version>
+    <dnext-tmf-622-v4-model.version>4.0.0.5</dnext-tmf-622-v4-model.version>
+    <dnext-tmf-633-v4-model.version>4.0.0.5</dnext-tmf-633-v4-model.version>
+    <dnext-tmf-638-v4-model.version>4.0.0.5</dnext-tmf-638-v4-model.version>
+    <dnext-tmf-641-v4-model.version>4.1.0.5</dnext-tmf-641-v4-model.version>
+    <dnext-tmf-663-v4-model.version>4.1.0.5</dnext-tmf-663-v4-model.version>
+    <dnext-tmf-666-v4-model.version>4.0.0.5</dnext-tmf-666-v4-model.version>
+    <dnext-tmf-common-v4-model.version>4.1.0.5</dnext-tmf-common-v4-model.version>
 
     <tmf-v4-utils.version>1.0.3</tmf-v4-utils.version>
     <tmf-622-v4-util.version>1.0.3</tmf-622-v4-util.version>
@@ -124,6 +126,11 @@
         <groupId>com.pia.commons</groupId>
         <artifactId>pia-catalog-sync-service</artifactId>
         <version>${pia-catalog-sync-service.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.pia.commons</groupId>
+        <artifactId>auditor-aware-jpa</artifactId>
+        <version>${auditor-aware-jpa.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>
@@ -293,6 +300,11 @@
         <groupId>com.pia.commons</groupId>
         <artifactId>dnext-tmf-622-v4-model</artifactId>
         <version>${dnext-tmf-622-v4-model.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.pia.commons</groupId>
+        <artifactId>dnext-tmf-633-v4-model</artifactId>
+        <version>${dnext-tmf-633-v4-model.version}</version>
       </dependency>
       <dependency>
         <groupId>com.pia.commons</groupId>

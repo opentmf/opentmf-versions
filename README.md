@@ -67,3 +67,9 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.1.0
 - updates many library versions to their latest
 - includes the fix in quoteClientProvider bean name
+### 1.1.1
+- introduces auditor-aware-jpa
+- updates pia-security to 1.0.7
+- updated pia-camunda-7 to 22.0.6 
+- adds dnext-tmf-633-model to dnext-tmf-v4-models
+
