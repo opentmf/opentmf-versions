@@ -77,4 +77,5 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated pia-db-lock-service to 1.0.7
 - Updated pia-bpmn-sync-service to 1.0.7
 - Updated pia-catalog-sync-service to 1.0.6
-
+### 1.1.3
+- Updated pia-bpmn-sync-service to 1.0.8
