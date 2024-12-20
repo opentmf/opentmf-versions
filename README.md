@@ -72,4 +72,9 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - updates pia-security to 1.0.7
 - updated pia-camunda-7 to 22.0.6 
 - adds dnext-tmf-633-model to dnext-tmf-v4-models
+### 1.1.2
+- Updated dynamic-mock-expectations to 1.0.1
+- Updated pia-db-lock-service to 1.0.7
+- Updated pia-bpmn-sync-service to 1.0.7
+- Updated pia-catalog-sync-service to 1.0.6
 

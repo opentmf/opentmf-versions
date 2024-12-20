@@ -12,13 +12,13 @@
   <properties>
     <pia-security.version>1.0.7</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
-    <pia-db-lock-service.version>1.0.6</pia-db-lock-service.version>
-    <pia-bpmn-sync-service.version>1.0.6</pia-bpmn-sync-service.version>
-    <pia-catalog-sync-service.version>1.0.5</pia-catalog-sync-service.version>
+    <pia-db-lock-service.version>1.0.7</pia-db-lock-service.version>
+    <pia-bpmn-sync-service.version>1.0.7</pia-bpmn-sync-service.version>
+    <pia-catalog-sync-service.version>1.0.6</pia-catalog-sync-service.version>
     <auditor-aware-jpa.version>1.0.1</auditor-aware-jpa.version>
 
     <camunda-incident-logger.version>1.0.2</camunda-incident-logger.version>
-    <dynamic-mock-expectations.version>1.0.0</dynamic-mock-expectations.version>
+    <dynamic-mock-expectations.version>1.0.1</dynamic-mock-expectations.version>
     <camunda-7-test-framework.version>1.0.2</camunda-7-test-framework.version>
     <pia-camunda-7.version>22.0.6</pia-camunda-7.version>
 
