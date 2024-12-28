@@ -79,3 +79,12 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated pia-catalog-sync-service to 1.0.6
 ### 1.1.3
 - Updated pia-bpmn-sync-service to 1.0.8
+### 1.1.4
+- Updates to pia-web-clients 1.0.8, for fewer dependencies for the reactive WebClient.
+- The affected projects from the pia-web-clients update are also updated:
+  - pia-bpmn-sync-service
+  - pia-catalog-sync-service
+  - pia-web-clients
+  - tmf-clients-base
+  - tmf-v4-clients
+- Corrected the link from the tmf-clients-base to the pia-web-clients in pia-libraries.png
