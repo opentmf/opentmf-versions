@@ -13,8 +13,8 @@
     <pia-security.version>1.0.8</pia-security.version>
     <pia-commons.version>1.0.0</pia-commons.version>
     <pia-db-lock-service.version>1.0.7</pia-db-lock-service.version>
-    <pia-bpmn-sync-service.version>1.0.9</pia-bpmn-sync-service.version>
-    <pia-catalog-sync-service.version>1.0.7</pia-catalog-sync-service.version>
+    <pia-bpmn-sync-service.version>1.1.0</pia-bpmn-sync-service.version>
+    <pia-catalog-sync-service.version>1.0.8</pia-catalog-sync-service.version>
     <auditor-aware-jpa.version>1.0.1</auditor-aware-jpa.version>
 
     <camunda-incident-logger.version>1.0.2</camunda-incident-logger.version>
