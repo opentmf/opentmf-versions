@@ -93,3 +93,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.1.6
 - Updated pia-bpmn-sync-service to 1.1.0
 - Updated pia-catalog-sync-service to 1.0.8
+### 1.1.7
+- Updated pia-commons to 1.0.1
+- Updated dnext-tmf-v4-models to 1.0.6
