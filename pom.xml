@@ -10,7 +10,7 @@
   </description>
 
   <properties>
-    <pia-security.version>1.0.8</pia-security.version>
+    <pia-security.version>1.0.9</pia-security.version>
     <pia-commons.version>1.0.1</pia-commons.version>
     <pia-db-lock-service.version>1.0.7</pia-db-lock-service.version>
     <pia-bpmn-sync-service.version>1.1.0</pia-bpmn-sync-service.version>
