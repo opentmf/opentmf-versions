@@ -98,3 +98,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated dnext-tmf-v4-models to 1.0.6
 ### 1.1.8
 - Updated pia-security to 1.0.9
+### 1.1.9
+- Updated auditor-aware-jpa to 1.0.2
+- Updated pia-commons to 1.0.2
