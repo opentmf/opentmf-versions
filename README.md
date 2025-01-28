@@ -101,3 +101,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.1.9
 - Updated auditor-aware-jpa to 1.0.2
 - Updated pia-commons to 1.0.2
+### 1.2.0
+- Updated dnext-tmf-v4-models to 1.0.7
+

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pia.commons</groupId>
   <artifactId>pia-commons-versions</artifactId>
-  <version>1.1.10-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>
     A Super pom project that exposes the latest release versions of pia-commons artifacts.
@@ -49,15 +49,15 @@
     <tmf-product-v4-model.version>4.1.0.3</tmf-product-v4-model.version>
     <tmf-common-v4-model.version>4.1.0.3</tmf-common-v4-model.version>
 
-    <dnext-tmf-v4-models.version>1.0.6</dnext-tmf-v4-models.version>
-    <dnext-tmf-620-v4-model.version>4.0.0.6</dnext-tmf-620-v4-model.version>
-    <dnext-tmf-622-v4-model.version>4.0.0.6</dnext-tmf-622-v4-model.version>
-    <dnext-tmf-633-v4-model.version>4.0.0.6</dnext-tmf-633-v4-model.version>
-    <dnext-tmf-638-v4-model.version>4.0.0.6</dnext-tmf-638-v4-model.version>
-    <dnext-tmf-641-v4-model.version>4.1.0.6</dnext-tmf-641-v4-model.version>
-    <dnext-tmf-663-v4-model.version>4.1.0.6</dnext-tmf-663-v4-model.version>
-    <dnext-tmf-666-v4-model.version>4.0.0.6</dnext-tmf-666-v4-model.version>
-    <dnext-tmf-common-v4-model.version>4.1.0.6</dnext-tmf-common-v4-model.version>
+    <dnext-tmf-v4-models.version>1.0.7</dnext-tmf-v4-models.version>
+    <dnext-tmf-620-v4-model.version>4.0.0.7</dnext-tmf-620-v4-model.version>
+    <dnext-tmf-622-v4-model.version>4.0.0.7</dnext-tmf-622-v4-model.version>
+    <dnext-tmf-633-v4-model.version>4.0.0.7</dnext-tmf-633-v4-model.version>
+    <dnext-tmf-638-v4-model.version>4.0.0.7</dnext-tmf-638-v4-model.version>
+    <dnext-tmf-641-v4-model.version>4.1.0.7</dnext-tmf-641-v4-model.version>
+    <dnext-tmf-663-v4-model.version>4.1.0.7</dnext-tmf-663-v4-model.version>
+    <dnext-tmf-666-v4-model.version>4.0.0.7</dnext-tmf-666-v4-model.version>
+    <dnext-tmf-common-v4-model.version>4.1.0.7</dnext-tmf-common-v4-model.version>
 
     <tmf-v4-utils.version>1.0.3</tmf-v4-utils.version>
     <tmf-622-v4-util.version>1.0.3</tmf-622-v4-util.version>
