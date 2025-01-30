@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pia.commons</groupId>
   <artifactId>pia-commons-versions</artifactId>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.1</version>
   <packaging>pom</packaging>
   <description>
     A Super pom project that exposes the latest release versions of pia-commons artifacts.
@@ -558,7 +558,7 @@
   <scm>
     <connection>scm:git:git@github.com:pia-commons/pia-commons-versions.git</connection>
     <developerConnection>scm:git:git@github.com:pia-commons/pia-commons-versions.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>pia-commons-versions-1.2.1</tag>
   </scm>
 
 </project>
