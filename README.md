@@ -103,4 +103,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated pia-commons to 1.0.2
 ### 1.2.0
 - Updated dnext-tmf-v4-models to 1.0.7
+### 1.2.1
+- Updated dnext-tmf-v4-models to 1.0.8
 
