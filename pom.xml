@@ -59,10 +59,10 @@
     <dnext-tmf-666-v4-model.version>4.0.0.8</dnext-tmf-666-v4-model.version>
     <dnext-tmf-common-v4-model.version>4.1.0.8</dnext-tmf-common-v4-model.version>
 
-    <tmf-v4-utils.version>1.0.3</tmf-v4-utils.version>
-    <tmf-622-v4-util.version>1.0.3</tmf-622-v4-util.version>
-    <tmf-641-v4-util.version>1.0.3</tmf-641-v4-util.version>
-    <tmf-common-v4-util.version>1.0.3</tmf-common-v4-util.version>
+    <tmf-v4-utils.version>1.0.4</tmf-v4-utils.version>
+    <tmf-622-v4-util.version>1.0.4</tmf-622-v4-util.version>
+    <tmf-641-v4-util.version>1.0.4</tmf-641-v4-util.version>
+    <tmf-common-v4-util.version>1.0.4</tmf-common-v4-util.version>
 
     <pia-web-clients.version>1.0.8</pia-web-clients.version>
     <pia-webclients-common.version>1.0.8</pia-webclients-common.version>

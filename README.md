@@ -105,4 +105,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated dnext-tmf-v4-models to 1.0.7
 ### 1.2.1
 - Updated dnext-tmf-v4-models to 1.0.8
+### 1.2.2
+- Updated tmf-v4-utils to 1.0.4, that adds validateOrder method to ServiceOrderUtil.
 
