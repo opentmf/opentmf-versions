@@ -107,4 +107,5 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated dnext-tmf-v4-models to 1.0.8
 ### 1.2.2
 - Updated tmf-v4-utils to 1.0.4, that adds validateOrder method to ServiceOrderUtil.
-
+### 1.2.3
+- Updated pia-web-clients to 1.0.9, which adds the ability to use mutual TLS authentication.
