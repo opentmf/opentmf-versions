@@ -19,7 +19,7 @@
 
     <camunda-incident-logger.version>1.0.2</camunda-incident-logger.version>
     <dynamic-mock-expectations.version>1.0.1</dynamic-mock-expectations.version>
-    <camunda-7-test-framework.version>1.0.2</camunda-7-test-framework.version>
+    <camunda-7-test-framework.version>1.0.3</camunda-7-test-framework.version>
     <pia-camunda-7.version>22.0.6</pia-camunda-7.version>
 
     <tmf-v4-models.version>1.0.3</tmf-v4-models.version>

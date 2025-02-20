@@ -109,3 +109,5 @@ And then you can depend on any com.pia.commons project without specifying a vers
 - Updated tmf-v4-utils to 1.0.4, that adds validateOrder method to ServiceOrderUtil.
 ### 1.2.3
 - Updated pia-web-clients to 1.0.9, which adds the ability to use mutual TLS authentication.
+### 1.2.4
+- Updated camunda-7-test-framework to 1.0.3, which adds the ability to use set listeners for each and every task, not only receive tasks.
