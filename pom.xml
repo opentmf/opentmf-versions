@@ -49,15 +49,15 @@
     <tmf-product-v4-model.version>4.1.0.3</tmf-product-v4-model.version>
     <tmf-common-v4-model.version>4.1.0.3</tmf-common-v4-model.version>
 
-    <dnext-tmf-v4-models.version>1.0.8</dnext-tmf-v4-models.version>
-    <dnext-tmf-620-v4-model.version>4.0.0.8</dnext-tmf-620-v4-model.version>
-    <dnext-tmf-622-v4-model.version>4.0.0.8</dnext-tmf-622-v4-model.version>
-    <dnext-tmf-633-v4-model.version>4.0.0.8</dnext-tmf-633-v4-model.version>
-    <dnext-tmf-638-v4-model.version>4.0.0.8</dnext-tmf-638-v4-model.version>
-    <dnext-tmf-641-v4-model.version>4.1.0.8</dnext-tmf-641-v4-model.version>
-    <dnext-tmf-663-v4-model.version>4.1.0.8</dnext-tmf-663-v4-model.version>
-    <dnext-tmf-666-v4-model.version>4.0.0.8</dnext-tmf-666-v4-model.version>
-    <dnext-tmf-common-v4-model.version>4.1.0.8</dnext-tmf-common-v4-model.version>
+    <dnext-tmf-v4-models.version>1.0.9</dnext-tmf-v4-models.version>
+    <dnext-tmf-620-v4-model.version>4.0.0.9</dnext-tmf-620-v4-model.version>
+    <dnext-tmf-622-v4-model.version>4.0.0.9</dnext-tmf-622-v4-model.version>
+    <dnext-tmf-633-v4-model.version>4.0.0.9</dnext-tmf-633-v4-model.version>
+    <dnext-tmf-638-v4-model.version>4.0.0.9</dnext-tmf-638-v4-model.version>
+    <dnext-tmf-641-v4-model.version>4.1.0.9</dnext-tmf-641-v4-model.version>
+    <dnext-tmf-663-v4-model.version>4.1.0.9</dnext-tmf-663-v4-model.version>
+    <dnext-tmf-666-v4-model.version>4.0.0.9</dnext-tmf-666-v4-model.version>
+    <dnext-tmf-common-v4-model.version>4.1.0.9</dnext-tmf-common-v4-model.version>
 
     <tmf-v4-utils.version>1.0.4</tmf-v4-utils.version>
     <tmf-622-v4-util.version>1.0.4</tmf-622-v4-util.version>
