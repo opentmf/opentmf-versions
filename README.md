@@ -112,4 +112,7 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.2.4
 - Updated camunda-7-test-framework to 1.0.3, which adds the ability to use set listeners for each and every task, not only receive tasks.
 ### 1.2.5
-- Updated dnext-tmf-v4-models to 1.0.9, which adds DNextProductOffering with the extended field "rules". 
+- Updated dnext-tmf-v4-models to 1.0.9, which adds DNextProductOffering with the extended field "rules".
+### 1.2.6
+- Updated tmf-clients-base to 1.0.5
+- Updated tmf-v4-clients to 1.1.0
