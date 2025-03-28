@@ -116,3 +116,6 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.2.6
 - Updated tmf-clients-base to 1.0.5
 - Updated tmf-v4-clients to 1.1.0
+### 1.2.7 (Backward Incompatible)
+- Updated tmf-clients-base to 1.1.0
+- Updated tmf-v4-clients to 1.1.1
