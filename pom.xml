@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opentmf</groupId>
   <artifactId>opentmf-versions</artifactId>
-  <version>1.3.0</version>
+  <version>1.3.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <description>
@@ -609,7 +609,7 @@
     <url>https://github.com/opentmf/opentmf-versions</url>
     <connection>scm:git:git@github.com:opentmf/opentmf-versions.git</connection>
     <developerConnection>scm:git:git@github.com:opentmf/opentmf-versions.git</developerConnection>
-    <tag>opentmf-versions-1.3.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
