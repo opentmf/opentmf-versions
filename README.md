@@ -1,21 +1,21 @@
-# pia-commons-versions
-A Super pom project that exposes the latest release versions of pia-commons artifacts.
+# opentmf-versions
+A Super pom project that exposes the latest release versions of opentmf-commons artifacts.
 
 The following image is a conceptual view of the artifacts whose compatible release versions are provided within this super pom project.
 
-![](pia-libraries.png)
+![](opentmf-libraries.png)
 
 Note that many of those libraries are super pom projects themselves, providing several more artifacts. 
 
 ## Usage
-In order to easily obtain the compatible versions of the latest released pia-commons libraries in your projects, import this super pom dependencies:
+In order to easily obtain the compatible versions of the latest released opentmf-commons libraries in your projects, import this super pom dependencies:
 
 ```xml
 <dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>com.pia.commons</groupId>
-      <artifactId>pia-commons-versions</artifactId>
+      <groupId>org.opentmf</groupId>
+      <artifactId>opentmf-versions</artifactId>
       <type>pom</type>
       <scope>import</scope>
       <version>RELEASE</version>
@@ -30,16 +30,17 @@ In order to easily obtain the compatible versions of the latest released pia-com
 > 
 > Therefore, instead of using the keyword RELEASE, it is **_recommended_** to explicitly specify a version for tmf-commons-versions to achieve predictable builds even in the future.
 
-And then you can depend on any com.pia.commons project without specifying a version. For example:
+And then you can depend on any OpenTMF project without specifying a version. For example:
 
 ```xml
 <dependencies>
   <dependency>
-    <groupId>com.pia.commons</groupId>
-    <artifactId>pia-openid-webclient-provider</artifactId>
+    <groupId>org.opentmf.client</groupId>
+    <artifactId>opentmf-openid-webclient-provider</artifactId>
   </dependency>
 </dependencies>
 ```
+
 ## Release Notes
 ### 1.0.0 - 1.0.4
 - Initial Releases
@@ -119,3 +120,5 @@ And then you can depend on any com.pia.commons project without specifying a vers
 ### 1.2.7 (Backward Incompatible)
 - Updated tmf-clients-base to 1.1.0
 - Updated tmf-v4-clients to 1.1.1
+### 1.3.0
+- Initial open-source version, replacing pia with opentmf

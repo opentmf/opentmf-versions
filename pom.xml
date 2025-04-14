@@ -1,498 +1,553 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.pia.commons</groupId>
-  <artifactId>pia-commons-versions</artifactId>
-  <version>1.2.8-SNAPSHOT</version>
+  <groupId>org.opentmf</groupId>
+  <artifactId>opentmf-versions</artifactId>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+
   <description>
-    A Super pom project that exposes the latest release versions of pia-commons artifacts.
+    A Super pom project that exposes the latest release versions of opentmf-commons artifacts.
   </description>
 
+  <url>https://github.com/opentmf/opentmf-versions</url>
+
+  <organization>
+    <name>PiA Group</name>
+    <url>https://www.pia-group.net/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A permissive open-source license</comments>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>gokhanus</id>
+      <name>Gokhan Demir</name>
+      <email>gokhan@opentmf.org</email>
+    </developer>
+    <developer>
+      <id>yusuf-bozkurt</id>
+      <name>Yusuf Bozkurt</name>
+      <email>yusuf.bozkurt@pia-team.com</email>
+    </developer>
+    <developer>
+      <id>cezmi-aslan</id>
+      <name>Cezmi Aslan</name>
+      <email>cezmi.aslan@pia-team.com</email>
+    </developer>
+    <developer>
+      <id>abdullahbeker</id>
+      <name>Abdullah Beker</name>
+      <email>abdullah.beker@dnext-technology.com</email>
+    </developer>
+    <developer>
+      <id>sezer</id>
+      <name>Sezer Aydin</name>
+      <email>sezer.aydin@pia-team.com</email>
+    </developer>
+  </developers>
+
   <properties>
-    <pia-security.version>1.0.9</pia-security.version>
-    <pia-commons.version>1.0.2</pia-commons.version>
-    <pia-db-lock-service.version>1.0.7</pia-db-lock-service.version>
-    <pia-bpmn-sync-service.version>1.1.0</pia-bpmn-sync-service.version>
-    <pia-catalog-sync-service.version>1.0.8</pia-catalog-sync-service.version>
-    <auditor-aware-jpa.version>1.0.2</auditor-aware-jpa.version>
+    <openid-rbac-security.version>1.1.0</openid-rbac-security.version>
+    <opentmf-commons.version>1.0.5</opentmf-commons.version>
+    <opentmf-db-lock-service.version>1.0.8</opentmf-db-lock-service.version>
+    <camunda7-bpmn-sync-service.version>1.1.1</camunda7-bpmn-sync-service.version>
+    <dnext-catalog-sync-service.version>1.0.9</dnext-catalog-sync-service.version>
+    <auditor-aware-jpa.version>1.0.3</auditor-aware-jpa.version>
 
-    <camunda-incident-logger.version>1.0.2</camunda-incident-logger.version>
-    <dynamic-mock-expectations.version>1.0.1</dynamic-mock-expectations.version>
-    <camunda-7-test-framework.version>1.0.3</camunda-7-test-framework.version>
-    <pia-camunda-7.version>22.0.6</pia-camunda-7.version>
+    <camunda7-incident-logger.version>1.0.3</camunda7-incident-logger.version>
+    <opentmf-mockserver.version>1.0.2</opentmf-mockserver.version>
+    <camunda7-test-framework.version>1.0.4</camunda7-test-framework.version>
+    <opentmf-camunda7.version>23.0.0</opentmf-camunda7.version>
 
-    <tmf-v4-models.version>1.0.3</tmf-v4-models.version>
-    <tmf-620-v4-model.version>4.1.0.3</tmf-620-v4-model.version>
-    <tmf-622-v4-model.version>4.0.0.3</tmf-622-v4-model.version>
-    <tmf-629-v4-model.version>4.0.0.3</tmf-629-v4-model.version>
-    <tmf-632-v4-model.version>4.0.0.3</tmf-632-v4-model.version>
-    <tmf-633-v4-model.version>4.0.0.3</tmf-633-v4-model.version>
-    <tmf-634-v4-model.version>4.1.0.3</tmf-634-v4-model.version>
-    <tmf-637-v4-model.version>4.0.0.3</tmf-637-v4-model.version>
-    <tmf-638-v4-model.version>4.0.0.3</tmf-638-v4-model.version>
-    <tmf-639-v4-model.version>4.0.0.3</tmf-639-v4-model.version>
-    <tmf-641-v4-model.version>4.1.0.3</tmf-641-v4-model.version>
-    <tmf-648-v4-model.version>4.0.0.3</tmf-648-v4-model.version>
-    <tmf-651-v4-model.version>4.0.0.3</tmf-651-v4-model.version>
-    <tmf-652-v4-model.version>4.0.0.3</tmf-652-v4-model.version>
-    <tmf-663-v4-model.version>4.0.0.3</tmf-663-v4-model.version>
-    <tmf-666-v4-model.version>4.0.0.3</tmf-666-v4-model.version>
-    <tmf-669-v4-model.version>4.0.0.3</tmf-669-v4-model.version>
-    <tmf-673-v4-model.version>4.0.1.3</tmf-673-v4-model.version>
-    <tmf-674-v4-model.version>4.0.0.3</tmf-674-v4-model.version>
-    <tmf-675-v4-model.version>4.0.0.3</tmf-675-v4-model.version>
-    <tmf-681-v4-model.version>4.0.0.3</tmf-681-v4-model.version>
-    <tmf-customer-v4-model.version>4.0.0.3</tmf-customer-v4-model.version>
-    <tmf-resource-v4-model.version>4.1.0.3</tmf-resource-v4-model.version>
-    <tmf-service-v4-model.version>4.1.0.3</tmf-service-v4-model.version>
-    <tmf-product-v4-model.version>4.1.0.3</tmf-product-v4-model.version>
-    <tmf-common-v4-model.version>4.1.0.3</tmf-common-v4-model.version>
+    <opentmf-v4-models.version>1.0.5</opentmf-v4-models.version>
+    <opentmf-620-v4-model.version>4.1.0.5</opentmf-620-v4-model.version>
+    <opentmf-622-v4-model.version>4.0.0.5</opentmf-622-v4-model.version>
+    <opentmf-629-v4-model.version>4.0.0.5</opentmf-629-v4-model.version>
+    <opentmf-632-v4-model.version>4.0.0.5</opentmf-632-v4-model.version>
+    <opentmf-633-v4-model.version>4.0.0.5</opentmf-633-v4-model.version>
+    <opentmf-634-v4-model.version>4.1.0.5</opentmf-634-v4-model.version>
+    <opentmf-637-v4-model.version>4.0.0.5</opentmf-637-v4-model.version>
+    <opentmf-638-v4-model.version>4.0.0.5</opentmf-638-v4-model.version>
+    <opentmf-639-v4-model.version>4.0.0.5</opentmf-639-v4-model.version>
+    <opentmf-641-v4-model.version>4.1.0.5</opentmf-641-v4-model.version>
+    <opentmf-648-v4-model.version>4.0.0.5</opentmf-648-v4-model.version>
+    <opentmf-651-v4-model.version>4.0.0.5</opentmf-651-v4-model.version>
+    <opentmf-652-v4-model.version>4.0.0.5</opentmf-652-v4-model.version>
+    <opentmf-663-v4-model.version>4.0.0.5</opentmf-663-v4-model.version>
+    <opentmf-666-v4-model.version>4.0.0.5</opentmf-666-v4-model.version>
+    <opentmf-669-v4-model.version>4.0.0.5</opentmf-669-v4-model.version>
+    <opentmf-673-v4-model.version>4.0.1.5</opentmf-673-v4-model.version>
+    <opentmf-674-v4-model.version>4.0.0.5</opentmf-674-v4-model.version>
+    <opentmf-675-v4-model.version>4.0.0.5</opentmf-675-v4-model.version>
+    <opentmf-681-v4-model.version>4.0.0.5</opentmf-681-v4-model.version>
+    <opentmf-customer-v4-model.version>4.0.0.5</opentmf-customer-v4-model.version>
+    <opentmf-resource-v4-model.version>4.1.0.5</opentmf-resource-v4-model.version>
+    <opentmf-service-v4-model.version>4.1.0.5</opentmf-service-v4-model.version>
+    <opentmf-product-v4-model.version>4.1.0.5</opentmf-product-v4-model.version>
+    <opentmf-common-v4-model.version>4.1.0.5</opentmf-common-v4-model.version>
 
-    <dnext-tmf-v4-models.version>1.0.9</dnext-tmf-v4-models.version>
-    <dnext-tmf-620-v4-model.version>4.0.0.9</dnext-tmf-620-v4-model.version>
-    <dnext-tmf-622-v4-model.version>4.0.0.9</dnext-tmf-622-v4-model.version>
-    <dnext-tmf-633-v4-model.version>4.0.0.9</dnext-tmf-633-v4-model.version>
-    <dnext-tmf-638-v4-model.version>4.0.0.9</dnext-tmf-638-v4-model.version>
-    <dnext-tmf-641-v4-model.version>4.1.0.9</dnext-tmf-641-v4-model.version>
-    <dnext-tmf-663-v4-model.version>4.1.0.9</dnext-tmf-663-v4-model.version>
-    <dnext-tmf-666-v4-model.version>4.0.0.9</dnext-tmf-666-v4-model.version>
-    <dnext-tmf-common-v4-model.version>4.1.0.9</dnext-tmf-common-v4-model.version>
+    <dnext-opentmf-v4-models.version>1.1.0</dnext-opentmf-v4-models.version>
+    <dnext-opentmf-620-v4-model.version>4.0.0.10</dnext-opentmf-620-v4-model.version>
+    <dnext-opentmf-622-v4-model.version>4.0.0.10</dnext-opentmf-622-v4-model.version>
+    <dnext-opentmf-633-v4-model.version>4.0.0.10</dnext-opentmf-633-v4-model.version>
+    <dnext-opentmf-638-v4-model.version>4.0.0.10</dnext-opentmf-638-v4-model.version>
+    <dnext-opentmf-641-v4-model.version>4.1.0.10</dnext-opentmf-641-v4-model.version>
+    <dnext-opentmf-663-v4-model.version>4.1.0.10</dnext-opentmf-663-v4-model.version>
+    <dnext-opentmf-666-v4-model.version>4.0.0.10</dnext-opentmf-666-v4-model.version>
+    <dnext-opentmf-common-v4-model.version>4.1.0.10</dnext-opentmf-common-v4-model.version>
 
-    <tmf-v4-utils.version>1.0.4</tmf-v4-utils.version>
-    <tmf-622-v4-util.version>1.0.4</tmf-622-v4-util.version>
-    <tmf-641-v4-util.version>1.0.4</tmf-641-v4-util.version>
-    <tmf-common-v4-util.version>1.0.4</tmf-common-v4-util.version>
+    <opentmf-v4-utils.version>1.0.5</opentmf-v4-utils.version>
+    <opentmf-622-v4-util.version>1.0.5</opentmf-622-v4-util.version>
+    <opentmf-641-v4-util.version>1.0.5</opentmf-641-v4-util.version>
+    <opentmf-common-v4-util.version>1.0.5</opentmf-common-v4-util.version>
 
-    <pia-web-clients.version>1.0.9</pia-web-clients.version>
-    <pia-webclients-common.version>1.0.9</pia-webclients-common.version>
-    <pia-openid-webclient-provider.version>1.0.9</pia-openid-webclient-provider.version>
-    <pia-openid-webclients-starter.version>1.0.9</pia-openid-webclients-starter.version>
-    <pia-basic-webclient-provider.version>1.0.9</pia-basic-webclient-provider.version>
-    <pia-basic-webclients-starter.version>1.0.9</pia-basic-webclients-starter.version>
-    <test-all-clients.version>1.0.9</test-all-clients.version>
+    <opentmf-web-clients.version>1.1.1</opentmf-web-clients.version>
+    <opentmf-webclients-common.version>1.1.1</opentmf-webclients-common.version>
+    <opentmf-openid-webclient-provider.version>1.1.1</opentmf-openid-webclient-provider.version>
+    <opentmf-openid-webclients-starter.version>1.1.1</opentmf-openid-webclients-starter.version>
+    <opentmf-basic-webclient-provider.version>1.1.1</opentmf-basic-webclient-provider.version>
+    <opentmf-basic-webclients-starter.version>1.1.1</opentmf-basic-webclients-starter.version>
+    <test-all-clients.version>1.1.1</test-all-clients.version>
 
-    <tmf-clients-base.version>1.1.0</tmf-clients-base.version>
+    <opentmf-clients-base.version>1.1.1</opentmf-clients-base.version>
 
-    <tmf-v4-clients.version>1.1.1</tmf-v4-clients.version>
-    <tmf-620-v4-client.version>1.1.1</tmf-620-v4-client.version>
-    <tmf-622-v4-client.version>1.1.1</tmf-622-v4-client.version>
-    <tmf-629-v4-client.version>1.1.1</tmf-629-v4-client.version>
-    <tmf-632-v4-client.version>1.1.1</tmf-632-v4-client.version>
-    <tmf-633-v4-client.version>1.1.1</tmf-633-v4-client.version>
-    <tmf-634-v4-client.version>1.1.1</tmf-634-v4-client.version>
-    <tmf-637-v4-client.version>1.1.1</tmf-637-v4-client.version>
-    <tmf-638-v4-client.version>1.1.1</tmf-638-v4-client.version>
-    <tmf-639-v4-client.version>1.1.1</tmf-639-v4-client.version>
-    <tmf-641-v4-client.version>1.1.1</tmf-641-v4-client.version>
-    <tmf-648-v4-client.version>1.1.1</tmf-648-v4-client.version>
-    <tmf-652-v4-client.version>1.1.1</tmf-652-v4-client.version>
-    <tmf-663-v4-client.version>1.1.1</tmf-663-v4-client.version>
-    <tmf-666-v4-client.version>1.1.1</tmf-666-v4-client.version>
-    <tmf-669-v4-client.version>1.1.1</tmf-669-v4-client.version>
-    <tmf-681-v4-client.version>1.1.1</tmf-681-v4-client.version>
-    <tmf-hub-v4-client.version>1.1.1</tmf-hub-v4-client.version>
+    <opentmf-v4-clients.version>1.1.2</opentmf-v4-clients.version>
+    <opentmf-620-v4-client.version>1.1.2</opentmf-620-v4-client.version>
+    <opentmf-622-v4-client.version>1.1.2</opentmf-622-v4-client.version>
+    <opentmf-629-v4-client.version>1.1.2</opentmf-629-v4-client.version>
+    <opentmf-632-v4-client.version>1.1.2</opentmf-632-v4-client.version>
+    <opentmf-633-v4-client.version>1.1.2</opentmf-633-v4-client.version>
+    <opentmf-634-v4-client.version>1.1.2</opentmf-634-v4-client.version>
+    <opentmf-637-v4-client.version>1.1.2</opentmf-637-v4-client.version>
+    <opentmf-638-v4-client.version>1.1.2</opentmf-638-v4-client.version>
+    <opentmf-639-v4-client.version>1.1.2</opentmf-639-v4-client.version>
+    <opentmf-641-v4-client.version>1.1.2</opentmf-641-v4-client.version>
+    <opentmf-648-v4-client.version>1.1.2</opentmf-648-v4-client.version>
+    <opentmf-652-v4-client.version>1.1.2</opentmf-652-v4-client.version>
+    <opentmf-663-v4-client.version>1.1.2</opentmf-663-v4-client.version>
+    <opentmf-666-v4-client.version>1.1.2</opentmf-666-v4-client.version>
+    <opentmf-669-v4-client.version>1.1.2</opentmf-669-v4-client.version>
+    <opentmf-681-v4-client.version>1.1.2</opentmf-681-v4-client.version>
+    <opentmf-hub-v4-client.version>1.1.2</opentmf-hub-v4-client.version>
 
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <nexus-staging-plugin.version>1.7.0</nexus-staging-plugin.version>
-
+    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-security</artifactId>
-        <version>${pia-security.version}</version>
+        <groupId>org.opentmf.security</groupId>
+        <artifactId>openid-rbac-security</artifactId>
+        <version>${openid-rbac-security.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-commons</artifactId>
-        <version>${pia-commons.version}</version>
+        <groupId>org.opentmf.commons</groupId>
+        <artifactId>opentmf-commons</artifactId>
+        <version>${opentmf-commons.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-db-lock-service</artifactId>
-        <version>${pia-db-lock-service.version}</version>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>opentmf-db-lock-service</artifactId>
+        <version>${opentmf-db-lock-service.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-bpmn-sync-service</artifactId>
-        <version>${pia-bpmn-sync-service.version}</version>
+        <groupId>org.opentmf.camunda</groupId>
+        <artifactId>camunda7-bpmn-sync-service</artifactId>
+        <version>${camunda7-bpmn-sync-service.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-catalog-sync-service</artifactId>
-        <version>${pia-catalog-sync-service.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-catalog-sync-service</artifactId>
+        <version>${dnext-catalog-sync-service.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
+        <groupId>org.opentmf.util</groupId>
         <artifactId>auditor-aware-jpa</artifactId>
         <version>${auditor-aware-jpa.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>camunda-incident-logger</artifactId>
-        <version>${camunda-incident-logger.version}</version>
+        <groupId>org.opentmf.camunda</groupId>
+        <artifactId>camunda7-incident-logger</artifactId>
+        <version>${camunda7-incident-logger.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dynamic-mock-expectations</artifactId>
-        <version>${dynamic-mock-expectations.version}</version>
+        <groupId>org.opentmf.mockserver</groupId>
+        <artifactId>opentmf-mockserver</artifactId>
+        <version>${opentmf-mockserver.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>camunda-7-test-framework</artifactId>
-        <version>${camunda-7-test-framework.version}</version>
+        <groupId>org.opentmf.camunda</groupId>
+        <artifactId>camunda7-test-framework</artifactId>
+        <version>${camunda7-test-framework.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-camunda-7</artifactId>
-        <version>${pia-camunda-7.version}</version>
+        <groupId>org.opentmf.camunda</groupId>
+        <artifactId>opentmf-camunda7</artifactId>
+        <version>${opentmf-camunda7.version}</version>
       </dependency>
 
-      <!-- TMF v4 Models -->
+      <!-- OpenTMF v4 Models -->
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-v4-models</artifactId>
-        <version>${tmf-v4-models.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-v4-models</artifactId>
+        <version>${opentmf-v4-models.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-620-v4-model</artifactId>
-        <version>${tmf-620-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-620-v4-model</artifactId>
+        <version>${opentmf-620-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-v4-model</artifactId>
-        <version>${tmf-622-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-622-v4-model</artifactId>
+        <version>${opentmf-622-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-629-v4-model</artifactId>
-        <version>${tmf-629-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-629-v4-model</artifactId>
+        <version>${opentmf-629-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-632-v4-model</artifactId>
-        <version>${tmf-632-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-632-v4-model</artifactId>
+        <version>${opentmf-632-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-633-v4-model</artifactId>
-        <version>${tmf-633-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-633-v4-model</artifactId>
+        <version>${opentmf-633-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-634-v4-model</artifactId>
-        <version>${tmf-634-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-634-v4-model</artifactId>
+        <version>${opentmf-634-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-637-v4-model</artifactId>
-        <version>${tmf-637-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-637-v4-model</artifactId>
+        <version>${opentmf-637-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-638-v4-model</artifactId>
-        <version>${tmf-638-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-638-v4-model</artifactId>
+        <version>${opentmf-638-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-639-v4-model</artifactId>
-        <version>${tmf-639-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-639-v4-model</artifactId>
+        <version>${opentmf-639-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-v4-model</artifactId>
-        <version>${tmf-641-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-641-v4-model</artifactId>
+        <version>${opentmf-641-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-648-v4-model</artifactId>
-        <version>${tmf-648-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-648-v4-model</artifactId>
+        <version>${opentmf-648-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-651-v4-model</artifactId>
-        <version>${tmf-651-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-651-v4-model</artifactId>
+        <version>${opentmf-651-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-652-v4-model</artifactId>
-        <version>${tmf-652-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-652-v4-model</artifactId>
+        <version>${opentmf-652-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-663-v4-model</artifactId>
-        <version>${tmf-663-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-663-v4-model</artifactId>
+        <version>${opentmf-663-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-666-v4-model</artifactId>
-        <version>${tmf-666-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-666-v4-model</artifactId>
+        <version>${opentmf-666-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-669-v4-model</artifactId>
-        <version>${tmf-669-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-669-v4-model</artifactId>
+        <version>${opentmf-669-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-673-v4-model</artifactId>
-        <version>${tmf-673-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-673-v4-model</artifactId>
+        <version>${opentmf-673-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-674-v4-model</artifactId>
-        <version>${tmf-674-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-674-v4-model</artifactId>
+        <version>${opentmf-674-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-675-v4-model</artifactId>
-        <version>${tmf-675-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-675-v4-model</artifactId>
+        <version>${opentmf-675-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-681-v4-model</artifactId>
-        <version>${tmf-681-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-681-v4-model</artifactId>
+        <version>${opentmf-681-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-customer-v4-model</artifactId>
-        <version>${tmf-customer-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-customer-v4-model</artifactId>
+        <version>${opentmf-customer-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-resource-v4-model</artifactId>
-        <version>${tmf-resource-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-resource-v4-model</artifactId>
+        <version>${opentmf-resource-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-service-v4-model</artifactId>
-        <version>${tmf-service-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-service-v4-model</artifactId>
+        <version>${opentmf-service-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-product-v4-model</artifactId>
-        <version>${tmf-product-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-product-v4-model</artifactId>
+        <version>${opentmf-product-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-common-v4-model</artifactId>
-        <version>${tmf-common-v4-model.version}</version>
+        <groupId>org.opentmf.model</groupId>
+        <artifactId>opentmf-common-v4-model</artifactId>
+        <version>${opentmf-common-v4-model.version}</version>
       </dependency>
 
       <!-- DNext TMF v4 Model Extensions -->
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-v4-models</artifactId>
-        <version>${dnext-tmf-v4-models.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-v4-models</artifactId>
+        <version>${dnext-opentmf-v4-models.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-620-v4-model</artifactId>
-        <version>${dnext-tmf-620-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-620-v4-model</artifactId>
+        <version>${dnext-opentmf-620-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-622-v4-model</artifactId>
-        <version>${dnext-tmf-622-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-622-v4-model</artifactId>
+        <version>${dnext-opentmf-622-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-633-v4-model</artifactId>
-        <version>${dnext-tmf-633-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-633-v4-model</artifactId>
+        <version>${dnext-opentmf-633-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-638-v4-model</artifactId>
-        <version>${dnext-tmf-638-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-638-v4-model</artifactId>
+        <version>${dnext-opentmf-638-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-641-v4-model</artifactId>
-        <version>${dnext-tmf-641-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-641-v4-model</artifactId>
+        <version>${dnext-opentmf-641-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-663-v4-model</artifactId>
-        <version>${dnext-tmf-663-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-663-v4-model</artifactId>
+        <version>${dnext-opentmf-663-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-666-v4-model</artifactId>
-        <version>${dnext-tmf-666-v4-model.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-666-v4-model</artifactId>
+        <version>${dnext-opentmf-666-v4-model.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>dnext-tmf-common-v4-model</artifactId>
-        <version>${dnext-tmf-common-v4-model.version}</version>
-      </dependency>
-
-      <!-- TMF v4 Utils -->
-      <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-v4-utils</artifactId>
-        <version>${tmf-v4-utils.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-v4-util</artifactId>
-        <version>${tmf-622-v4-util.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-v4-util</artifactId>
-        <version>${tmf-641-v4-util.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-common-v4-util</artifactId>
-        <version>${tmf-common-v4-util.version}</version>
+        <groupId>org.opentmf.dnext</groupId>
+        <artifactId>dnext-opentmf-common-v4-model</artifactId>
+        <version>${dnext-opentmf-common-v4-model.version}</version>
       </dependency>
 
-      <!-- PiA Web Clients -->
+      <!-- OpenTMF v4 Utils -->
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-web-clients</artifactId>
-        <version>${pia-web-clients.version}</version>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>opentmf-v4-utils</artifactId>
+        <version>${opentmf-v4-utils.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-webclients-common</artifactId>
-        <version>${pia-webclients-common.version}</version>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>opentmf-622-v4-util</artifactId>
+        <version>${opentmf-622-v4-util.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-openid-webclient-provider</artifactId>
-        <version>${pia-openid-webclient-provider.version}</version>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>opentmf-641-v4-util</artifactId>
+        <version>${opentmf-641-v4-util.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-openid-webclients-starter</artifactId>
-        <version>${pia-openid-webclients-starter.version}</version>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>opentmf-common-v4-util</artifactId>
+        <version>${opentmf-common-v4-util.version}</version>
+      </dependency>
+
+      <!-- OpenTMF Web Clients -->
+      <dependency>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-web-clients</artifactId>
+        <version>${opentmf-web-clients.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-basic-webclient-provider</artifactId>
-        <version>${pia-basic-webclient-provider.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-webclients-common</artifactId>
+        <version>${opentmf-webclients-common.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>pia-basic-webclients-starter</artifactId>
-        <version>${pia-basic-webclients-starter.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-openid-webclient-provider</artifactId>
+        <version>${opentmf-openid-webclient-provider.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-openid-webclients-starter</artifactId>
+        <version>${opentmf-openid-webclients-starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-basic-webclient-provider</artifactId>
+        <version>${opentmf-basic-webclient-provider.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-basic-webclients-starter</artifactId>
+        <version>${opentmf-basic-webclients-starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opentmf.client</groupId>
         <artifactId>test-all-clients</artifactId>
         <version>${test-all-clients.version}</version>
       </dependency>
 
-      <!-- TMF Clients Base -->
+      <!-- OpenTMF Clients Base -->
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-clients-base</artifactId>
-        <version>${tmf-clients-base.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-clients-base</artifactId>
+        <version>${opentmf-clients-base.version}</version>
       </dependency>
 
-      <!-- TMF v4 Clients -->
+      <!-- OpenTMF v4 Clients -->
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-v4-clients</artifactId>
-        <version>${tmf-v4-clients.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-v4-clients</artifactId>
+        <version>${opentmf-v4-clients.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-620-v4-client</artifactId>
-        <version>${tmf-620-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-620-v4-client</artifactId>
+        <version>${opentmf-620-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-622-v4-client</artifactId>
-        <version>${tmf-622-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-622-v4-client</artifactId>
+        <version>${opentmf-622-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-629-v4-client</artifactId>
-        <version>${tmf-629-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-629-v4-client</artifactId>
+        <version>${opentmf-629-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-632-v4-client</artifactId>
-        <version>${tmf-632-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-632-v4-client</artifactId>
+        <version>${opentmf-632-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-633-v4-client</artifactId>
-        <version>${tmf-633-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-633-v4-client</artifactId>
+        <version>${opentmf-633-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-634-v4-client</artifactId>
-        <version>${tmf-634-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-634-v4-client</artifactId>
+        <version>${opentmf-634-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-637-v4-client</artifactId>
-        <version>${tmf-637-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-637-v4-client</artifactId>
+        <version>${opentmf-637-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-638-v4-client</artifactId>
-        <version>${tmf-638-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-638-v4-client</artifactId>
+        <version>${opentmf-638-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-639-v4-client</artifactId>
-        <version>${tmf-639-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-639-v4-client</artifactId>
+        <version>${opentmf-639-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-641-v4-client</artifactId>
-        <version>${tmf-641-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-641-v4-client</artifactId>
+        <version>${opentmf-641-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-648-v4-client</artifactId>
-        <version>${tmf-648-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-648-v4-client</artifactId>
+        <version>${opentmf-648-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-652-v4-client</artifactId>
-        <version>${tmf-652-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-652-v4-client</artifactId>
+        <version>${opentmf-652-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-663-v4-client</artifactId>
-        <version>${tmf-663-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-663-v4-client</artifactId>
+        <version>${opentmf-663-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-666-v4-client</artifactId>
-        <version>${tmf-666-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-666-v4-client</artifactId>
+        <version>${opentmf-666-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-669-v4-client</artifactId>
-        <version>${tmf-669-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-669-v4-client</artifactId>
+        <version>${opentmf-669-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-681-v4-client</artifactId>
-        <version>${tmf-681-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-681-v4-client</artifactId>
+        <version>${opentmf-681-v4-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.pia.commons</groupId>
-        <artifactId>tmf-hub-v4-client</artifactId>
-        <version>${tmf-hub-v4-client.version}</version>
+        <groupId>org.opentmf.client</groupId>
+        <artifactId>opentmf-hub-v4-client</artifactId>
+        <version>${opentmf-hub-v4-client.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -516,48 +571,44 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven-deploy-plugin.version}</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>${nexus-staging-plugin.version}</version>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>${maven-gpg-plugin.version}</version>
         <executions>
           <execution>
-            <id>default-deploy</id>
-            <phase>deploy</phase>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
             <goals>
-              <goal>deploy</goal>
+              <goal>sign</goal>
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>${maven-release-plugin.version}</version>
         <configuration>
-          <serverId>pia-commons-release</serverId>
-          <nexusUrl>https://nexus.dnext-pia.com/</nexusUrl>
-          <skipStaging>true</skipStaging>
+          <useReleaseProfile>false</useReleaseProfile>
+          <goals>deploy</goals>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>${central-publishing-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>publish-to-central</publishingServerId>
+          <autoPublish>true</autoPublish>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
-  <distributionManagement>
-    <repository>
-      <id>pia-commons-release</id>
-      <url>https://nexus.dnext-pia.com/repository/pia-commons-release/</url>
-    </repository>
-    <snapshotRepository>
-      <id>pia-commons-snapshot</id>
-      <url>https://nexus.dnext-pia.com/repository/pia-commons-snapshot/</url>
-    </snapshotRepository>
-  </distributionManagement>
-
   <scm>
-    <connection>scm:git:git@github.com:pia-commons/pia-commons-versions.git</connection>
-    <developerConnection>scm:git:git@github.com:pia-commons/pia-commons-versions.git</developerConnection>
+    <url>https://github.com/opentmf/opentmf-versions</url>
+    <connection>scm:git:git@github.com:opentmf/opentmf-versions.git</connection>
+    <developerConnection>scm:git:git@github.com:opentmf/opentmf-versions.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
