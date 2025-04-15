@@ -144,3 +144,5 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Updated tmf-v4-clients to 1.1.1
 ### 1.3.0
 - Initial open-source version, replacing pia with opentmf
+### 1.3.1
+- Updates dnext-catalog-sync-service to 1.1.0

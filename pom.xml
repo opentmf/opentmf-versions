@@ -59,7 +59,7 @@
     <opentmf-commons.version>1.0.5</opentmf-commons.version>
     <opentmf-db-lock-service.version>1.0.8</opentmf-db-lock-service.version>
     <camunda7-bpmn-sync-service.version>1.1.1</camunda7-bpmn-sync-service.version>
-    <dnext-catalog-sync-service.version>1.0.9</dnext-catalog-sync-service.version>
+    <dnext-catalog-sync-service.version>1.1.0</dnext-catalog-sync-service.version>
     <auditor-aware-jpa.version>1.0.3</auditor-aware-jpa.version>
 
     <camunda7-incident-logger.version>1.0.3</camunda7-incident-logger.version>
