@@ -146,3 +146,6 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Initial open-source version, replacing pia with opentmf
 ### 1.3.1
 - Updates dnext-catalog-sync-service to 1.1.0
+### 1.3.2
+- Updates opentmf-commons version to 1.0.6 (numeric values allowed in OffsetDateTime deserialization)
+- Updates opentmf-clients-base version to 1.1.2 (better error handling for non-json content or no content)
