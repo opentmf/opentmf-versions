@@ -149,3 +149,7 @@ And then you can depend on any OpenTMF project without specifying its version. F
 ### 1.3.2
 - Updates opentmf-commons version to 1.0.6 (numeric values allowed in OffsetDateTime deserialization)
 - Updates opentmf-clients-base version to 1.1.2 (better error handling for non-json content or no content)
+### 1.3.3
+- Updates camunda7-bpmn-sync-service version from 1.1.1 to 1.1.3 (fixes resource name read issue)
+- Updates opentmf-mockserver version from 1.0.2 to 1.0.6 (fixes versioned entity handling)
+- Updates opentmf-camunda7 version from 23.0.0 to 23.0.2 (single sign-on support added for OpenID auth)
