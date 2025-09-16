@@ -156,3 +156,8 @@ And then you can depend on any OpenTMF project without specifying its version. F
 ### 1.3.4
 - Updates opentmf-clients-base version to 1.1.3 (fixes default error handling)
 - Updates opentmf-v4-clients version to 1.1.3 (uses the new opentmf-clients-base)
+### 1.3.5
+- Updates opentmf-clients-base version to 1.1.3 (fixes default error handling)
+- Updates opentmf-v4-clients version to 1.1.3 (uses the new opentmf-clients-base)
+- Updates opentmf-db-lock-service version to 1.0.9 (adds a new method isLocked(LockType))
+- Updates auditor-aware-jpa version to 1.0.4 (marks createdOn and createdBy fields as not updatable)
