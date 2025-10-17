@@ -161,3 +161,8 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Updates opentmf-v4-clients version to 1.1.3 (uses the new opentmf-clients-base)
 - Updates opentmf-db-lock-service version to 1.0.9 (adds a new method isLocked(LockType))
 - Updates auditor-aware-jpa version to 1.0.4 (marks createdOn and createdBy fields as not updatable)
+### 1.3.6
+- Updates camunda-incident-logger to 1.0.4 (camunda 7.24 upgrade)
+- Updates camunda7-test-framework to 1.0.6 (camunda 7.24 upgrade)
+- Updates opentmf-camunda7 to 24.0.0 (camunda 7.24 upgrade)
+- Updates opentmf-mockserver to 1.0.7 (fixes encoded path parsing)
