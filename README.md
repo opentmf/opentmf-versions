@@ -166,3 +166,8 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Updates camunda7-test-framework to 1.0.6 (camunda 7.24 upgrade)
 - Updates opentmf-camunda7 to 24.0.0 (camunda 7.24 upgrade)
 - Updates opentmf-mockserver to 1.0.7 (fixes encoded path parsing)
+### 1.3.7
+- Updates opentmf-mockserver to 1.1.1
+- Updates opentmf-camunda7 to 24.0.2
+- Updates opentmf-clients-base to 1.1.5
+- Updates opentmf-v4-clients to 1.1.5

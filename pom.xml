@@ -64,9 +64,9 @@
     <auditor-aware-jpa.version>1.0.4</auditor-aware-jpa.version>
 
     <camunda7-incident-logger.version>1.0.4</camunda7-incident-logger.version>
-    <opentmf-mockserver.version>1.0.7</opentmf-mockserver.version>
+    <opentmf-mockserver.version>1.1.1</opentmf-mockserver.version>
     <camunda7-test-framework.version>1.0.6</camunda7-test-framework.version>
-    <opentmf-camunda7.version>24.0.0</opentmf-camunda7.version>
+    <opentmf-camunda7.version>24.0.2</opentmf-camunda7.version>
 
     <opentmf-v4-models.version>1.0.5</opentmf-v4-models.version>
     <opentmf-620-v4-model.version>4.1.0.5</opentmf-620-v4-model.version>
@@ -118,31 +118,31 @@
     <opentmf-basic-webclients-starter.version>1.1.1</opentmf-basic-webclients-starter.version>
     <test-all-clients.version>1.1.1</test-all-clients.version>
 
-    <opentmf-clients-base.version>1.1.4</opentmf-clients-base.version>
+    <opentmf-clients-base.version>1.1.5</opentmf-clients-base.version>
 
-    <opentmf-v4-clients.version>1.1.4</opentmf-v4-clients.version>
-    <opentmf-620-v4-client.version>1.1.4</opentmf-620-v4-client.version>
-    <opentmf-622-v4-client.version>1.1.4</opentmf-622-v4-client.version>
-    <opentmf-629-v4-client.version>1.1.4</opentmf-629-v4-client.version>
-    <opentmf-632-v4-client.version>1.1.4</opentmf-632-v4-client.version>
-    <opentmf-633-v4-client.version>1.1.4</opentmf-633-v4-client.version>
-    <opentmf-634-v4-client.version>1.1.4</opentmf-634-v4-client.version>
-    <opentmf-637-v4-client.version>1.1.4</opentmf-637-v4-client.version>
-    <opentmf-638-v4-client.version>1.1.4</opentmf-638-v4-client.version>
-    <opentmf-639-v4-client.version>1.1.4</opentmf-639-v4-client.version>
-    <opentmf-641-v4-client.version>1.1.4</opentmf-641-v4-client.version>
-    <opentmf-648-v4-client.version>1.1.4</opentmf-648-v4-client.version>
-    <opentmf-652-v4-client.version>1.1.4</opentmf-652-v4-client.version>
-    <opentmf-663-v4-client.version>1.1.4</opentmf-663-v4-client.version>
-    <opentmf-666-v4-client.version>1.1.4</opentmf-666-v4-client.version>
-    <opentmf-669-v4-client.version>1.1.4</opentmf-669-v4-client.version>
-    <opentmf-681-v4-client.version>1.1.4</opentmf-681-v4-client.version>
-    <opentmf-hub-v4-client.version>1.1.4</opentmf-hub-v4-client.version>
+    <opentmf-v4-clients.version>1.1.5</opentmf-v4-clients.version>
+    <opentmf-620-v4-client.version>1.1.5</opentmf-620-v4-client.version>
+    <opentmf-622-v4-client.version>1.1.5</opentmf-622-v4-client.version>
+    <opentmf-629-v4-client.version>1.1.5</opentmf-629-v4-client.version>
+    <opentmf-632-v4-client.version>1.1.5</opentmf-632-v4-client.version>
+    <opentmf-633-v4-client.version>1.1.5</opentmf-633-v4-client.version>
+    <opentmf-634-v4-client.version>1.1.5</opentmf-634-v4-client.version>
+    <opentmf-637-v4-client.version>1.1.5</opentmf-637-v4-client.version>
+    <opentmf-638-v4-client.version>1.1.5</opentmf-638-v4-client.version>
+    <opentmf-639-v4-client.version>1.1.5</opentmf-639-v4-client.version>
+    <opentmf-641-v4-client.version>1.1.5</opentmf-641-v4-client.version>
+    <opentmf-648-v4-client.version>1.1.5</opentmf-648-v4-client.version>
+    <opentmf-652-v4-client.version>1.1.5</opentmf-652-v4-client.version>
+    <opentmf-663-v4-client.version>1.1.5</opentmf-663-v4-client.version>
+    <opentmf-666-v4-client.version>1.1.5</opentmf-666-v4-client.version>
+    <opentmf-669-v4-client.version>1.1.5</opentmf-669-v4-client.version>
+    <opentmf-681-v4-client.version>1.1.5</opentmf-681-v4-client.version>
+    <opentmf-hub-v4-client.version>1.1.5</opentmf-hub-v4-client.version>
 
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+    <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
   </properties>
