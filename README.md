@@ -171,3 +171,5 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Updates opentmf-camunda7 to 24.0.2
 - Updates opentmf-clients-base to 1.1.5
 - Updates opentmf-v4-clients to 1.1.5
+### 1.3.8
+- Updates opentmf-commons to 1.0.7 (fixes reading from the classpath by using current thread's classloader)
