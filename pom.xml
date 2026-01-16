@@ -56,12 +56,12 @@
   </developers>
 
   <properties>
-    <openid-rbac-security.version>1.1.0</openid-rbac-security.version>
+    <openid-rbac-security.version>1.1.1</openid-rbac-security.version>
     <opentmf-commons.version>1.0.7</opentmf-commons.version>
     <opentmf-db-lock-service.version>1.0.9</opentmf-db-lock-service.version>
     <camunda7-bpmn-sync-service.version>1.1.3</camunda7-bpmn-sync-service.version>
     <dnext-catalog-sync-service.version>1.1.0</dnext-catalog-sync-service.version>
-    <auditor-aware-jpa.version>1.0.4</auditor-aware-jpa.version>
+    <auditor-aware-jpa.version>1.0.5</auditor-aware-jpa.version>
 
     <camunda7-incident-logger.version>1.0.4</camunda7-incident-logger.version>
     <opentmf-mockserver.version>1.1.1</opentmf-mockserver.version>
@@ -142,9 +142,9 @@
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
+    <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-    <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -539,13 +539,61 @@
     </dependencies>
   </dependencyManagement>
 
+  <profiles>
+    <profile>
+      <id>release</id>
+
+      <!-- Optional but handy: only activate when you want -->
+      <!-- <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation> -->
+
+      <build>
+        <plugins>
+
+          <!-- Sign artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Publish to Sonatype Central Portal -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>publish-to-central</publishingServerId>
+              <autoPublish>true</autoPublish>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -572,35 +620,10 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>${maven-gpg-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>${maven-release-plugin.version}</version>
         <configuration>
-          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.central</groupId>
-        <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>${central-publishing-maven-plugin.version}</version>
-        <extensions>true</extensions>
-        <configuration>
-          <publishingServerId>publish-to-central</publishingServerId>
-          <autoPublish>true</autoPublish>
         </configuration>
       </plugin>
     </plugins>
@@ -608,7 +631,7 @@
 
   <scm>
     <url>https://github.com/opentmf/opentmf-versions</url>
-    <connection>scm:git:git@github.com:opentmf/opentmf-versions.git</connection>
+    <connection>scm:git:https://github.com:opentmf/opentmf-versions.git</connection>
     <developerConnection>scm:git:git@github.com:opentmf/opentmf-versions.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
