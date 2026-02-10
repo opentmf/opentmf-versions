@@ -178,3 +178,5 @@ And then you can depend on any OpenTMF project without specifying its version. F
 - Updates auditor-aware-jpa to 1.0.5 (fixes potential NPE in auditor-aware providers when authentication.getName() returns null)
 ### 1.4.0
 - Updates camunda7-test-framework to 1.0.7 (enhances support for more task types that can receive a correlation message).
+### 1.4.1
+- Added tmf630-toolkit artifacts.
