@@ -63,12 +63,12 @@
     <dnext-catalog-sync-service.version>1.1.0</dnext-catalog-sync-service.version>
     <auditor-aware-jpa.version>1.0.5</auditor-aware-jpa.version>
 
-    <tmf630-toolkit.version>1.0.1</tmf630-toolkit.version>
-    <tmf630-toolkit-all.version>1.0.1</tmf630-toolkit-all.version>
-    <tmf630-toolkit-attribute-filtering-core.version>1.0.1</tmf630-toolkit-attribute-filtering-core.version>
-    <tmf630-toolkit-attribute-filtering-autoconfigure.version>1.0.1</tmf630-toolkit-attribute-filtering-autoconfigure.version>
-    <tmf630-toolkit-paging-sorting-core.version>1.0.1</tmf630-toolkit-paging-sorting-core.version>
-    <tmf630-toolkit-paging-sorting-autoconfigure.version>1.0.1</tmf630-toolkit-paging-sorting-autoconfigure.version>
+    <tmf630-toolkit.version>1.0.2</tmf630-toolkit.version>
+    <tmf630-toolkit-all.version>1.0.2</tmf630-toolkit-all.version>
+    <tmf630-toolkit-attribute-filtering-core.version>1.0.2</tmf630-toolkit-attribute-filtering-core.version>
+    <tmf630-toolkit-attribute-filtering-autoconfigure.version>1.0.2</tmf630-toolkit-attribute-filtering-autoconfigure.version>
+    <tmf630-toolkit-paging-sorting-core.version>1.0.2</tmf630-toolkit-paging-sorting-core.version>
+    <tmf630-toolkit-paging-sorting-autoconfigure.version>1.0.2</tmf630-toolkit-paging-sorting-autoconfigure.version>
 
     <camunda7-incident-logger.version>1.0.4</camunda7-incident-logger.version>
     <opentmf-mockserver.version>1.1.1</opentmf-mockserver.version>

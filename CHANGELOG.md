@@ -1,5 +1,7 @@
 
 ## Release Notes
+### 1.4.3
+- Updated tmf630-toolkit to 1.0.2 (fixes deep nested key parsing and enables default .eq match).
 ### 1.4.2
 - Updated tmf630-toolkit to 1.0.1 (adds `filter=` JsonPath support both for JPA and MongoDB).
 ### 1.4.1
