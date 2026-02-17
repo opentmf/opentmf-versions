@@ -1,5 +1,7 @@
 
 ## Release Notes
+### 1.4.4
+- Updated tmf630-toolkit to 1.0.3 (fixes a bug in the `sort=` parameter handling).
 ### 1.4.3
 - Updated tmf630-toolkit to 1.0.2 (fixes deep nested key parsing and enables default .eq match).
 ### 1.4.2
