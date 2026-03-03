@@ -1,124 +1,299 @@
+# Changelog
 
-## Release Notes
-### 1.4.4
-- Updated tmf630-toolkit to 1.0.3 (fixes a bug in the `sort=` parameter handling).
-### 1.4.3
-- Updated tmf630-toolkit to 1.0.2 (fixes deep nested key parsing and enables default .eq match).
-### 1.4.2
-- Updated tmf630-toolkit to 1.0.1 (adds `filter=` JsonPath support both for JPA and MongoDB).
-### 1.4.1
-- Added tmf630-toolkit artifacts.
-### 1.4.0
-- Updates camunda7-test-framework to 1.0.7 (enhances support for more task types that can receive a correlation message).
-### 1.3.9
-- Updates openid-rbac-security to 1.1.1 (includes fallback user claims support)
-- Updates auditor-aware-jpa to 1.0.5 (fixes potential NPE in auditor-aware providers when authentication.getName() returns null)
-### 1.3.8
-- Updates opentmf-commons to 1.0.7 (fixes reading from the classpath by using the current thread's classloader)
-### 1.3.7
-- Updates opentmf-mockserver to 1.1.1
-- Updates opentmf-camunda7 to 24.0.2
-- Updates opentmf-clients-base to 1.1.5
-- Updates opentmf-v4-clients to 1.1.5
-### 1.3.6
-- Updates camunda-incident-logger to 1.0.4 (camunda 7.24 upgrade)
-- Updates camunda7-test-framework to 1.0.6 (camunda 7.24 upgrade)
-- Updates opentmf-camunda7 to 24.0.0 (camunda 7.24 upgrade)
-- Updates opentmf-mockserver to 1.0.7 (fixes encoded path parsing)
-### 1.3.5
-- Updates opentmf-clients-base version to 1.1.3 (fixes default error handling)
-- Updates opentmf-v4-clients version to 1.1.3 (uses the new opentmf-clients-base)
-- Updates opentmf-db-lock-service version to 1.0.9 (adds a new method isLocked(LockType))
-- Updates auditor-aware-jpa version to 1.0.4 (marks createdOn and createdBy fields as not updatable)
-### 1.3.4
-- Updates opentmf-clients-base version to 1.1.3 (fixes default error handling)
-- Updates opentmf-v4-clients version to 1.1.3 (uses the new opentmf-clients-base)
-### 1.3.3
-- Updates camunda7-bpmn-sync-service version from 1.1.1 to 1.1.3 (fixes resource name read issue)
-- Updates opentmf-mockserver version from 1.0.2 to 1.0.6 (fixes versioned entity handling)
-- Updates opentmf-camunda7 version from 23.0.0 to 23.0.2 (single sign-on support added for OpenID auth)
-### 1.3.2
-- Updates opentmf-commons version to 1.0.6 (numeric values allowed in OffsetDateTime deserialization)
-- Updates opentmf-clients-base version to 1.1.2 (better error handling for non-json content or no content)
-### 1.3.1
-- Updates dnext-catalog-sync-service to 1.1.0
-### 1.3.0
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.5] - 2026-03-03
+
+### Changed
+
+- Updated tmf630-toolkit to 1.0.4 (enhances enum handling)
+- Updated camunda7-test-framework to 1.0.8 (adds withCount/withExecutionConsumer builder methods)
+
+## [1.4.4]
+
+### Fixed
+
+- Updated tmf630-toolkit to 1.0.3 (fixes a bug in the `sort=` parameter handling)
+
+## [1.4.3]
+
+### Fixed
+
+- Updated tmf630-toolkit to 1.0.2 (fixes deep nested key parsing and enables default .eq match)
+
+## [1.4.2]
+
+### Added
+
+- Updated tmf630-toolkit to 1.0.1 (adds `filter=` JsonPath support both for JPA and MongoDB)
+
+## [1.4.1]
+
+### Added
+
+- Added tmf630-toolkit artifacts
+
+## [1.4.0]
+
+### Changed
+
+- Updated camunda7-test-framework to 1.0.7 (enhances support for more task types that can receive a correlation message)
+
+## [1.3.9]
+
+### Changed
+
+- Updated openid-rbac-security to 1.1.1 (includes fallback user claims support)
+- Updated auditor-aware-jpa to 1.0.5 (fixes potential NPE in auditor-aware providers when authentication.getName() returns null)
+
+## [1.3.8]
+
+### Fixed
+
+- Updated opentmf-commons to 1.0.7 (fixes reading from the classpath by using the current thread's classloader)
+
+## [1.3.7]
+
+### Changed
+
+- Updated opentmf-mockserver to 1.1.1
+- Updated opentmf-camunda7 to 24.0.2
+- Updated opentmf-clients-base to 1.1.5
+- Updated opentmf-v4-clients to 1.1.5
+
+## [1.3.6]
+
+### Changed
+
+- Updated camunda-incident-logger to 1.0.4 (camunda 7.24 upgrade)
+- Updated camunda7-test-framework to 1.0.6 (camunda 7.24 upgrade)
+- Updated opentmf-camunda7 to 24.0.0 (camunda 7.24 upgrade)
+- Updated opentmf-mockserver to 1.0.7 (fixes encoded path parsing)
+
+## [1.3.5]
+
+### Changed
+
+- Updated opentmf-clients-base to 1.1.3 (fixes default error handling)
+- Updated opentmf-v4-clients to 1.1.3 (uses the new opentmf-clients-base)
+- Updated opentmf-db-lock-service to 1.0.9 (adds a new method isLocked(LockType))
+- Updated auditor-aware-jpa to 1.0.4 (marks createdOn and createdBy fields as not updatable)
+
+## [1.3.4]
+
+### Fixed
+
+- Updated opentmf-clients-base to 1.1.3 (fixes default error handling)
+- Updated opentmf-v4-clients to 1.1.3 (uses the new opentmf-clients-base)
+
+## [1.3.3]
+
+### Fixed
+
+- Updated camunda7-bpmn-sync-service from 1.1.1 to 1.1.3 (fixes resource name read issue)
+- Updated opentmf-mockserver from 1.0.2 to 1.0.6 (fixes versioned entity handling)
+
+### Changed
+
+- Updated opentmf-camunda7 from 23.0.0 to 23.0.2 (single sign-on support added for OpenID auth)
+
+## [1.3.2]
+
+### Changed
+
+- Updated opentmf-commons to 1.0.6 (numeric values allowed in OffsetDateTime deserialization)
+- Updated opentmf-clients-base to 1.1.2 (better error handling for non-json content or no content)
+
+## [1.3.1]
+
+### Changed
+
+- Updated dnext-catalog-sync-service to 1.1.0
+
+## [1.3.0]
+
+### Changed
+
 - Initial open-source version, replacing pia with opentmf
-### 1.2.7 (Backward Incompatible)
+
+## [1.2.7]
+
+**Backward Incompatible**
+
+### Changed
+
 - Updated tmf-clients-base to 1.1.0
 - Updated tmf-v4-clients to 1.1.1
-### 1.2.6
+
+## [1.2.6]
+
+### Changed
+
 - Updated tmf-clients-base to 1.0.5
 - Updated tmf-v4-clients to 1.1.0
-### 1.2.5
-- Updated dnext-tmf-v4-models to 1.0.9, which adds DNextProductOffering with the extended field "rules".
-### 1.2.4
-- Updated camunda-7-test-framework to 1.0.3, which adds the ability to use set listeners for each and every task, not only receive tasks.
-### 1.2.3
-- Updated pia-web-clients to 1.0.9, which adds the ability to use mutual TLS authentication.
-### 1.2.2
-- Updated tmf-v4-utils to 1.0.4, that adds validateOrder method to ServiceOrderUtil.
-### 1.2.1
+
+## [1.2.5]
+
+### Added
+
+- Updated dnext-tmf-v4-models to 1.0.9 (adds DNextProductOffering with the extended field "rules")
+
+## [1.2.4]
+
+### Added
+
+- Updated camunda-7-test-framework to 1.0.3 (adds the ability to use set listeners for each and every task, not only receive tasks)
+
+## [1.2.3]
+
+### Added
+
+- Updated pia-web-clients to 1.0.9 (adds the ability to use mutual TLS authentication)
+
+## [1.2.2]
+
+### Added
+
+- Updated tmf-v4-utils to 1.0.4 (adds validateOrder method to ServiceOrderUtil)
+
+## [1.2.1]
+
+### Changed
+
 - Updated dnext-tmf-v4-models to 1.0.8
-### 1.2.0
+
+## [1.2.0]
+
+### Changed
+
 - Updated dnext-tmf-v4-models to 1.0.7
-### 1.1.9
+
+## [1.1.9]
+
+### Changed
+
 - Updated auditor-aware-jpa to 1.0.2
 - Updated pia-commons to 1.0.2
-### 1.1.8
+
+## [1.1.8]
+
+### Changed
+
 - Updated pia-security to 1.0.9
-### 1.1.7
+
+## [1.1.7]
+
+### Changed
+
 - Updated pia-commons to 1.0.1
 - Updated dnext-tmf-v4-models to 1.0.6
-### 1.1.6
+
+## [1.1.6]
+
+### Changed
+
 - Updated pia-bpmn-sync-service to 1.1.0
 - Updated pia-catalog-sync-service to 1.0.8
-### 1.1.5
+
+## [1.1.5]
+
+### Changed
+
 - Updated pia-security to 1.0.8
-### 1.1.4
-- Updates to pia-web-clients 1.0.8, for fewer dependencies for the reactive WebClient.
-- The affected projects from the pia-web-clients update are also updated:
-    - pia-bpmn-sync-service
-    - pia-catalog-sync-service
-    - pia-web-clients
-    - tmf-clients-base
-    - tmf-v4-clients
-- Corrected the link from the tmf-clients-base to the pia-web-clients in pia-libraries.png
-### 1.1.3
+
+## [1.1.4]
+
+### Changed
+
+- Updated pia-web-clients to 1.0.8 (fewer dependencies for the reactive WebClient)
+- Updated pia-bpmn-sync-service, pia-catalog-sync-service, pia-web-clients, tmf-clients-base, tmf-v4-clients
+- Corrected the link from tmf-clients-base to pia-web-clients in pia-libraries.png
+
+## [1.1.3]
+
+### Changed
+
 - Updated pia-bpmn-sync-service to 1.0.8
-### 1.1.2
+
+## [1.1.2]
+
+### Changed
+
 - Updated dynamic-mock-expectations to 1.0.1
 - Updated pia-db-lock-service to 1.0.7
 - Updated pia-bpmn-sync-service to 1.0.7
 - Updated pia-catalog-sync-service to 1.0.6
-### 1.1.1
-- introduces auditor-aware-jpa
-- updates pia-security to 1.0.7
-- updated pia-camunda-7 to 22.0.6
-- adds dnext-tmf-633-model to dnext-tmf-v4-models
-### 1.1.0
-- updates many library versions to their latest
-- includes the fix in quoteClientProvider bean name
-### 1.0.9
-- adds tmf-681 v4 model and tmf-client
-- dependency updates of dnext tmf v4 models and tmf v4 utils
-### 1.0.8
-- pia-security: 1.0.3 -> 1.0.5
-- pia-db-lock-service: 1.0.4 -> 1.0.5
-- pia-bpmn-sync-service: 1.0.4 -> 1.0.5
-- pia-catalog-sync-service: 1.0.3 -> 1.0.4
-### 1.0.7
+
+## [1.1.1]
+
+### Added
+
+- Introduced auditor-aware-jpa
+- Added dnext-tmf-633-model to dnext-tmf-v4-models
+
+### Changed
+
+- Updated pia-security to 1.0.7
+- Updated pia-camunda-7 to 22.0.6
+
+## [1.1.0]
+
+### Changed
+
+- Updated many library versions to their latest
+
+### Fixed
+
+- Fixed quoteClientProvider bean name
+
+## [1.0.9]
+
+### Added
+
+- Added tmf-681 v4 model and tmf-client
+
+### Changed
+
+- Updated dnext tmf v4 models and tmf v4 utils
+
+## [1.0.8]
+
+### Changed
+
+- Updated pia-security from 1.0.3 to 1.0.5
+- Updated pia-db-lock-service from 1.0.4 to 1.0.5
+- Updated pia-bpmn-sync-service from 1.0.4 to 1.0.5
+- Updated pia-catalog-sync-service from 1.0.3 to 1.0.4
+
+## [1.0.7]
+
+### Changed
+
 - Updated dnext-tmf-v4-models versions
-### 1.0.6
+
+## [1.0.6]
+
+### Changed
+
 - Updated pia-web-clients to 1.0.5
 - Updated pia-db-lock-service to 1.0.3
 - Updated pia-bpmn-sync-service to 1.0.3
 - Updated pia-catalog-sync-service to 1.0.2
-- Updated pia-web-clients to 1.0.5
 - Updated tmf-clients-base to 1.0.2
 - Updated tmf-v4-clients to 1.0.4
-### 1.0.5
+
+## [1.0.5]
+
+### Changed
+
 - Updated pia-security to 1.0.3
 - Updated pia-camunda-7 to 22.0.2 (to use pia-security 1.0.3)
-### 1.0.0 - 1.0.4
-- Initial Releases
+
+## [1.0.0 - 1.0.4]
+
+### Added
+
+- Initial releases
