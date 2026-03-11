@@ -5,11 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.7] - 2026-02-11
+
+### Changed
+
+- Updated tmf630-toolkit to 1.0.6 (new `@Tmf630Result` annotation)
+- Updated opentmf-camunda7 to 24.0.3 (Separate docker image that supports AWS IAM)
+- Updated opentmf-clients-base to 1.1.6 (Fix: Enforces jakarta validations for all client configurations)
+- Updated opentmf-v4-clients to 1.1.6 (starts using 1.1.6 of opentmf-clients-base)
+
 ## [1.4.6] - 2026-03-03
 
 ### Fixed
 
-- Add offset, limit, and fields to the reserved parameter set to prevent 400 Bad Request when `onUnknownField=REJECT` and request contains offset, limit, and/or fields. 
+- Updated tmf630-toolkit to 1.0.5. It adds offset, limit, and fields to the reserved parameter set to prevent 400 Bad Request when `onUnknownField=REJECT` and request contains offset, limit, and/or fields. 
 
 ## [1.4.5] - 2026-03-03
 
