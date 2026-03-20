@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.9] - 2026-03-20
+
+### Changed
+
+- Updated `opentmf-clients-base` to 1.1.8 (Does not try to set Content-Type on post operations, if the header already exists).
+- Updated `opentmf-v4-clients` and its submodules to 1.1.8 (Starts using the new opentmf-clients-base).
+
 ## [1.4.8] - 2026-03-20
 
 ### Changed
