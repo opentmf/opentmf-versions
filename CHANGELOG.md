@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.7] - 2026-02-11
+## [1.4.8] - 2026-03-20
+
+### Changed
+
+- Updated `dnext-catalog-sync-service` to 1.1.1 (Context-aware resourceSpecification endpoints)
+- Updated `tmf630-toolkit` and its submodules to 1.0.7 (Better error messages for invalid dates and reduces noise in the logs).
+- Updated `opentmf-clients-base` to 1.1.7 (Does not try to set Content-Type on patch operations, if the header already exists).
+- Updated `opentmf-v4-clients` and its submodules to 1.1.7 (Starts using the new opentmf-clients-base).
+
+## [1.4.7] - 2026-03-11
 
 ### Changed
 
