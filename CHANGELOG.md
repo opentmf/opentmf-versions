@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-03-28
+
+**Backward Incompatible** — targets Spring Boot 4.x and Jackson 3.x.
+
+### Added
+
+- Added opentmf-json-patch for JSON Patch (RFC 6902) support
+- Added opentmf-v4-api with generated model interfaces for 80+ TMF v4 specifications
+- Added opentmf-http-clients with REST and reactive HTTP client support and cached bearer-token handling
+- Added opentmf-api-clients with REST and reactive TMF-630 compliant API clients
+- Expanded opentmf-v4-models from 25 to 85 per-TMF module versions
+- Added dnext-v4-models with coverage for all available DNext TMF implementations
+
+### Changed
+
+- All libraries upgraded to their 2.x versions for Spring Boot 4.x and Jackson 3.x compatibility
+
+### Removed
+
+- Removed opentmf-web-clients (replaced by opentmf-http-clients)
+- Removed opentmf-clients-base (replaced by opentmf-api-clients)
+- Removed opentmf-v4-clients (no direct replacement, but easy client bean generation via opentmf-api-clients)
+- Removed dnext-opentmf-v4-models (replaced by dnext-v4-models)
+
 ## [1.4.9] - 2026-03-20
 
 ### Changed

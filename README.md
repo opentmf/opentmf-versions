@@ -1,16 +1,25 @@
 # opentmf-versions
-A Super pom project that exposes the latest release versions of opentmf-commons artifacts.
+
+A Maven BOM (Bill of Materials) that provides compatible release versions for all OpenTMF artifacts.
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
-The following image is a conceptual view of the artifacts whose compatible release versions are provided within this super pom project.
+## Version Compatibility
 
-![](opentmf-libraries.png)
+| BOM version | Spring Boot | Jackson | Status |
+|---|---|---|---|
+| **2.x** | 4.x | 3.x | Active development |
+| **1.x** | 3.5.x | 2.x | Maintenance only |
 
-Note that many of those libraries are super pom projects themselves, providing several more artifacts. 
+## Overview
+
+The diagram below shows the OpenTMF libraries and their compile-time dependencies. Many of these are multi-module projects that provide several additional artifacts.
+
+![](module-dependencies.png)
 
 ## Usage
-In order to easily obtain the compatible versions of the latest released opentmf-commons libraries in your projects, import this super pom dependencies:
+
+Import the BOM in your `<dependencyManagement>` section:
 
 ```xml
 <dependencyManagement>
@@ -25,44 +34,40 @@ In order to easily obtain the compatible versions of the latest released opentmf
   </dependencies>
 </dependencyManagement>
 ```
-**Heads Up**
-> RELEASE is a reserved word for Maven. It means the latest released version of an artifact, excluding snapshots.
-> 
-> Despite providing the comfort of always using the latest released version of an artifact, the use of the RELEASE keyword is discouraged by Maven, because the build will produce a different result on subsequent builds when a new version of the dependent artifact is released.
-> 
-> Therefore, instead of using the keyword RELEASE, it is **_recommended_** to explicitly specify a version for tmf-commons-versions to achieve predictable builds even in the future.
 
-And then you can depend on any OpenTMF project without specifying its version. For example:
+> **Heads Up** &mdash; `RELEASE` is a Maven reserved word that resolves to the latest released (non-snapshot) version. While convenient, Maven discourages its use because builds become non-reproducible when a new version is published. It is **recommended** to pin a specific version of `opentmf-versions` for predictable builds.
+
+Then depend on any OpenTMF artifact without specifying its version:
 
 ```xml
 <dependencies>
   <dependency>
     <groupId>org.opentmf.client</groupId>
-    <artifactId>opentmf-openid-webclient-provider</artifactId>
+    <artifactId>opentmf-http-clients-starter</artifactId>
   </dependency>
 </dependencies>
 ```
 
-## Links to the Artifacts
+## Artifacts
 
-| groupId                | artifactId                                                                          | type   | description                                                                                                                                                                                                                                                                     |
-|------------------------|-------------------------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| org.opentmf.commons    | [opentmf-commons](https://github.com/opentmf/opentmf-commons)                       | jar    | General purpose utility classes and annotations for any Java project.                                                                                                                                                                                                           |
-| org.opentmf.model      | [opentmf-v4-models](https://github.com/opentmf/opentmf-v4-models)                   | pom    | Unified model classes generated for various TMF v4 specifications                                                                                                                                                                                                               |
-| org.opentmf.util       | [opentmf-v4-utils](https://github.com/opentmf/opentmf-v4-utils)                     | pom    | Several utility classes for TMF v4 models.                                                                                                                                                                                                                                      |
-| org.opentmf.dnext      | [dnext-tmf-v4-models](https://github.com/opentmf/dnext-opentmf-v4-models)           | pom    | DNext Model Extensions for TMF v4.                                                                                                                                                                                                                                              |
-| org.opentmf.client     | [opentmf-web-clients](https://github.com/opentmf/opentmf-web-clients)               | pom    | General purpose WebClient libraries with cached getToken support                                                                                                                                                                                                                |
-| org.opentmf.mockserver | [opentmf-mockserver](https://github.com/opentmf/opentmf-mockserver)                 | jar    | An extended [mock-server](https://mock-server.com/) with cached requests emulating a TMF-630 compliant backend. Very useful for integration and functional tests.                                                                                                               |
-| org.opentmf.client     | [opentmf-clients-base](https://github.com/opentmf/opentmf-clients-base)             | jar    | TMF Clients Base Classes and Common Implementation                                                                                                                                                                                                                              |
-| org.opentmf.client     | [opentmf-v4-clients](https://github.com/opentmf/opentmf-v4-clients)                 | pom    | TMF-630 compliant clients for several TMF v4 backends                                                                                                                                                                                                                           |
-| org.opentmf.util       | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service)       | jar    | Useful service to obtain cluster level persistent locks and memorize the latest lock versions.                                                                                                                                                                                  |
-| org.opentmf.camunda    | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar    | Synchronizes the BPMNs to Camunda 7 on app startup and if requested, performs process instance migration                                                                                                                                                                        |
-| org.opentmf.dnext      | [dnext-catalog-sync-service](https://github.com/opentmf/dnext-catalog-sync-service) | jar    | Syncronizes versioned resource, service and product catalogs with the DNext catalog backends on app startup.                                                                                                                                                                    |
-| org.opentmf.camunda    | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger)     | jar    | Writes easy-to-track log statements when an incident occurs in Camunda7                                                                                                                                                                                                         |
-| org.opentmf.camunda    | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Writes easy-to-track log statements when an incident occurs in Camunda 7                                                                                                                                                                                                        |
-| org.opentmf.security   | [openid-rbac-security](https://github.com/opentmf/openid-rbac-security)             | jar    | OpenID Role based Access Control (RBAC) Security Library                                                                                                                                                                                                                        |
-| org.opentmf.util       | [auditor-aware-jpa](https://github.com/opentmf/auditor-aware-jpa)                   | jar    | Auditor aware base JPA mapped super classes for either servlet or reactive web applications                                                                                                                                                                                     |
-| org.opentmf.camunda    | [opentmf-camunda7](https://github.com/opentmf/opentmf-camunda7)                     | jar    | An OpenTMF produced Spring Boot microservice that embeds the latest Camunda7 community edition with the public Spin, and OpenID auth for Keycloak plugins, as well as using OpenTMF's Camunda7 Incident Logger, and openid-rbac-security framework to secure the API endpoints. |
-| org.opentmf.query      | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit)                         | pom    | An adaptation of TMF-630 REST API Design Guidelines for Spring Web MVC, in a multi module project.                                                                                                                                                                              |
-| N/A                    | [http-endpoint-kicker](https://github.com/opentmf/http-endpoint-kicker)             | docker | A tiny, opinionated Docker image that (optionally) gets an access token, makes exactly one configurable HTTP request, and then exits with 0 on success (2xx), non-zero otherwise.                                                                                               |
-|
+| groupId | artifactId | type | description                                                                                                               |
+|---|---|---|---------------------------------------------------------------------------------------------------------------------------|
+| org.opentmf.commons | [opentmf-commons](https://github.com/opentmf/opentmf-commons) | jar | Shared utilities, annotations, and base classes used across all OpenTMF projects.                                         |
+| org.opentmf.commons | [opentmf-json-patch](https://github.com/opentmf/opentmf-commons) | jar | JSON Patch (RFC 6902) implementation for partial resource updates.                                                        |
+| org.opentmf.model | [opentmf-v4-models](https://github.com/opentmf/opentmf-v4-models) | pom | Generated Java model classes for 80+ TMF v4 API specifications.                                                           |
+| org.opentmf.model | [opentmf-v4-api](https://github.com/opentmf/opentmf-v4-models) | pom | Generated Spring controller interfaces for 80+ TMF v4 API specifications.                                                 |
+| org.opentmf.util | [opentmf-v4-utils](https://github.com/opentmf/opentmf-v4-utils) | pom | Convenience utilities for working with TMF v4 model objects.                                                              |
+| org.opentmf.model | [dnext-v4-models](https://github.com/opentmf/dnext-opentmf-v4-models) | pom | Extended model classes covering all available DNext TMF implementations and their custom extensions.                      |
+| org.opentmf.client | [opentmf-http-clients](https://github.com/opentmf/opentmf-http-clients) | pom | HTTP client foundation for REST and Reactive clients with unified configuration and cached bearer-token and mTLS support. |
+| org.opentmf.client | [opentmf-api-clients](https://github.com/opentmf/opentmf-api-clients) | pom | Ready-to-use TMF-630 compliant API clients for TMF v4 backends (REST and reactive).                                       |
+| org.opentmf.query | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit) | pom | TMF-630 compliant filtering, paging, and sorting for Spring Web MVC and MongoDB.                                          |
+| org.opentmf.mockserver | [opentmf-mockserver](https://github.com/opentmf/opentmf-mockserver) | jar | [MockServer](https://mock-server.com/)-based test double that emulates a TMF-630 compliant backend.                       |
+| org.opentmf.security | [openid-rbac-security](https://github.com/opentmf/openid-rbac-security) | jar | OpenID Connect authentication with role-based access control (RBAC) for Spring Boot.                                      |
+| org.opentmf.util | [auditor-aware-jpa](https://github.com/opentmf/auditor-aware-jpa) | jar | JPA mapped superclasses that automatically track created/modified-by audit fields.                                        |
+| org.opentmf.util | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service) | jar | Database-backed distributed lock service for cluster-level coordination.                                                  |
+| org.opentmf.camunda | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger) | jar | Produces structured, easy-to-trace log entries when a Camunda 7 incident occurs.                                          |
+| org.opentmf.camunda | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework) | jar | Test harness for verifying Camunda 7 process definitions and task flows.                                                  |
+| org.opentmf.camunda | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar | Deploys BPMN definitions to Camunda 7 on startup with optional process instance migration.                                |
+| org.opentmf.dnext | [dnext-catalog-sync-service](https://github.com/opentmf/dnext-catalog-sync-service) | jar | Keeps versioned resource, service, and product catalogs in sync with DNext catalog backends.                              |
+| org.opentmf.camunda | [opentmf-camunda7](https://github.com/opentmf/opentmf-camunda7) | jar | Spring Boot microservice embedding Camunda 7 Community Edition with OpenID SSO and RBAC.                                  |
+| N/A | [http-endpoint-kicker](https://github.com/opentmf/http-endpoint-kicker) | docker | Minimal Docker sidecar that optionally obtains an access token, fires a single HTTP request, and exits.                   |

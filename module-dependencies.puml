@@ -1,0 +1,92 @@
+@startdot
+digraph G {
+
+  label="OpenTMF Libraries";
+  labelloc=t;
+  fontsize=16;
+  fontname="Helvetica";
+  rankdir=TB;
+  nodesep=0.4;
+  ranksep=0.5;
+  pad=0.3;
+
+  node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
+  edge [penwidth=1.2, arrowsize=0.8];
+
+  /* ── Row 1 ── */
+  incident    [label="camunda7-\nincident-logger",   shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
+  security    [label="openid-rbac-\nsecurity",       shape=ellipse,   fillcolor="#FFDDDD", color="#DD8888"];
+  jpa         [label="auditor-\naware-jpa",          shape=ellipse,   fillcolor="#FFDDEE", color="#DD88BB"];
+  mockserver  [label="opentmf-\nmockserver",         shape=ellipse,   fillcolor="#FFFFDD", color="#BBBB66"];
+  toolkit     [label="tmf630-\ntoolkit",             shape=ellipse,   fillcolor="#FFEEDD", color="#DDAA66"];
+  commons     [label="opentmf-\ncommons",            shape=ellipse,   fillcolor="#DDFFDD", color="#66BB66"];
+
+  /* ── Row 2 ── */
+  testfw      [label="camunda7-\ntest-framework",    shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
+  camunda7    [label="opentmf-\ncamunda7",           shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
+  v4models    [label="opentmf-\nv4-models",          shape=ellipse,   fillcolor="#EEDDFF", color="#AA88DD"];
+  v4api       [label="opentmf-\nv4-api",             shape=ellipse,   fillcolor="#EEDDFF", color="#AA88DD"];
+  httpclients [label="opentmf-\nhttp-clients",       shape=ellipse,   fillcolor="#DDEEFF", color="#88AADD"];
+  dblock      [label="opentmf-db-\nlock-service",    shape=cylinder,  fillcolor="#DDDDFF", color="#8888DD"];
+
+  /* ── Row 3 ── */
+  kicker      [label="http-endpoint-\nkicker",       shape=box,       fillcolor="#DDDDDD", color="#999999"];
+  v4utils     [label="opentmf-\nv4-utils",           shape=ellipse,   fillcolor="#DDEEFF", color="#88AADD"];
+  dnextmodels [label="dnext-\nv4-models",            shape=ellipse,   fillcolor="#EEDDFF", color="#AA88DD"];
+  apiclients  [label="opentmf-\napi-clients",        shape=ellipse,   fillcolor="#DDEEFF", color="#88AADD"];
+  bpmnsync    [label="camunda7-bpmn-\nsync-service",  shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
+  catsync     [label="dnext-catalog-\nsync-service",  shape=ellipse,   fillcolor="#FFE0F0", color="#DD88BB"];
+  jsonpatch   [label="opentmf-\njson-patch",         shape=ellipse,   fillcolor="#DDFFDD", color="#66BB66"];
+
+  /* ── Force rows with rank=same ── */
+  { rank=same; incident; security; jpa; mockserver; toolkit; commons; }
+  { rank=same; testfw; camunda7; v4models; v4api; httpclients; dblock; }
+  { rank=same; kicker; v4utils; dnextmodels; apiclients; bpmnsync; catsync; jsonpatch; }
+
+  /* ── Invisible edges for horizontal ordering within rows ── */
+  edge [style=invis, constraint=true];
+  incident  -> security  -> jpa -> mockserver -> toolkit -> commons;
+  testfw -> camunda7 -> v4models -> v4api -> httpclients -> dblock;
+  kicker -> v4utils -> dnextmodels -> apiclients -> bpmnsync -> catsync -> jsonpatch;
+
+  /* ── Invisible edges for vertical row separation ── */
+  incident -> testfw;
+  security -> camunda7;
+  jpa -> v4models;
+  mockserver -> v4api;
+  toolkit -> httpclients;
+  commons -> dblock;
+
+  testfw -> kicker;
+  camunda7 -> v4utils;
+  v4models -> dnextmodels;
+  v4api -> apiclients;
+  httpclients -> bpmnsync;
+  dblock -> catsync;
+
+  /* ── Compile (solid green) ── */
+  edge [style=solid, color="#228B22", constraint=false];
+  testfw      -> incident;
+  testfw      -> commons;
+  camunda7    -> incident;
+  camunda7    -> security;
+  v4models    -> commons;
+  v4models    -> v4api;
+  httpclients -> commons;
+  mockserver  -> jsonpatch;
+  apiclients  -> httpclients;
+  apiclients  -> jsonpatch;
+  v4utils     -> v4api;
+  dnextmodels -> commons;
+  dnextmodels -> v4api;
+  bpmnsync    -> commons;
+  bpmnsync    -> dblock;
+  catsync     -> commons;
+  catsync     -> dblock;
+
+  /* ── Optional (dotted orange) ── */
+  edge [style=dotted, color="#FF8C00", constraint=false];
+  bpmnsync    -> httpclients;
+  catsync     -> httpclients;
+}
+@enddot
