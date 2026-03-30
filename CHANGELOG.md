@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added opentmf-http-clients with REST and reactive HTTP client support and cached bearer-token handling
 - Added opentmf-api-clients with REST and reactive TMF-630 compliant API clients
 - Expanded opentmf-v4-models from 25 to 85 per-TMF module versions
-- Added dnext-v4-models with coverage for all available DNext TMF implementations
+- Added dnext-v4-models, a complete set of models generated from DNext swaggers covering every available DNext microservice
 
 ### Changed
 
