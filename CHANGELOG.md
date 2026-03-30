@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-03-30
+
+### Changed
+
+- dnext-catalog-sync-service updated to 2.0.3 (Starts synchronizing product catalog endpoints too).
+
 ## [2.0.0] - 2026-03-28
 
 **Backward Incompatible** — targets Spring Boot 4.x and Jackson 3.x.
