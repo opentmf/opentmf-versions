@@ -83,11 +83,11 @@
     <opentmf-http-clients-tests.version>2.1.2</opentmf-http-clients-tests.version>
 
     <!-- OpenTMF API Clients -->
-    <opentmf-api-clients.version>2.0.4</opentmf-api-clients.version>
-    <opentmf-api-clients-common.version>2.0.4</opentmf-api-clients-common.version>
-    <opentmf-api-clients-reactive.version>2.0.4</opentmf-api-clients-reactive.version>
-    <opentmf-api-clients-rest.version>2.0.4</opentmf-api-clients-rest.version>
-    <opentmf-api-clients-hub.version>2.0.4</opentmf-api-clients-hub.version>
+    <opentmf-api-clients.version>2.0.5</opentmf-api-clients.version>
+    <opentmf-api-clients-common.version>2.0.5</opentmf-api-clients-common.version>
+    <opentmf-api-clients-reactive.version>2.0.5</opentmf-api-clients-reactive.version>
+    <opentmf-api-clients-rest.version>2.0.5</opentmf-api-clients-rest.version>
+    <opentmf-api-clients-hub.version>2.0.5</opentmf-api-clients-hub.version>
 
     <!-- TMF630 Toolkit -->
     <tmf630-toolkit.version>2.0.0</tmf630-toolkit.version>
