@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.8] - 2026-04-16
+
+### Fixed
+- Updated opentmf-http-clients to 2.1.3 (Fixes Content-Type header during token retrieval when Content-Type already exists in the fixed-headers).
+- Updated opentmf-api-clients to 2.0.6 (Started setting `Accept: application/json` if the `Accept` header is not set via fixed-headers or in TmfRequestContext)
+
 ## [2.0.7] - 2026-04-14
 
 ### Fixed
