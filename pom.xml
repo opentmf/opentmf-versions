@@ -61,10 +61,10 @@
     <openid-rbac-security.version>2.0.0</openid-rbac-security.version>
     <opentmf-commons.version>2.1.0</opentmf-commons.version>
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
-    <opentmf-db-lock-service.version>2.0.0</opentmf-db-lock-service.version>
+    <opentmf-db-lock-service.version>2.1.0</opentmf-db-lock-service.version>
     <auditor-aware-jpa.version>2.0.0</auditor-aware-jpa.version>
     <camunda7-bpmn-sync-service.version>2.0.1</camunda7-bpmn-sync-service.version>
-    <dnext-catalog-sync-service.version>2.0.3</dnext-catalog-sync-service.version>
+    <dnext-catalog-sync-service.version>2.0.4</dnext-catalog-sync-service.version>
     <camunda7-incident-logger.version>2.0.0</camunda7-incident-logger.version>
     <opentmf-mockserver.version>2.1.2</opentmf-mockserver.version>
     <camunda7-test-framework.version>2.0.1</camunda7-test-framework.version>
