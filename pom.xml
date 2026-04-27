@@ -63,6 +63,7 @@
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
     <opentmf-db-lock-service.version>2.2.0</opentmf-db-lock-service.version>
     <auditor-aware-jpa.version>2.0.0</auditor-aware-jpa.version>
+    <auditor-aware.version>3.0.0</auditor-aware.version>
     <camunda7-bpmn-sync-service.version>2.0.1</camunda7-bpmn-sync-service.version>
     <dnext-catalog-sync-service.version>2.0.4</dnext-catalog-sync-service.version>
     <camunda7-incident-logger.version>2.0.0</camunda7-incident-logger.version>
@@ -355,6 +356,11 @@
         <groupId>org.opentmf.util</groupId>
         <artifactId>auditor-aware-jpa</artifactId>
         <version>${auditor-aware-jpa.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opentmf.util</groupId>
+        <artifactId>auditor-aware</artifactId>
+        <version>${auditor-aware.version}</version>
       </dependency>
       <dependency>
         <groupId>org.opentmf.camunda</groupId>
