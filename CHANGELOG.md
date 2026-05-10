@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.5] - 2026-05-11
+
+### Updated
+- Updated `opentmf-v4-api` to 4.1.1 (regeneration with the new version of openapi-multi-generator, and per-TMF api submodules from `*.10` to `*.11`).
+- Updated `opentmf-v4-models` to 4.1.1 (regeneration with the new version of openapi-multi-generator, and per-TMF model submodules from `*.10` to `*.11`).
+- Updated `dnext-v4-models` to 2.12.1 (Adds Snapshot API on product/service/resource inventories, `pointOfNoReturnIFOC`/`pointOfNoChange` on orders, `completionCallback` on cancel-orders, `extensions` on resource shapes, and with the release of the new openapi-multi-generator, fixes the datatypes that were set as String because the generator didn't follow `oneOf` previously).
+- Updated `opentmf-api-clients` to 2.0.7 (supports multiple-add-objects through `patchCollections` methods).
+- Updated `opentmf-commons` to 2.2.0 (starts accepting unicode alphabetical characters in `@SafeText`, makes `@SafeQuery` deprecated, introduces `@SafeUrl` and optimizations).
+- Updated `opentmf-mockserver` to 2.1.3 (adds multi-jsonPatch add statements).
+
 ## [2.1.4] - 2026-05-06
 
 ### Fixed
