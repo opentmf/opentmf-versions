@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.6] - 2026-05-11
+
+### Updated
+- Updated `tmf630-toolkit` to 2.1.0.
+  - Comma-separated value lists are now accepted for the multi-value attribute-filter operators .in, .nin, and .between.
+  - JSON Path filter grammar now supports the unary negation form `[?(!@.field)]`
+  - Simple-rich correlated sort now accepts the outer coercion wrapper form
+  - New setting `opentmf.tmf630.attribute-filtering.on-unknown-json-path-field` (default IGNORE).
+
 ## [2.1.5] - 2026-05-11
 
 ### Updated
