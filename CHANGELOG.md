@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.13] - 2026-05-13
+
+### Changed
+
+- Updated `dnext-opentmf-v4-models` aggregate to **1.1.1** and aligned all `dnext-opentmf-*-v4-model` managed versions to the **.11** release line (including `dnext-opentmf-common-v4-model` **4.1.0.11** and `dnext-opentmf-639-v4-model` **4.0.0.11**).
+- `dnext-opentmf-common-v4-model` now declares `opentmf-product-v4-model` and `opentmf-service-v4-model` (same versions as existing `opentmf-product-v4-model.version` / `opentmf-service-v4-model.version` in this BOM); consumers of common inherit those jars transitively.
+
 ## [1.4.12] - 2026-05-10
 
 ### Changed
