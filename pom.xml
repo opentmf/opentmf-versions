@@ -125,7 +125,7 @@
     <opentmf-basic-webclients-starter.version>1.1.1</opentmf-basic-webclients-starter.version>
     <test-all-clients.version>1.1.1</test-all-clients.version>
 
-    <opentmf-clients-base.version>1.1.9</opentmf-clients-base.version>
+    <opentmf-clients-base.version>1.1.10</opentmf-clients-base.version>
 
     <opentmf-v4-clients.version>1.1.8</opentmf-v4-clients.version>
     <opentmf-620-v4-client.version>1.1.8</opentmf-620-v4-client.version>
