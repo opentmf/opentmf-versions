@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.9] - 2026-06-01
+
+### Updated
+- Updated `camunda7-incident-logger` to 2.0.1 (Migrates to cibseven 2.2.0).
+- Updated `opentmf-mockserver` to 2.1.4 (Adds dynamic PUT callback).
+- Updated `camunda7-test-framework` to 2.0.2 (Migrates to cibseven 2.2.0 and boot-4 starters, removing the previous bridge classes).
+- Updated `opentmf-api-clients` to 2.0.9 (Adds PUT methods to TmfClient implementations).
+
 ## [2.1.8] - 2026-05-18
 
 ### Fixed
