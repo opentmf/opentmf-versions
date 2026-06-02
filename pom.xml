@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opentmf</groupId>
   <artifactId>opentmf-versions</artifactId>
-  <version>2.1.9-SNAPSHOT</version>
+  <version>2.1.9</version>
   <name>opentmf-versions</name>
   <packaging>pom</packaging>
 
@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Synced to ${project.version} automatically by maven-release-plugin's preparationGoals during release:prepare. -->
-    <opentmf-versions.version>2.1.8</opentmf-versions.version>
+    <opentmf-versions.version>2.1.9-SNAPSHOT</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -1695,7 +1695,7 @@
     <url>https://github.com/opentmf/opentmf-versions</url>
     <connection>scm:git:https://github.com:opentmf/opentmf-versions.git</connection>
     <developerConnection>scm:git:git@github.com:opentmf/opentmf-versions.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>opentmf-versions-2.1.9</tag>
   </scm>
 
 </project>
