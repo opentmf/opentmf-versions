@@ -58,8 +58,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <!-- Latest published BOM version (shown in README Usage). Synced to ${project.version} automatically by maven-release-plugin's preparationGoals during release:prepare. -->
-    <opentmf-versions.version>2.1.9-SNAPSHOT</opentmf-versions.version>
+    <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
+    <opentmf-versions.version>2.1.9</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -332,7 +332,6 @@
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
     <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
     <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-    <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
   </properties>
@@ -1645,19 +1644,7 @@
         <configuration>
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
-          <!--
-            Sync <opentmf-versions.version> to the release version during prepare so the
-            README's Usage example always echoes the latest published BOM version.
-            Runs BEFORE verify so generate-resources re-renders README with the new value
-            in the same prepare commit.
-          -->
-          <preparationGoals>clean versions:set-property -Dproperty=opentmf-versions.version -DnewVersion=${project.version} -DgenerateBackupPoms=false verify</preparationGoals>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>${versions-maven-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
