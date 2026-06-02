@@ -1,0 +1,61 @@
+@startdot
+digraph G {
+
+  label="OpenTMF Retired Libraries and Their Replacements";
+  labelloc=t;
+  fontsize=16;
+  fontname="Helvetica";
+  rankdir=LR;
+  nodesep=0.5;
+  ranksep=1.6;
+  pad=0.3;
+
+  node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
+  edge [penwidth=1.2, arrowsize=0.8, fontsize=9, fontname="Helvetica"];
+
+  /* ── Retired (left column) ── */
+  subgraph cluster_old {
+    label="Retired";
+    fontsize=12;
+    fontname="Helvetica";
+    color="#BBBBBB";
+    style="rounded,dashed";
+    margin=14;
+
+    node [shape=ellipse, style="filled,dashed", fillcolor="#EEEEEE", color="#999999", fontcolor="#666666"];
+    webclients_old  [label="opentmf-\nweb-clients"];
+    clientsbase_old [label="opentmf-\nclients-base"];
+    v4clients_old   [label="opentmf-\nv4-clients"];
+    dnextold        [label="dnext-opentmf-\nv4-models"];
+    jpa_old         [label="auditor-\naware-jpa"];
+  }
+
+  /* ── Replacements (right column) ── */
+  subgraph cluster_new {
+    label="Replacement";
+    fontsize=12;
+    fontname="Helvetica";
+    color="#BBBBBB";
+    style="rounded";
+    margin=14;
+
+    node [shape=ellipse];
+    httpclients  [label="opentmf-\nhttp-clients", fillcolor="#DDEEFF", color="#88AADD"];
+    apiclients   [label="opentmf-\napi-clients",  fillcolor="#DDEEFF", color="#88AADD"];
+    dnextmodels  [label="dnext-\nv4-models",      fillcolor="#EEDDFF", color="#AA88DD"];
+    auditoraware [label="auditor-\naware",        fillcolor="#FFDDEE", color="#DD88BB"];
+  }
+
+  /* ── Direct replacements (solid green) ── */
+  edge [style=solid, color="#228B22"];
+  webclients_old  -> httpclients   [label="replaced by"];
+  clientsbase_old -> apiclients    [label="replaced by"];
+  dnextold        -> dnextmodels   [label="replaced by"];
+  jpa_old         -> auditoraware  [label="replaced by"];
+
+  /* ── Indirect replacement (dotted orange) ── */
+  edge [style=dotted, color="#FF8C00"];
+  v4clients_old   -> apiclients    [label="no direct replacement;\nbean gen via api-clients"];
+
+}
+@enddot

@@ -16,7 +16,7 @@ digraph G {
   /* ── Row 1 ── */
   incident    [label="camunda7-\nincident-logger",   shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
   security    [label="openid-rbac-\nsecurity",       shape=ellipse,   fillcolor="#FFDDDD", color="#DD8888"];
-  jpa         [label="auditor-\naware-jpa",          shape=ellipse,   fillcolor="#FFDDEE", color="#DD88BB"];
+  auditor     [label="auditor-\naware",          shape=ellipse,   fillcolor="#FFDDEE", color="#DD88BB"];
   mockserver  [label="opentmf-\nmockserver",         shape=ellipse,   fillcolor="#FFFFDD", color="#BBBB66"];
   toolkit     [label="tmf630-\ntoolkit",             shape=ellipse,   fillcolor="#FFEEDD", color="#DDAA66"];
   commons     [label="opentmf-\ncommons",            shape=ellipse,   fillcolor="#DDFFDD", color="#66BB66"];
@@ -39,20 +39,20 @@ digraph G {
   jsonpatch   [label="opentmf-\njson-patch",         shape=ellipse,   fillcolor="#DDFFDD", color="#66BB66"];
 
   /* ── Force rows with rank=same ── */
-  { rank=same; incident; security; jpa; mockserver; toolkit; commons; }
+  { rank=same; incident; security; auditor; mockserver; toolkit; commons; }
   { rank=same; testfw; camunda7; v4models; v4api; httpclients; dblock; }
   { rank=same; kicker; v4utils; dnextmodels; apiclients; bpmnsync; catsync; jsonpatch; }
 
   /* ── Invisible edges for horizontal ordering within rows ── */
   edge [style=invis, constraint=true];
-  incident  -> security  -> jpa -> mockserver -> toolkit -> commons;
+  incident  -> security  -> auditor -> mockserver -> toolkit -> commons;
   testfw -> camunda7 -> v4models -> v4api -> httpclients -> dblock;
   kicker -> v4utils -> dnextmodels -> apiclients -> bpmnsync -> catsync -> jsonpatch;
 
   /* ── Invisible edges for vertical row separation ── */
   incident -> testfw;
   security -> camunda7;
-  jpa -> v4models;
+  auditor -> v4models;
   mockserver -> v4api;
   toolkit -> httpclients;
   commons -> dblock;
