@@ -23,7 +23,7 @@ Pin the BOM version in your `<properties>` and import it under `<dependencyManag
 
 ```xml
 <properties>
-  <opentmf-versions.version>2.1.9</opentmf-versions.version>
+  <opentmf-versions.version>2.1.10</opentmf-versions.version>
 </properties>
 
 <dependencyManagement>
