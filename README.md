@@ -23,7 +23,7 @@ Pin the BOM version in your `<properties>` and import it under `<dependencyManag
 
 ```xml
 <properties>
-  <opentmf-versions.version>2.1.11</opentmf-versions.version>
+  <opentmf-versions.version>2.1.9</opentmf-versions.version>
 </properties>
 
 <dependencyManagement>
@@ -64,7 +64,7 @@ Then depend on any OpenTMF artifact without specifying its version:
 | org.opentmf.model      | [dnext-v4-models](https://github.com/opentmf/dnext-v4-models)                       | pom    | Extended model classes covering all available DNext TMF implementations and their custom extensions.                      | 2.11.2  | 2.12.1  |
 | org.opentmf.client     | [opentmf-http-clients](https://github.com/opentmf/opentmf-http-clients)             | pom    | HTTP client foundation for REST and Reactive clients with unified configuration and cached bearer-token and mTLS support. | 2.0.0   | 2.1.3   |
 | org.opentmf.client     | [opentmf-api-clients](https://github.com/opentmf/opentmf-api-clients)               | pom    | Ready-to-use TMF-630 compliant API clients for TMF v4 backends (REST and reactive).                                       | 2.0.0   | 2.0.9   |
-| org.opentmf.query      | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit)                         | pom    | TMF-630 compliant filtering, paging, and sorting for Spring Web MVC and MongoDB.                                          | 1.0.0   | 2.1.2   |
+| org.opentmf.query      | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit)                         | pom    | TMF-630 compliant filtering, paging, and sorting for Spring Web MVC and MongoDB.                                          | 1.0.0   | 2.1.3   |
 | org.opentmf.mockserver | [opentmf-mockserver](https://github.com/opentmf/opentmf-mockserver)                 | jar    | [MockServer](https://mock-server.com/)-based test double that emulates a TMF-630 compliant backend.                       | 1.0.2   | 2.1.4   |
 | org.opentmf.security   | [openid-rbac-security](https://github.com/opentmf/openid-rbac-security)             | jar    | OpenID Connect authentication with role-based access control (RBAC) for Spring Boot.                                      | 1.1.0   | 2.1.0   |
 | org.opentmf.util       | [auditor-aware](https://github.com/opentmf/auditor-aware)                           | jar    | Persistence-agnostic `AuditorAware<String>` and `DateTimeProvider` beans for tracking created/modified-by audit fields.   | 3.0.0   | 3.0.0   |
