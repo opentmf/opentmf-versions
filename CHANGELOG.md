@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.13] - 2026-07-24
+
+### Updated
+- Updated `tmf630-toolkit` to 2.1.5 (several further TMF630 compliancy improvements).
+- Updated `opentmf-mockserver` to 2.1.8 (fixes: Rare concurrent cache update issues under heavy load).
+- Updated `opentmf-camunda7` to 24.0.6 (fixes a GraalJS polyglot-context memory leak in
+  JavaScript script tasks — contexts are now closed per evaluation; Spring Boot 3.5.16,
+  GraalJS 25.1.3, Docker images on Eclipse Temurin JRE 25).
+- Updated `camunda7-bpmn-sync-service` to 2.1.0 (DMN deployment support, and Multi tenancy deployment support)
+
 ## [2.1.12] - 2026-06-26
 
 ### Updated
