@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.14</opentmf-versions.version>
+    <opentmf-versions.version>2.1.15</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -80,7 +80,7 @@
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
 
     <!-- OpenTMF HTTP Clients -->
-    <opentmf-http-clients.version>2.1.4</opentmf-http-clients.version>
+    <opentmf-http-clients.version>2.1.5</opentmf-http-clients.version>
 
     <!-- OpenTMF API Clients -->
     <opentmf-api-clients.version>2.0.9</opentmf-api-clients.version>
