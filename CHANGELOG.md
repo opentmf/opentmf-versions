@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.14] - 2026-07-30
+
+### Added
+- Added `opentmf-errors` 1.0.0 — shared error-code catalog with `opentmf-errors-core`
+  (registry contract + seed catalog + generated OAS 3.1 components) and
+  `opentmf-errors-spring` (ProblemDetail and TMF-style renderers).
+
+### Updated
+- Updated `tmf630-toolkit` to **3.0.0** (major): JPA positional `[N]` filter with
+  `@OrderColumn`, multi-hop correlated sort with `min()`/`max()` aggregators, and
+  entity versioning per TMF-630 Part 4 §2. Repo split adds new sub-modules
+  `tmf630-toolkit-jpa-correlated-sort`, `tmf630-toolkit-jsonb`, and
+  `tmf630-toolkit-mongo-split-collection`.
+- Updated `openid-rbac-security` to 2.2.0 (pluggable 401/403 response handlers via
+  bean-presence; fixes ineffective servlet management-port security shipped in 2.1.0).
+- Updated `opentmf-http-clients` to 2.1.4 (new `HttpClientRegistry` for programmatic
+  runtime lifecycle; optional resilience4j circuit-breaker / bulkhead / time-limiter
+  integration; Apache pool micrometer gauges).
+- Updated `opentmf-mockserver` to 2.1.10 (repo is now multi-module under
+  `opentmf-mockserver-parent`; adds the new `opentmf-mockserver-test-support` module
+  — fluent JUnit 5 harness with TMF/OIDC/stub builders and JVM-shared MockServer mode).
+- Updated `camunda7-bpmn-sync-service` to 2.1.1 (single configurable
+  `resource-location` for BPMN + DMN files; fixes 2.1.0 startup failure when
+  `classpath:dmn/` is absent).
+
 ## [2.1.13] - 2026-07-24
 
 ### Updated
