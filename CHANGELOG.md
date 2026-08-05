@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.16] - 2026-08-05
+
+### Updated
+- Updated `openid-rbac-security` to 2.3.0 (multi-issuer resource-server support via
+  `opentmf.security.issuers`, each entry with its own JWK set / claim mapping / optional
+  audience; opt-in — existing single-issuer config unchanged; Spring Boot 4.1.0).
+- Updated `opentmf-http-clients` to 2.1.6 (transport-level Apache retry removed — retry
+  policy is now solely owned by `executeWithRetry` / `WebClientUtil.retry`, so all three
+  backends behave identically; `Retry-After` honoured as a floor, bounded by new
+  `max-retry-after`; response headers and `Content-Type` charset carried through to
+  error handling).
+- Updated `tmf630-toolkit` to 3.0.1 (`.regex` / LIKE-family now accept polymorphic
+  `Object` / `Serializable` fields on Mongo and JSONB backends; JPA still rejects and
+  points at `@Tmf630JsonbBacked` as the escape).
+
 ## [2.1.15] - 2026-07-30
 
 ### Fixed
