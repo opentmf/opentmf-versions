@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `tmf630-toolkit` to 3.0.1 (`.regex` / LIKE-family now accept polymorphic
   `Object` / `Serializable` fields on Mongo and JSONB backends; JPA still rejects and
   points at `@Tmf630JsonbBacked` as the escape).
+- Updated `opentmf-mockserver` to 2.1.11 (Docker image coordinate restored to
+  `ghcr.io/opentmf/opentmf-mockserver` — after the repo rename to
+  `opentmf-mockserver-parent`, the 2.1.10 image published to the `-parent` path;
+  Maven artifacts are unchanged from 2.1.10).
 
 ## [2.1.15] - 2026-07-30
 

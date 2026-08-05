@@ -75,7 +75,7 @@
     <camunda7-bpmn-sync-service.version>2.1.1</camunda7-bpmn-sync-service.version>
     <dnext-catalog-sync-service.version>2.0.4</dnext-catalog-sync-service.version>
     <camunda7-incident-logger.version>2.0.1</camunda7-incident-logger.version>
-    <opentmf-mockserver.version>2.1.10</opentmf-mockserver.version>
+    <opentmf-mockserver.version>2.1.11</opentmf-mockserver.version>
     <camunda7-test-framework.version>2.0.2</camunda7-test-framework.version>
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
 
