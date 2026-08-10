@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.16</opentmf-versions.version>
+    <opentmf-versions.version>2.1.17</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -69,7 +69,7 @@
     <openid-rbac-security.version>2.3.0</openid-rbac-security.version>
     <opentmf-commons.version>2.2.0</opentmf-commons.version>
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
-    <opentmf-db-lock-service.version>2.2.1</opentmf-db-lock-service.version>
+    <opentmf-db-lock-service.version>2.2.2</opentmf-db-lock-service.version>
     <auditor-aware-jpa.version>2.0.0</auditor-aware-jpa.version>
     <auditor-aware.version>3.0.0</auditor-aware.version>
     <camunda7-bpmn-sync-service.version>2.1.1</camunda7-bpmn-sync-service.version>
@@ -80,7 +80,7 @@
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
 
     <!-- OpenTMF HTTP Clients -->
-    <opentmf-http-clients.version>2.1.6</opentmf-http-clients.version>
+    <opentmf-http-clients.version>2.1.7</opentmf-http-clients.version>
 
     <!-- OpenTMF API Clients -->
     <opentmf-api-clients.version>2.0.9</opentmf-api-clients.version>
@@ -90,7 +90,7 @@
     <opentmf-api-clients-hub.version>${opentmf-api-clients.version}</opentmf-api-clients-hub.version>
 
     <!-- TMF630 Toolkit -->
-    <tmf630-toolkit.version>3.0.1</tmf630-toolkit.version>
+    <tmf630-toolkit.version>3.1.1</tmf630-toolkit.version>
 
     <!-- OpenTMF v4 API (reactor parent) -->
     <opentmf-v4-api.version>4.1.1</opentmf-v4-api.version>

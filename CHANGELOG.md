@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.17] - 2026-08-10
+
+### Updated
+- Updated `tmf630-toolkit` to 3.1.1 (Adds JSONB URL-binding bridge: `@Tmf630JsonbFilter`, 
+  plus, migrates JSONB module to Jackson 3).
+- Updated `opentmf-http-clients` to 2.1.7 (W3C trace-context propagation on outbound calls).
+- Updated `opentmf-db-lock-service` to 2.2.2 (PostgreSQL: no more ACCESS EXCLUSIVE table lock on every startup)
+
 ## [2.1.16] - 2026-08-05
 
 ### Updated
