@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.18] - 2026-08-20
 
+### Added
+- Added `opentmf-cadenzaflow` 1.1.5 (`org.opentmf.cadenzaflow:opentmf-cadenzaflow`) — a Spring Boot 4
+  microservice embedding CadenzaFlow CE, the maintained Camunda 7 fork, with Spin, Keycloak OpenID
+  auth, and `openid-rbac-security`. Like `opentmf-camunda7`, this is a **deployable service** rather
+  than a library: the normal way to consume it is the published image
+  (`ghcr.io/opentmf/opentmf-cadenzaflow:<version>`, plus `-aws` and `-azure` flavours). The BOM
+  manages its version so the coordinate is pinnable from one place.
+
 ### Updated
 - Updated `opentmf-api-clients` to 2.1.0 (sub-resource path support: new `sub(template, vars...)`
   on both `TmfClient` and `ReactiveTmfClient` returns a derived client scoped to a nested path,

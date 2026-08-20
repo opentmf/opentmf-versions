@@ -47,6 +47,7 @@ on individual deps. Source of truth is the code on each repo's `develop` branch;
 | `@CreatedBy`/`@CreatedDate` auditing | auditor-aware | `auditorAware` beans |
 | Cluster-wide lock (deploy/sync once) | opentmf-db-lock-service | `@UsingClusterLock`, `LockContext` |
 | Run a workflow engine server | opentmf-camunda7 | deployable image |
+| Run a Spring Boot 4 / Jakarta workflow engine server | opentmf-cadenzaflow | deployable image |
 | Deploy bundled BPMN on boot | camunda7-bpmn-sync-service | `opentmf.bpmn-sync.*` |
 | Log workflow incidents | camunda7-incident-logger | drop-in plugin |
 | Integration-test a BPMN flow | camunda7-test-framework | `BaseBpmIT` |
@@ -250,6 +251,15 @@ void deploy(LockContext ctx) { /* runs once cluster-wide */ }
 **Snippet:** N/A — run the published image; reach `http://host:8080/camunda/v7/engine-rest/...`.
 **Gotchas:** Despite `jar` packaging it is a **service**, not a library (fat jar only under `repackage`/`docker` profiles). Not BOM-managed (uses Spring Boot 3.5.x, Java 17). A `-aws` image variant adds RDS/Aurora + MSK IAM.
 **Maven:** `org.opentmf.camunda:opentmf-camunda7` — deployable service, not a dependency.
+
+### opentmf-cadenzaflow
+**What:** The Spring Boot 4 successor to opentmf-camunda7 — a deployable microservice embedding **CadenzaFlow CE**, the maintained community fork of Camunda 7, with the public Spin plugin, Keycloak OpenID auth, and OpenTMF's `openid-rbac-security`.
+**Use it for:** Running a workflow-engine server on the Spring Boot 4 / Jackson 3 line (what BOM 2.x targets), where opentmf-camunda7 sits on Spring Boot 3.5.x. Not a Java dependency.
+**Key API (endpoints):** engine REST + Cockpit/Tasklist/Admin web apps, as with opentmf-camunda7; actuator on its own management port.
+**Config:** env vars on the image; RBAC via `opentmf.security.*`, Keycloak via the identity plugin properties.
+**Snippet:** N/A — run the published image, e.g. `docker run ghcr.io/opentmf/opentmf-cadenzaflow:1.1.5`.
+**Gotchas:** Despite `jar` packaging it is a **service**, not a library — the fat jar is produced only under the `repackage`/`docker` profiles, so the artifact on Central is the plain jar. Three image flavours: plain, `-aws` (AWS JDBC wrapper for IAM auth to RDS/Aurora, STS for IRSA, MSK IAM), and `-azure` (Azure Identity for passwordless PostgreSQL) — pick the one matching your cloud, they differ in dependencies. Images are cosign-signed; releases 1.1.0 and 1.1.3 were rebuilt via `workflow_dispatch` and so carry a branch-anchored rather than tag-anchored signing identity, which a tag-anchored verification policy will (correctly) reject.
+**Maven:** `org.opentmf.cadenzaflow:opentmf-cadenzaflow` — deployable service, not a dependency.
 
 ### camunda7-bpmn-sync-service
 **What:** A Spring Boot autoconfig **library** that on startup deploys the app's bundled BPMN files to the engine and optionally auto-migrates running instances, under a DB cluster lock.

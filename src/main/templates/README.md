@@ -75,6 +75,7 @@ Then depend on any OpenTMF artifact without specifying its version:
 | org.opentmf.camunda    | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar    | Deploys BPMN definitions to Camunda 7 on startup with optional process instance migration.                                | 1.1.1   | ${camunda7-bpmn-sync-service.version}   |
 | org.opentmf.dnext      | [dnext-catalog-sync-service](https://github.com/opentmf/dnext-catalog-sync-service) | jar    | Keeps versioned resource, service, and product catalogs in sync with DNext catalog backends.                              | 1.0.9   | ${dnext-catalog-sync-service.version}   |
 | org.opentmf.camunda    | [opentmf-camunda7](https://github.com/opentmf/opentmf-camunda7)                     | jar    | Spring Boot microservice embedding Camunda 7 Community Edition with OpenID SSO and RBAC.                                  | 23.0.0  | ${opentmf-camunda7.version}  |
+| org.opentmf.cadenzaflow | [opentmf-cadenzaflow](https://github.com/opentmf/opentmf-cadenzaflow)              | jar    | Spring Boot 4 microservice embedding CadenzaFlow CE (the maintained Camunda 7 fork) with Spin, Keycloak OpenID, and RBAC. | 1.0.0   | ${opentmf-cadenzaflow.version}  |
 | N/A                    | [http-endpoint-kicker](https://github.com/opentmf/http-endpoint-kicker)             | docker | Minimal Docker sidecar that optionally obtains an access token, fires a single HTTP request, and exits.                   | 1.0.0   | ${http-endpoint-kicker.version}   |
 
 ## Retired Artifacts

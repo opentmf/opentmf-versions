@@ -78,6 +78,7 @@
     <opentmf-mockserver.version>2.1.11</opentmf-mockserver.version>
     <camunda7-test-framework.version>2.0.2</camunda7-test-framework.version>
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
+    <opentmf-cadenzaflow.version>1.1.5</opentmf-cadenzaflow.version>
 
     <!-- OpenTMF HTTP Clients -->
     <opentmf-http-clients.version>2.1.8</opentmf-http-clients.version>
@@ -411,6 +412,11 @@
         <groupId>org.opentmf.camunda</groupId>
         <artifactId>opentmf-camunda7</artifactId>
         <version>${opentmf-camunda7.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opentmf.cadenzaflow</groupId>
+        <artifactId>opentmf-cadenzaflow</artifactId>
+        <version>${opentmf-cadenzaflow.version}</version>
       </dependency>
 
       <!-- ==================== TMF630 Toolkit ==================== -->
