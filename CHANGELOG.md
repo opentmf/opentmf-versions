@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.18] - 2026-08-20
+
+### Updated
+- Updated `opentmf-api-clients` to 2.1.0 (sub-resource path support: new `sub(template, vars...)`
+  on both `TmfClient` and `ReactiveTmfClient` returns a derived client scoped to a nested path,
+  so every existing verb works against it unchanged — e.g.
+  `orderClient.sub("/{orderId}/action/{action}/item", orderId, action).get(itemId, Item.class)`.
+  Path variables are strictly encoded and arity is validated eagerly. Adds the immutable
+  `SubResourcePath` value type plus `UriBuilderUtil` overloads. **Source-compatibility note:**
+  direct callers of `UriBuilderUtil.buildUriWithId(server, endpoint, id, null)` passing a null
+  literal must now cast it to `(TmfRequestContext)` because of the new overload; binary
+  compatibility and the typed clients' public API are unaffected).
+- Updated `opentmf-http-clients` to 2.1.8 (build now enforces exact toolchain versions — JDK 17.x
+  and Maven 3.9.x — instead of minimums; a consumer-facing no-op, source builds only).
+
 ## [2.1.17] - 2026-08-10
 
 ### Updated
