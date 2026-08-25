@@ -23,7 +23,7 @@ Pin the BOM version in your `<properties>` and import it under `<dependencyManag
 
 ```xml
 <properties>
-  <opentmf-versions.version>2.1.18</opentmf-versions.version>
+  <opentmf-versions.version>2.1.19</opentmf-versions.version>
 </properties>
 
 <dependencyManagement>
@@ -71,7 +71,7 @@ Then depend on any OpenTMF artifact without specifying its version:
 | org.opentmf.util        | [auditor-aware](https://github.com/opentmf/auditor-aware)                           | jar    | Persistence-agnostic `AuditorAware<String>` and `DateTimeProvider` beans for tracking created/modified-by audit fields.   | 3.0.0  | 3.0.0   |
 | org.opentmf.util        | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service)       | jar    | Database-backed distributed lock service for cluster-level coordination.                                                  | 1.0.8  | 2.2.2   |
 | org.opentmf.camunda     | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger)     | jar    | Produces structured, easy-to-trace log entries when a Camunda 7 incident occurs.                                          | 1.0.3  | 2.0.1   |
-| org.opentmf.camunda     | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Test harness for verifying Camunda 7 process definitions and task flows.                                                  | 1.0.4  | 2.0.2   |
+| org.opentmf.camunda     | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Test harness for verifying Camunda 7 process definitions and task flows.                                                  | 1.0.4  | 2.1.0   |
 | org.opentmf.camunda     | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar    | Deploys BPMN definitions to Camunda 7 on startup with optional process instance migration.                                | 1.1.1  | 2.1.1   |
 | org.opentmf.dnext       | [dnext-catalog-sync-service](https://github.com/opentmf/dnext-catalog-sync-service) | jar    | Keeps versioned resource, service, and product catalogs in sync with DNext catalog backends.                              | 1.0.9  | 2.0.4   |
 | org.opentmf.camunda     | [opentmf-camunda7](https://github.com/opentmf/opentmf-camunda7)                     | jar    | Spring Boot microservice embedding Camunda 7 Community Edition with OpenID SSO and RBAC.                                  | 23.0.0 | 24.0.6  |

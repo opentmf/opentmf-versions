@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.19] - 2026-08-25
+
+### Updated
+- Updated `camunda7-test-framework` to 2.1.0 (chaos toolkit, engine clock control and scripted
+  task outcomes; Spring Boot 4.1.1 clears 15 transitive HIGH/CRITICAL CVEs. `VariableUtil` is now
+  `final` — code that instantiated or subclassed it no longer compiles).
+
 ## [2.1.18] - 2026-08-20
 
 ### Added
