@@ -16,14 +16,14 @@ digraph G {
      was what turned this diagram into spaghetti: 35 crossing edge-pairs,
      against 3 here.
 
-     Direction: edges stay DECLARED dependent -> dependency, because that is
-     what ranks the foundational libraries to the bottom. `dir=back` on the
-     edge defaults moves the arrowhead to the top end, so they READ upward as
-     "is used by" / "builds on". Do not reverse the declarations to get that
-     — it would flip the layers along with the arrows. */
+     Direction: a library sits ABOVE what it depends on (opentmf-v4-utils
+     above opentmf-v4-api), and the arrow points DOWN from the dependent onto
+     the dependency — it reads "depends on". Both facts come from declaring
+     the edge dependent -> dependency; do not add `dir=back`, which keeps the
+     rows but turns every arrow around. */
 
   node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
-  edge [penwidth=1.2, arrowsize=0.8, dir=back];
+  edge [penwidth=1.2, arrowsize=0.8];
 
   incident    [label="camunda7-\nincident-logger", shape=ellipse,  fillcolor="#DDFFEE", color="#66BB66"];
   security    [label="openid-rbac-\nsecurity",     shape=ellipse,  fillcolor="#FFDDDD", color="#DD8888"];
