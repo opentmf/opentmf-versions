@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.21] - 2026-08-27
+
+### Updated
+- Updated `opentmf-outbox-service` to 1.1.0 (purely additive — a 1.0.0 consumer upgrades unchanged).
+  Adds a **scheduled-send hold**: `OutboxWriter.append(OutboxAppend)` accepts a `release_at` instant
+  that is frozen at write time, so an effect is not delivered before it and delivery-retry backoff
+  never moves it. Adds **cancellation of an unreleased effect** via
+  `OutboxMaintenanceService.cancel(id)` and `POST /ops/outbox/{id}/cancel`, recorded as
+  `cancelled_on`; if the relay has already claimed the row, the claim wins the race against a
+  concurrent cancel. Liquibase changeset `002-outbox-hold-and-cancel` adds the two nullable columns
+  and auto-applies on next start.
+
 ## [2.1.20] - 2026-08-26
 
 ### Added

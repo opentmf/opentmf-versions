@@ -23,7 +23,7 @@ Pin the BOM version in your `<properties>` and import it under `<dependencyManag
 
 ```xml
 <properties>
-  <opentmf-versions.version>2.1.20</opentmf-versions.version>
+  <opentmf-versions.version>2.1.21</opentmf-versions.version>
 </properties>
 
 <dependencyManagement>
@@ -70,7 +70,7 @@ Then depend on any OpenTMF artifact without specifying its version:
 | org.opentmf.security    | [openid-rbac-security](https://github.com/opentmf/openid-rbac-security)             | jar    | OpenID Connect authentication with role-based access control (RBAC) for Spring Boot.                                      | 1.1.0  | 2.3.0   |
 | org.opentmf.util        | [auditor-aware](https://github.com/opentmf/auditor-aware)                           | jar    | Persistence-agnostic `AuditorAware<String>` and `DateTimeProvider` beans for tracking created/modified-by audit fields.   | 3.0.0  | 3.0.0   |
 | org.opentmf.util        | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service)       | jar    | Database-backed distributed lock service for cluster-level coordination.                                                  | 1.0.8  | 2.2.2   |
-| org.opentmf.util        | [opentmf-outbox-service](https://github.com/opentmf/opentmf-outbox-service)         | jar    | Transactional outbox pattern as a Spring Boot starter, over the client application's JDBC datasource and Kafka/HTTP.      | 1.0.0  | 1.0.0   |
+| org.opentmf.util        | [opentmf-outbox-service](https://github.com/opentmf/opentmf-outbox-service)         | jar    | Transactional outbox pattern as a Spring Boot starter, over the client application's JDBC datasource and Kafka/HTTP.      | 1.0.0  | 1.1.0   |
 | org.opentmf.camunda     | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger)     | jar    | Produces structured, easy-to-trace log entries when a Camunda 7 incident occurs.                                          | 1.0.3  | 2.0.1   |
 | org.opentmf.camunda     | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Test harness for verifying Camunda 7 process definitions and task flows.                                                  | 1.0.4  | 2.1.0   |
 | org.opentmf.camunda     | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar    | Deploys BPMN definitions to Camunda 7 on startup with optional process instance migration.                                | 1.1.1  | 2.1.1   |
