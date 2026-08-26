@@ -14,15 +14,16 @@ digraph G {
      rank=same + invisible edges and then draw the dependencies with
      constraint=false. That combination disables dot's crossing minimiser and
      was what turned this diagram into spaghetti: 35 crossing edge-pairs,
-     against none here. Arrows read "depends on", so the foundational
-     libraries settle at the bottom. mclimit raises the mincross effort and
-     concentrate merges shared edge runs; both are cheap at this size, and
-     concentrate is verified not to drop any of the 20 edges. */
-  mclimit=200;
-  concentrate=true;
+     against 3 here.
+
+     Direction: edges stay DECLARED dependent -> dependency, because that is
+     what ranks the foundational libraries to the bottom. `dir=back` on the
+     edge defaults moves the arrowhead to the top end, so they READ upward as
+     "is used by" / "builds on". Do not reverse the declarations to get that
+     — it would flip the layers along with the arrows. */
 
   node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
-  edge [penwidth=1.2, arrowsize=0.8];
+  edge [penwidth=1.2, arrowsize=0.8, dir=back];
 
   incident    [label="camunda7-\nincident-logger", shape=ellipse,  fillcolor="#DDFFEE", color="#66BB66"];
   security    [label="openid-rbac-\nsecurity",     shape=ellipse,  fillcolor="#FFDDDD", color="#DD8888"];
