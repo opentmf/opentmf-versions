@@ -16,16 +16,19 @@ digraph G {
      was what turned this diagram into spaghetti: 35 crossing edge-pairs,
      against 3 here.
 
-     Direction: a library sits ABOVE the libraries that consume it
-     (opentmf-v4-api above opentmf-v4-utils), and the arrow flows DOWN into
-     the consumer — it reads "is used by". So edges are declared
-     dependency -> dependent, which is the direction dot derives the row
-     order from. Two things that both look like shortcuts and are not:
-     reversing a declaration moves the node to the other row as well, and
-     `dir=back` turns the arrowhead around while leaving the rows put. */
+     Direction — the two halves are set by two SEPARATE knobs, which is why
+     they kept getting swapped for each other:
+       * ROW ORDER comes from the edge declaration. Declared
+         dependency -> dependent, so a library sits ABOVE everything that
+         consumes it (openid-rbac-security above opentmf-camunda7).
+       * ARROWHEAD comes from `dir=back`, which puts the head on the tail
+         end. The arrow therefore points UP, from the dependent to what it
+         needs, and reads "depends on" (opentmf-camunda7 -> openid-rbac-security).
+     Reversing a declaration to aim an arrow will move the node to the other
+     row as well. Change the arrows with dir, the rows with the declaration. */
 
   node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
-  edge [penwidth=1.2, arrowsize=0.8];
+  edge [penwidth=1.2, arrowsize=0.8, dir=back];
 
   incident    [label="camunda7-\nincident-logger", shape=ellipse,  fillcolor="#DDFFEE", color="#66BB66"];
   security    [label="openid-rbac-\nsecurity",     shape=ellipse,  fillcolor="#FFDDDD", color="#DD8888"];
@@ -48,10 +51,15 @@ digraph G {
   jsonpatch   [label="opentmf-\njson-patch",       shape=ellipse,  fillcolor="#DDFFDD", color="#66BB66"];
   outbox      [label="opentmf-outbox-\nservice",   shape=cylinder, fillcolor="#DDDDFF", color="#8888DD"];
 
-  /* Standalone artifacts (nothing depends on them, they depend on nothing):
-     park them on the bottom rank rather than let them pad out the top row of
-     foundational libraries. */
-  { rank=max; auditor; kicker; }
+  /* auditor-aware and http-endpoint-kicker have no OpenTMF dependencies and
+     nothing here depends on them, so they are edgeless and dot may drop them
+     anywhere. rank=min states the true fact — they depend on nothing — and
+     seats them in the top row with the other dependency-free libraries.
+     (Do not reach for pack=true to tighten the diagram: it packs each
+     connected component separately, ignores this pin for single-node
+     components, and drops them into whatever gap it finds, where they read
+     as attached to a neighbour they have no edge to.) */
+  { rank=min; auditor; kicker; }
 
   /* ── Compile (solid green) ── */
   edge [style=solid, color="#228B22"];
