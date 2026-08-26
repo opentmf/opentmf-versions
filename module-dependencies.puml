@@ -16,11 +16,13 @@ digraph G {
      was what turned this diagram into spaghetti: 35 crossing edge-pairs,
      against 3 here.
 
-     Direction: a library sits ABOVE what it depends on (opentmf-v4-utils
-     above opentmf-v4-api), and the arrow points DOWN from the dependent onto
-     the dependency — it reads "depends on". Both facts come from declaring
-     the edge dependent -> dependency; do not add `dir=back`, which keeps the
-     rows but turns every arrow around. */
+     Direction: a library sits ABOVE the libraries that consume it
+     (opentmf-v4-api above opentmf-v4-utils), and the arrow flows DOWN into
+     the consumer — it reads "is used by". So edges are declared
+     dependency -> dependent, which is the direction dot derives the row
+     order from. Two things that both look like shortcuts and are not:
+     reversing a declaration moves the node to the other row as well, and
+     `dir=back` turns the arrowhead around while leaving the rows put. */
 
   node [fontsize=10, fontname="Helvetica", style=filled, penwidth=1.2];
   edge [penwidth=1.2, arrowsize=0.8];
@@ -46,35 +48,36 @@ digraph G {
   jsonpatch   [label="opentmf-\njson-patch",       shape=ellipse,  fillcolor="#DDFFDD", color="#66BB66"];
   outbox      [label="opentmf-outbox-\nservice",   shape=cylinder, fillcolor="#DDDDFF", color="#8888DD"];
 
-  /* Standalone artifacts (no OpenTMF dependencies): keep them out of the
-     dependent row at the top rather than floating above an empty column. */
+  /* Standalone artifacts (nothing depends on them, they depend on nothing):
+     park them on the bottom rank rather than let them pad out the top row of
+     foundational libraries. */
   { rank=max; auditor; kicker; }
 
   /* ── Compile (solid green) ── */
   edge [style=solid, color="#228B22"];
-  testfw      -> incident;
-  testfw      -> commons;
-  camunda7    -> incident;
-  camunda7    -> security;
-  v4models    -> v4api;
-  v4models    -> commons;
-  v4utils     -> v4api;
-  dnextmodels -> v4api;
-  dnextmodels -> commons;
-  httpclients -> commons;
-  apiclients  -> httpclients [weight=8];  /* weight: keep this short and vertical —
+  incident    -> testfw;
+  commons     -> testfw;
+  incident    -> camunda7;
+  security    -> camunda7;
+  v4api       -> v4models;
+  commons     -> v4models;
+  v4api       -> v4utils;
+  v4api       -> dnextmodels;
+  commons     -> dnextmodels;
+  commons     -> httpclients;
+  httpclients -> apiclients [weight=8];  /* weight: keep this short and vertical —
                                              it is the api/http layering itself */
-  apiclients  -> jsonpatch;
-  mockserver  -> jsonpatch;
-  bpmnsync    -> commons;
-  bpmnsync    -> dblock;
-  catsync     -> commons;
-  catsync     -> dblock;
+  jsonpatch   -> apiclients;
+  jsonpatch   -> mockserver;
+  commons     -> bpmnsync;
+  dblock      -> bpmnsync;
+  commons     -> catsync;
+  dblock      -> catsync;
 
   /* ── Optional (dotted orange) ── */
   edge [style=dotted, color="#FF8C00"];
-  bpmnsync    -> httpclients;
-  catsync     -> httpclients;
-  outbox      -> toolkit;
+  httpclients -> bpmnsync;
+  httpclients -> catsync;
+  toolkit     -> outbox;
 }
 @enddot
