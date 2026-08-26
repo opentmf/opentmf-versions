@@ -37,17 +37,18 @@ digraph G {
   bpmnsync    [label="camunda7-bpmn-\nsync-service",  shape=ellipse,   fillcolor="#DDFFEE", color="#66BB66"];
   catsync     [label="dnext-catalog-\nsync-service",  shape=ellipse,   fillcolor="#FFE0F0", color="#DD88BB"];
   jsonpatch   [label="opentmf-\njson-patch",         shape=ellipse,   fillcolor="#DDFFDD", color="#66BB66"];
+  outbox      [label="opentmf-outbox-\nservice",      shape=cylinder,  fillcolor="#DDDDFF", color="#8888DD"];
 
   /* ── Force rows with rank=same ── */
   { rank=same; incident; security; auditor; mockserver; toolkit; commons; }
   { rank=same; testfw; camunda7; v4models; v4api; httpclients; dblock; }
-  { rank=same; kicker; v4utils; dnextmodels; apiclients; bpmnsync; catsync; jsonpatch; }
+  { rank=same; kicker; v4utils; dnextmodels; apiclients; bpmnsync; catsync; jsonpatch; outbox; }
 
   /* ── Invisible edges for horizontal ordering within rows ── */
   edge [style=invis, constraint=true];
   incident  -> security  -> auditor -> mockserver -> toolkit -> commons;
   testfw -> camunda7 -> v4models -> v4api -> httpclients -> dblock;
-  kicker -> v4utils -> dnextmodels -> apiclients -> bpmnsync -> catsync -> jsonpatch;
+  kicker -> v4utils -> dnextmodels -> apiclients -> bpmnsync -> catsync -> jsonpatch -> outbox;
 
   /* ── Invisible edges for vertical row separation ── */
   incident -> testfw;
@@ -88,5 +89,6 @@ digraph G {
   edge [style=dotted, color="#FF8C00", constraint=false];
   bpmnsync    -> httpclients;
   catsync     -> httpclients;
+  outbox      -> toolkit;
 }
 @enddot

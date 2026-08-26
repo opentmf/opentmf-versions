@@ -46,6 +46,7 @@ on individual deps. Source of truth is the code on each repo's `develop` branch;
 | Secure a service with JWT + RBAC by config | openid-rbac-security | `opentmf.security.*` |
 | `@CreatedBy`/`@CreatedDate` auditing | auditor-aware | `auditorAware` beans |
 | Cluster-wide lock (deploy/sync once) | opentmf-db-lock-service | `@UsingClusterLock`, `LockContext` |
+| Publish an event atomically with a state change | opentmf-outbox-service | `OutboxWriter.append(...)` |
 | Run a workflow engine server | opentmf-camunda7 | deployable image |
 | Run a Spring Boot 4 / Jakarta workflow engine server | opentmf-cadenzaflow | deployable image |
 | Deploy bundled BPMN on boot | camunda7-bpmn-sync-service | `opentmf.bpmn-sync.*` |
@@ -240,6 +241,23 @@ void deploy(LockContext ctx) { /* runs once cluster-wide */ }
 ```
 **Gotchas:** **NEVER pass `null` for the `LockContext` param — pass `new LockContext()`** so the aspect can enrich it. Tables are per-microservice (each service owns its own `db_lock_*`). A held lock auto-releases after `lock-hold-timeout`. Any thrown exception releases with `success=false`. DDL ships for Postgres/MySQL/MariaDB/Oracle/SQL Server/DB2/H2; dialect auto-detected.
 **Maven:** `org.opentmf.util:opentmf-db-lock-service` (BOM-managed).
+
+### opentmf-outbox-service
+**What:** Transactional outbox as a Spring Boot starter, over the app's own JDBC datasource and its Kafka/HTTP infrastructure. The state change and one outbox row commit in the same local transaction; an in-service relay then delivers at-least-once, so "state changed AND the platform heard it" has no crash window in either direction.
+**Use it for:** Emitting an event that must not be lost when the business transaction commits (and must not be emitted when it rolls back) — replacing any hand-rolled "save, then publish" dual write.
+**Key API:** `OutboxWriter.append(aggregateType, aggregateId, eventType, destination, payload)` plus `+headers` and `+clientProfile, headers` overloads; SPI `OutboxPublisher` (`supports`/`publish`, first match wins) and `OutboxClientProfileResolver` (named authenticated `RestClient`s); `OutboxRelayedListener` for post-relay bookkeeping; `OutboxMaintenanceService.pruneRelayed()` / `unpark(id)`; `OutboxEvent`, `OutboxRowView`, `OutboxStateFilter` (`PENDING`/`PARKED`/`RELAYED`); `OutboxArchRules.consumersUseOnlyTheSeams()`.
+**Config:** prefix `opentmf.outbox` (all optional): `sweep-interval=5s`, `batch-size=100`, `max-attempts=10`, `backoff-base=5s`, `backoff-factor=2`, `backoff-cap=10m`, `retention=7d`, `send-timeout=10s`, `ops-endpoints=true`. Autoconfig `OutboxAutoConfiguration` (activates on a JPA `DataSource`). One table, `OUTBOX`, from the bundled changelog — include it **by reference**: `<include file="db/changelog/opentmf-outbox.sql" relativeToChangelogFile="false"/>`. Ops surface under `/ops/outbox*` (list/parked/detail, prune, unpark).
+**Snippet:**
+```java
+@Transactional
+public void recordOutcome(String id, Outcome outcome) {
+  repository.save(...);                                    // state change
+  outboxWriter.append("party-interaction", id,             // ...and the event,
+      "comm.outcome.v1", "comm.outcome.v1", outcome);      // same transaction
+}
+```
+**Gotchas:** `append` is propagation **`MANDATORY`** — calling it outside a transaction fails fast, by design (a dual write cannot compile into existence). The payload is serialized **at write time**: the event is a fact frozen at commit, never re-read later. Destination routing is by shape — anything that is not an `http(s)://` URL is a Kafka topic. Delivery is at-least-once; dedupe on `x-idempotency-key` (`<spring.application.name>:outbox:<id>`). At `max-attempts` a row **parks** — excluded from claims, never auto-pruned, unparking is a deliberate ops action. The `/ops` endpoints ship **no security of their own** — the consumer must gate them as admin-class (payloads and `last_error` travel there). `tmf630-toolkit-all` is optional: without it the `/ops` controller is not registered at all (the `OutboxMaintenanceService` API is unaffected). Kafka/web deps are optional too. The ArchUnit seal rule needs ArchUnit ≥ 1.5.0 on Java 25 bytecode — older ASM parses nothing and the rule silently checks **nothing**.
+**Maven:** `org.opentmf.util:opentmf-outbox-service` (BOM-managed).
 
 ## Workflow (Camunda 7 and compatible implementations)
 

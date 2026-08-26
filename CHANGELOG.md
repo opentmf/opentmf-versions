@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.20] - 2026-08-26
+
+### Added
+- Added `opentmf-outbox-service` 1.0.0 (`org.opentmf.util:opentmf-outbox-service`) — transactional
+  outbox pattern as a Spring Boot starter, using the client application's JDBC datasource and
+  Kafka/HTTP infrastructure. The business transaction writes its state change and one outbox row in
+  the same local transaction; an in-service relay then delivers the event at-least-once, so
+  "state changed AND the platform heard it" never has a crash window. The library auto-configures
+  itself when a JPA `DataSource` is present and owns a single `OUTBOX` table created by its bundled
+  Liquibase changelog, which consumers include by reference. Kafka, web, and `tmf630-toolkit-all`
+  are optional dependencies, so the delivery transport and the `/ops` query surface are opt-in.
+
 ## [2.1.19] - 2026-08-25
 
 ### Updated
