@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.22] - 2026-08-27
+
+### Updated
+- Updated `opentmf-outbox-service` to 1.2.0 (additive throughout — a 1.0.0 or 1.1.0 consumer
+  upgrades unchanged). Adds a **per-publisher failure policy**: `OutboxPublisher` gains default
+  `maxAttempts(event)`, `backoff(event, attempt)` and `onExhausted(event)` → `PARK` (default) or
+  `DROP`, so the resolved publisher — not the library-wide setting — books every failure. A
+  publisher throws the new `TerminalOutboxException` to reach the exhaustion outcome immediately.
+  Parking is now recorded by an explicit `parked_on` stamp, and the relay's claim predicate reads
+  that stamp instead of bounding on the attempt count, so per-publisher budgets are honoured by the
+  claim itself. Adds a private per-row `reference` (`OutboxAppend.withReference`, filterable on the
+  ops list) that is never forwarded to the wire — `headers` is the wire, `reference` is private —
+  and promotes `OutboxHeaders` to public API, since the idempotency-key format is a cross-service
+  contract. Adds `GET /ops/outbox/state/{state}`, with the `/ops` surface answering 404/409/400
+  through Spring's `ErrorResponse` contract. Onboarding a pre-library `outbox` table is now owned
+  by the library: `001`/`002` are `MARK_RAN`-guarded when the table or its columns already exist and
+  `003-outbox-policy-reference-onboarding` adds every missing column with `add column if not
+  exists`, so recorded checksums are unchanged. Ships consumer-conformance ITs.
+  - **Fixed:** the HTTP publisher appended a stored header that collided with a relay header
+    (`x-event-type` went out twice); it now replaces the colliding value.
+  - **Consumer action:** a global exception handler that swallows Spring's `ErrorResponse` turns the
+    `/ops` 404/409/400 into a generic 500 — adopt the dnms-template `GlobalExceptionMapper` fix
+    (PR #12) in the same release as this upgrade. Test fixtures that seed parked rows must now set
+    `parkedOn`; attempts alone no longer park a row.
+  - **Upgrade note:** a row parked under 1.1.0 has no `parked_on` stamp, so it becomes claimable
+    again on upgrade and parks with the stamp on its next failure.
+
 ## [2.1.21] - 2026-08-27
 
 ### Updated

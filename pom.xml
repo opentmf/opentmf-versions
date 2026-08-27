@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.21</opentmf-versions.version>
+    <opentmf-versions.version>2.1.22</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -70,7 +70,7 @@
     <opentmf-commons.version>2.2.0</opentmf-commons.version>
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
     <opentmf-db-lock-service.version>2.2.2</opentmf-db-lock-service.version>
-    <opentmf-outbox-service.version>1.1.0</opentmf-outbox-service.version>
+    <opentmf-outbox-service.version>1.2.0</opentmf-outbox-service.version>
     <auditor-aware-jpa.version>2.0.0</auditor-aware-jpa.version>
     <auditor-aware.version>3.0.0</auditor-aware.version>
     <camunda7-bpmn-sync-service.version>2.1.1</camunda7-bpmn-sync-service.version>
