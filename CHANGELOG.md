@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.23] - 2026-08-31
+
+### Updated
+- Updated `openid-rbac-security` to **3.0.0** (major — read before upgrading). A `GET` access rule
+  now also covers `HEAD` on the same path with the same roles, so a `HEAD` probe that previously
+  fell through to `other-endpoints` now carries that rule's roles (401/403 where it used to be
+  served). A denied request for a method the application does not implement answers **405** with an
+  `Allow` header instead of 403, governed by the new `unmatched-method-response` (default
+  `method-not-allowed`; set `deny` to restore the old uniform 403); a plain `OPTIONS` on a served
+  path answers 200 + `Allow`. **Breaking:** `secure-endpoints[].method` / `allowed-endpoints[].method`
+  now accept only `GET`, `POST`, `PUT`, `PATCH`, `DELETE` in upper case — a `HEAD`/`OPTIONS`/`TRACE`
+  entry, or a lower-case value, fails startup. Delete `HEAD` entries (a `GET` rule covers them) and
+  replace `OPTIONS` entries with real CORS configuration. Spring Boot 4.1.1.
+
 ## [2.1.22] - 2026-08-27
 
 ### Updated
