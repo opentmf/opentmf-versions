@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.24] - 2026-09-08
+
+### Updated
+- Updated `opentmf-api-clients` to **3.0.0** (major — one breaking signature on the reactive
+  surface). Adds an **entity view** on both surfaces: `client.entity()` returns a `TmfEntityClient` /
+  `ReactiveTmfEntityClient` whose verbs answer `ResponseEntity<...>` / `Mono<ResponseEntity<...>>`,
+  so `Location`, `ETag` and custom `X-*` headers are readable on the success path; `sub(...)`
+  composes with it, and untyped `delete` now returns `ResponseEntity<Void>` instead of discarding
+  the status. **Breaking:** reactive `listPaged*` returns `Mono<TmfPage<List<R>>>` instead of
+  `Mono<TmfPage<Flux<R>>>` — a body `Flux` inside a page was a single-subscription live stream that
+  left the connection undrained when only metadata was read; migrate `flatMapMany(TmfPage::getContent)`
+  to `flatMapIterable(TmfPage::getContent)` (see the library's MIGRATION.md). **Fixed:** an
+  `AuthType.NONE` client threw `Authorization token must not be empty.` before any request reached
+  the network; it now sends no `Authorization` header. Conversely a BEARER/BASIC client whose token
+  service returns a blank token now fails locally instead of collecting a remote 401.
+
 ## [2.1.23] - 2026-08-31
 
 ### Updated
