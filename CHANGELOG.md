@@ -20,6 +20,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `AuthType.NONE` client threw `Authorization token must not be empty.` before any request reached
   the network; it now sends no `Authorization` header. Conversely a BEARER/BASIC client whose token
   service returns a blank token now fails locally instead of collecting a remote 401.
+- Updated `opentmf-cadenzaflow` to **1.2.3** (from 1.1.5 — 1.2.0, 1.2.1, 1.2.2 and 1.2.3 in one
+  step; there was no 1.1.6). **Every deployment on 1.2.1 or earlier should move**, for two reasons
+  that are not about features. 1.2.2 fixes a `logback-spring.xml` that left the root logger with an
+  **empty appender list** on every release from 1.0.0 through 1.2.1 — the service started, served
+  traffic and reported healthy while writing **no application logs at all**, unless a file was
+  mounted via `LOGGING_CONFIG`; the appender is now chosen by plain variable substitution
+  (`LOGGING_APPENDER`, defaulting to console). 1.2.1 moves embedded Tomcat to 11.0.25 via explicit
+  `dependencyManagement` overrides, closing three CRITICAL findings including **CVE-2026-65182**
+  (a security-constraint bypass) that no Boot GA pins a fix for yet. 1.2.2 and 1.2.3 also repair
+  log masking for values reached through a URL-encoded request line — `Basic` and opaque bearer
+  credentials leaked in full, and an encoded `+` exposed MSISDNs and card numbers verbatim.
+  1.2.0 adds the incident-operations surface under `/engine-rest/extensions/incident*` (a grouped
+  report across a root BPMN's whole call tree that counts each failure once, one-call bulk retry of
+  a group, and a TMF-630-paged incident list) plus a published `docs/openapi.yaml` unioning the
+  engine's API with this service's additions. It also picks up `openid-rbac-security` 3.0.0, whose
+  405 behaviour reaches only the actuator endpoints — Jersey-served `/engine-rest/**` paths are
+  invisible to the method resolver, so engine 401/403 answers are unchanged — plus CadenzaFlow
+  engine 1.2.3 and Spring Boot 4.1.1.
 
 ## [2.1.23] - 2026-08-31
 
