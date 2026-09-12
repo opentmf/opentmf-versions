@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.25] - 2026-09-12
 
 ### Updated
-- Updated `tmf630-toolkit` to **3.2.1** (from 3.1.1 — 3.2.0 and 3.2.1 in one step; additive API,
+- Updated `tmf630-toolkit` to **3.2.2** (from 3.1.1 — 3.2.0 to 3.2.2 in one step; additive API,
   plus one behavioural tightening on sorting). 3.2.0 adds `@Tmf630PassThrough({"version"})`: a
   handler names exact query parameters that are not entity properties (a mandatory `version`
   selector, a derived `state`), and both filter terminals (`@QuerydslPredicate`,
@@ -29,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (a crafted `$[?(...)]` / `length() == N` value with a long whitespace run could burn CPU on the
   request thread, bounded by the container's URL-length limit; the accepted grammar is unchanged),
   and a positional `[N]` in a correlated sort term containing a line break is now rejected with a
-  message naming the real problem (still 400).
+  message naming the real problem (still 400). 3.2.2 repairs three errors in the published
+  Javadoc (a heading out of sequence, an unescaped `<…>`, a dead link); no code changed.
 - Updated `opentmf-cadenzaflow` to **1.3.0** (from 1.2.3 — **breaking for any deployment that
   activates a Spring profile**). The image no longer supplies security defaults to a deployment:
   the whole `opentmf.security` block (issuer, `user-claim`, both ACLs) and the role-bearing
