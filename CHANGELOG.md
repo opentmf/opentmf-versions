@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.25] - 2026-09-12
+
+### Updated
+- Updated `tmf630-toolkit` to **3.2.1** (from 3.1.1 — 3.2.0 and 3.2.1 in one step; additive API,
+  plus one behavioural tightening on sorting). 3.2.0 adds `@Tmf630PassThrough({"version"})`: a
+  handler names exact query parameters that are not entity properties (a mandatory `version`
+  selector, a derived `state`), and both filter terminals (`@QuerydslPredicate`,
+  `@Tmf630JsonbFilter`) leave them alone instead of answering 400 under
+  `on-unknown-field: REJECT`. It is honoured on an API interface method as well as on the
+  implementation, matches exact names only (`version.eq` is still a filter key) and has no global
+  switch. **Behaviour change — a correct request can now fail:** on a handler that binds a filter
+  root (`@QuerydslPredicate(root = X)` or `@Tmf630JsonbFilter(root = X)`), a plain `sort=` key must
+  name a declared field of `X`, resolved exactly like a filter key, so **sorting on a getter-only
+  (derived) property that Spring Data accepted now answers 400** with no typo involved. Unknown or
+  mistyped keys answer **400** too (*"Unknown sort property"*), where JPA used to fail with a 500
+  through a service's catch-all and Mongo/JSONB silently ignored them. Check which sort keys your
+  clients send before rolling out, or declare a `TmfSortKeyValidator` bean of your own
+  (e.g. `TmfSortKeyValidator.NONE`) to opt out. Handlers without a filter root, and correlated
+  sort terms (`field[key=value].leaf`, JsonPath), are unchanged. No source break: the new
+  `Tmf630FilterParser` / `Tmf630JsonbClauseBuilder` overloads and resolver constructors are
+  additive. 3.2.1 removes regular-expression backtracking from JSONB `filter=` wrapper recognition
+  (a crafted `$[?(...)]` / `length() == N` value with a long whitespace run could burn CPU on the
+  request thread, bounded by the container's URL-length limit; the accepted grammar is unchanged),
+  and a positional `[N]` in a correlated sort term containing a line break is now rejected with a
+  message naming the real problem (still 400).
+
 ## [2.1.24] - 2026-09-08
 
 ### Updated
