@@ -30,6 +30,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   request thread, bounded by the container's URL-length limit; the accepted grammar is unchanged),
   and a positional `[N]` in a correlated sort term containing a line break is now rejected with a
   message naming the real problem (still 400).
+- Updated `opentmf-cadenzaflow` to **1.3.0** (from 1.2.3 — **breaking for any deployment that
+  activates a Spring profile**). The image no longer supplies security defaults to a deployment:
+  the whole `opentmf.security` block (issuer, `user-claim`, both ACLs) and the role-bearing
+  actuator settings now live only under a `standalone` profile, activated through
+  `spring.profiles.default: standalone`. Set `SPRING_PROFILES_ACTIVE` to anything and the image
+  contributes **nothing** to those properties — supply your own. With neither
+  `opentmf.security.jwk-set-uri` nor `opentmf.security.issuers` present the service refuses to
+  start: the safe direction, but a **boot-time** failure that no render-time gate sees, so bring up
+  one instance before trusting a green pipeline. Through 1.2.3 a deployment that mounted no
+  security block silently inherited the image's ACL, written in role names that meant nothing to
+  it, which could leave `/actuator`, `/actuator/metrics` and `/actuator/loggers` answering
+  **200 anonymously** on the management port. A bare `docker run` keeps its defaults with one
+  exception: **anonymous log-level writes are closed**. A tokenless
+  `POST /actuator/loggers/<logger>` used to answer 204 and change the level; reading a level now
+  needs a valid token and changing one needs `admin`, so scripts that change log levels on the
+  management port without credentials stop working. `/actuator/env` values stay masked for a
+  deployment (Spring Boot's `show-values: never` until it opts in), and `/actuator/info` left the
+  standalone whitelist.
 
 ## [2.1.24] - 2026-09-08
 
