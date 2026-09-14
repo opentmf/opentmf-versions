@@ -5,28 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.26] - 2026-09-14
+## [2.1.26] - 2026-09-15
 
 ### Updated
 - Updated `openid-rbac-security` to **3.1.0** (from 3.0.0 — **breaking for any consumer relying on
-  401/403 for unknown paths, or on the `Allow` header of a 405**; see the library's
-  `docs/http-status-matrix-plan.md`). Every request is now answered by one fixed HTTP-status matrix,
-  evaluated in this order before anything else: **404** when no handler exists for the path
-  (anonymous *and* authenticated — a path outside `secure-endpoints` used to answer 401/403 as a
-  non-disclosure posture, and that posture is dropped); **405 with no `Allow` header** when the path
-  exists but the method is not implemented on it, unknown method names (`PROPFIND`, `BREW`, …)
-  included — these used to be answered 400 by `StrictHttpFirewall` with Spring Boot's default JSON,
-  and a whitelisted path answered the servlet's 501; **401** for a mapped path and implemented method
-  with no or an invalid token; **403** for a valid token whose roles do not satisfy the rule. The body
-  is always the application's own error rendering (its `HandlerExceptionResolver` /
-  `WebExceptionHandler`, `Content-Length: 0` when it has none); Spring Boot's default error JSON never
-  appears. Whitelisted (`ALLOW`) paths are subject to the same 404 check. **Removed:** the 3.0.0
-  `unmatched-method-response` property (main and management sections) — the matrix is not
-  configurable, and the 3.0.0 `MethodNotAllowedAccessDeniedHandler` (405 + `Allow`, anonymous → 401)
-  is replaced; a consumer that pins `Allow` on a 405, or expects 401 for an anonymous request with an
-  unimplemented method, must update its contract tests. `secure-endpoints` semantics on mapped paths,
-  the `GET`→`HEAD` coverage and the upper-case method restriction of 3.0.0 are unchanged; the
-  management port follows the same matrix; both stacks (servlet and reactive) keep parity.
+  401/403 for unknown paths, on the `Allow` header of a 405, or still setting
+  `unmatched-method-response`**). Every request is now answered by one fixed HTTP-status matrix,
+  evaluated before authentication and before the access rules, in this order: **404** when no
+  handler serves the path — anonymous *and* authenticated (such a path used to fall to
+  `other-endpoints` and answer 401/403; that non-disclosure posture is dropped, and a whitelisted
+  prefix with nothing behind it or a path variable carrying a `/` is a 404 too); **405 with no
+  `Allow` header** when the path exists but the method is not implemented on it, for every caller
+  (3.0.0 answered 401 anonymously and 405 + `Allow` authenticated) and for unknown method names
+  such as `PROPFIND`/`BREW` (previously a firewall 400 with Boot's error JSON — the library now
+  registers a strict firewall that lets any method name through; a consumer's own firewall bean
+  takes precedence); **401** for no or an invalid token; **403** for a valid token without the role.
+  The 404/405 bodies are the application's own error rendering: the library raises the exceptions
+  Spring raises natively (`NoHandlerFoundException`, `HttpRequestMethodNotSupportedException`;
+  `ResponseStatusException`, `MethodNotAllowedException` on reactive) through the application's
+  resolvers, so a `@ControllerAdvice`/`ProblemDetail`/TMF-`Error` renderer answers them like
+  everything else, and without one the application gets Spring's default resolver (on servlet, the
+  container's error page). Blacklisted paths are subject to the matrix first (unmapped → 404,
+  unimplemented method → 405), so they no longer answer a uniform 403. "The path is served" now
+  counts every `HandlerMapping` in dispatcher order — functional routes, resource handlers (a
+  static-resource handler claims a path only when the resource resolves, and implements `GET`/`HEAD`
+  only) and consumer-registered mappings — not just annotation-based controllers; a request the
+  container dispatches to a non-MVC servlet bypasses the matrix. The management port follows the
+  same matrix from its own handler mappings: an unexposed actuator path is 404, an unserved method
+  405 — alerts keyed on 401/403 from that port need 404/405 added. Plain `OPTIONS` is unchanged in
+  effect (401 anonymous; 200 + `Allow` with a valid token). **Removed:**
+  `opentmf.security.unmatched-method-response` and its management twin — the matrix is not
+  configurable, and a configuration that still sets either **fails at startup** naming the property
+  (remove it); the public types `UnmatchedMethodResponse`, `MethodNotAllowedAccessDeniedHandler`,
+  `MethodNotAllowedServerAccessDeniedHandler`, `BlacklistDecision`, `ReactiveBlacklistDenial`, and
+  `EndpointRules.allowedFor` (replaced by `EndpointRules.answerFor`). Contract tests that pin
+  `Allow` on a 405, 401 for an anonymous unimplemented method, or 401/403 for an unknown path must
+  be rewritten. The `GET`→`HEAD` coverage and the upper-case method restriction of 3.0.0 are
+  unchanged. Build-only tooling bumps; no dependency change in the published artifact.
 
 ## [2.1.25] - 2026-09-12
 
