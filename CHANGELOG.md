@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.26] - 2026-09-14
+
+### Updated
+- Updated `openid-rbac-security` to **3.1.0** (from 3.0.0 — **breaking for any consumer relying on
+  401/403 for unknown paths, or on the `Allow` header of a 405**; see the library's
+  `docs/http-status-matrix-plan.md`). Every request is now answered by one fixed HTTP-status matrix,
+  evaluated in this order before anything else: **404** when no handler exists for the path
+  (anonymous *and* authenticated — a path outside `secure-endpoints` used to answer 401/403 as a
+  non-disclosure posture, and that posture is dropped); **405 with no `Allow` header** when the path
+  exists but the method is not implemented on it, unknown method names (`PROPFIND`, `BREW`, …)
+  included — these used to be answered 400 by `StrictHttpFirewall` with Spring Boot's default JSON,
+  and a whitelisted path answered the servlet's 501; **401** for a mapped path and implemented method
+  with no or an invalid token; **403** for a valid token whose roles do not satisfy the rule. The body
+  is always the application's own error rendering (its `HandlerExceptionResolver` /
+  `WebExceptionHandler`, `Content-Length: 0` when it has none); Spring Boot's default error JSON never
+  appears. Whitelisted (`ALLOW`) paths are subject to the same 404 check. **Removed:** the 3.0.0
+  `unmatched-method-response` property (main and management sections) — the matrix is not
+  configurable, and the 3.0.0 `MethodNotAllowedAccessDeniedHandler` (405 + `Allow`, anonymous → 401)
+  is replaced; a consumer that pins `Allow` on a 405, or expects 401 for an anonymous request with an
+  unimplemented method, must update its contract tests. `secure-endpoints` semantics on mapped paths,
+  the `GET`→`HEAD` coverage and the upper-case method restriction of 3.0.0 are unchanged; the
+  management port follows the same matrix; both stacks (servlet and reactive) keep parity.
+
 ## [2.1.25] - 2026-09-12
 
 ### Updated
