@@ -24,8 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Spring raises natively (`NoHandlerFoundException`, `HttpRequestMethodNotSupportedException`;
   `ResponseStatusException`, `MethodNotAllowedException` on reactive) through the application's
   resolvers, so a `@ControllerAdvice`/`ProblemDetail`/TMF-`Error` renderer answers them like
-  everything else, and without one the application gets Spring's default resolver (on servlet, the
-  container's error page). Blacklisted paths are subject to the matrix first (unmapped → 404,
+  everything else; without one the application gets Spring's default resolver → the container's
+  error page, which in a Boot application is Boot's default error JSON (the same body a permitted
+  path gets natively). A handler lookup that fails is left to the access rules, never turned into a
+  404 the mappings did not claim. Blacklisted paths are subject to the matrix first (unmapped → 404,
   unimplemented method → 405), so they no longer answer a uniform 403. "The path is served" now
   counts every `HandlerMapping` in dispatcher order — functional routes, resource handlers (a
   static-resource handler claims a path only when the resource resolves, and implements `GET`/`HEAD`
