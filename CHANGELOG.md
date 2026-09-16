@@ -7,12 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.28] - 2026-09-16
 
-### Updated
+### Fixed
 - Updated `openid-rbac-security` to **3.2.1** (from 3.2.0 — fix only, no configuration or API
-  change). The typed `503 Service Unavailable` introduced in 3.2.0 for an issuer whose signing keys
-  have never been obtained lost its `Retry-After` header when the response was rendered through an
-  application's own exception resolver (a `@ControllerAdvice` / problem-detail handler); the header
-  is now carried whichever path renders the body.
+  change). On the servlet stack the typed `503`'s `Retry-After` reached the wire only when the
+  application's exception mapper carried the exception's headers through: the library handed
+  `JwkSetUnavailableException` to the application's `HandlerExceptionResolver`s first and wrote the
+  headers only on the bare fallback path, so a mapper that rebuilds the answer as
+  `ResponseEntity.status(body.getStatus()).body(body)` sent the `503` without `Retry-After`. The
+  renderer now writes the exception's headers before delegating (a `ResponseEntity` adds its headers
+  without resetting those already set) and once more after rendering, so a resolver that copies them
+  itself leaves one value. Reactive was already correct.
 
 ## [2.1.27] - 2026-09-16
 
