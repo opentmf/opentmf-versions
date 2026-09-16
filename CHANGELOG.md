@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.27] - 2026-09-16
+
+### Updated
+- Updated `openid-rbac-security` to **3.2.0** (from 3.1.0 — adopter checklist: the BOM bump and
+  nothing else; no new configuration is required and the 3.1.0 status matrix is unchanged). The
+  signing keys of every trusted issuer are now fetched **cache-first, off the request path**: the
+  JWK set is loaded at startup by a background warm-up (logged by the issuer's configured name,
+  never its URL), refreshed in the background ahead of the cache expiry, served stale while
+  refreshes fail for up to `outage-ttl`, and refreshed on an unknown key id at most twice per
+  interval — after the first successful load no request thread ever performs a fetch again (one
+  cache, one refresh thread per issuer, shared by both stacks and both ports). An issuer whose keys
+  have never been obtained answers a **typed `503`** with `Retry-After` and a problem body of type
+  `urn:opentmf:security:problem:signing-keys-unavailable`, rendered through the application's own
+  error rendering like the 3.1.0 404/405 — previously the lazy first-request fetch failed with
+  `AuthenticationServiceException`, i.e. the container's 500. A bad or expired token is still 401,
+  an unknown issuer is still 401 before any key is looked at, anonymous callers and whitelisted
+  paths are unaffected; `JwtService.decodeJwt` throws the same typed `JwkSetUnavailableException`.
+  Any service that added an interim filter of its own to render a 503 for this case should remove
+  it with the bump, or two responders compete. New `opentmf.security.jwks.*` tuning, every default
+  equal to the previous behaviour for a reachable issuer: `cache-ttl` (5m), `outage-ttl` (24h),
+  `refresh-interval` (30s), `connect-timeout` / `read-timeout` (JVM defaults, then 30s),
+  `on-startup-failure` (`warn` default — boot and serve 503 for that issuer until a refresh
+  succeeds; `fail` stops the application when *no* issuer's keys could be loaded). **Proxy honour
+  — the one deliberate change for a reachable issuer:** the fetch goes through the per-issuer
+  `issuers[].proxy` (or `jwks.proxy` in single-issuer mode), else the JVM proxy properties, else
+  the process environment `HTTPS_PROXY`/`HTTP_PROXY` with `NO_PROXY` exclusions (which the JDK
+  never reads on its own), else direct. A deployment that exports `HTTPS_PROXY` without listing the
+  identity provider's host in `NO_PROXY` fetched the keys *directly* before and goes through the
+  proxy from 3.2.0 — set `NO_PROXY` or the per-issuer `proxy` if that is not what you want. The
+  reactive fetch now honours the JVM proxy properties and gains a read timeout, and key lookup runs
+  on `boundedElastic`, never an event-loop thread. A `classpath:` JWK set inside a fat jar now
+  loads (its `jar:` URL used to fail every bearer request with a 500). Source-level:
+  `ServletJwtSupport` / `ReactiveJwtSupport` take a `TrustedIssuerKeys` second constructor argument
+  (provided by the new `JwksAutoConfiguration`); `ServletResourceRetriever`,
+  `ReactiveResourceRetriever` and `ResourceRetrieverSupport` are removed.
+
 ## [2.1.26] - 2026-09-15
 
 ### Updated
