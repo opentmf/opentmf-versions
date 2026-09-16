@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.28] - 2026-09-16
+
+### Updated
+- Updated `openid-rbac-security` to **3.2.1** (from 3.2.0 — fix only, no configuration or API
+  change). The typed `503 Service Unavailable` introduced in 3.2.0 for an issuer whose signing keys
+  have never been obtained lost its `Retry-After` header when the response was rendered through an
+  application's own exception resolver (a `@ControllerAdvice` / problem-detail handler); the header
+  is now carried whichever path renders the body.
+
 ## [2.1.27] - 2026-09-16
 
 ### Updated
