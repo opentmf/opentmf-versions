@@ -5,6 +5,64 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.29] - 2026-09-17
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact, as every release since 2.1.14 — including the ones that carried a library major.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `tmf630-toolkit` | 3.2.2 → **3.3.0** | The paging `Link` header is **omitted** over a size budget (any query-parameter value > 256 chars, or an assembled header > 2048 chars); adopters and their clients must treat `Link` as optional and page by `offset`/`limit` against `X-Total-Count`. A query-parameter value > 2048 chars answers **400** and a query string > 4096 chars answers **414**, before any handler, as TMF `ErrorMessage` bodies. |
+| `opentmf-http-clients` | 2.1.8 → **2.2.0** | A bearer token mint is retried once on a transport failure; a mint that still fails throws `BearerTokenTransportException` (was the raw `ResourceAccessException`/reactor error); new counter `opentmf.client.token.fetch{client, outcome}` and one `INFO` per mint. |
+| `openid-rbac-security` | 3.2.1 → **3.2.2** | The typed `503` carries `Retry-After` exactly once, whichever resolver renders it (3.2.1 could send `30, 30` under Spring's default resolver). Servlet only. |
+
+<!-- TODO before the cut: openid-rbac-security 3.3.0 (JWKS readiness indicator) — pin it, add its row, and rewrite the row from the tagged CHANGELOG -->
+
+### Updated
+- Updated `tmf630-toolkit` to **3.3.0** (from 3.2.2). Fixes a `500` with an empty body and
+  `Connection: close` on any paged endpoint given one long query parameter (≥ ~2100 chars): the
+  pagination `Link` header echoed the request's full query string in each of its four links, past
+  Tomcat's 8 KB response-header buffer, and the application's catch-all handler then failed the
+  same way (found by a DAST active scan on 2026-09-17; every adopter with a paged list endpoint was
+  exposed). Three layers close it. **Bounded `Link` header:** when any single query-parameter value
+  is longer than `opentmf.tmf630.paging.link.max-param-value-length` (default 256), or the
+  assembled header would exceed `opentmf.tmf630.paging.link.max-length` (default 2048), the header
+  is omitted — never truncated, because a `next` that drops a filter walks a different result set;
+  `X-Total-Count`, `X-Result-Count`, `Content-Range` and the status are unchanged, and clients must
+  treat `Link` as the SHOULD it is in TMF-630 Part 1 §4.5.1 (new `Tmf630LinkHeaderSettings` record,
+  `Tmf630Util.applyLinkHeader(...)` overload; existing overload and `tmfPage(...)` use the
+  defaults). **Query-parameter guard** (`opentmf.tmf630.query-limits.*`, `enabled=true`,
+  independent of `paging.enabled`): `Tmf630QueryLimitsInterceptor` on every mapping answers **400**
+  for a single value longer than `max-param-value-length` (2048) and **414 URI Too Long** for a
+  query string longer than `max-query-string-length` (4096), as TMF `ErrorMessage` bodies via
+  `Tmf630QueryLimitExceptionHandler`; the defaults reject nothing the filtering module accepts
+  today. **`HeadersTooLargeException` recovery:** `Tmf630HeadersTooLargeRecoveryResolver`
+  recognises Tomcat's overflow, logs which header overflowed, resets the uncommitted response and
+  answers one chunked `500` TMF error body (covers adopter-added headers and raised budgets).
+- Updated `opentmf-http-clients` to **2.2.0** (from 2.1.8). Bearer token mints — sync and reactive —
+  retry exactly once, immediately, with one `WARN`, on a transport-level failure under the token
+  `POST` (a keep-alive connection reused after the peer closed it, a reset, a premature EOF, an I/O
+  timeout at the headers or body stage); the JDK HttpClient's own stale-connection retry covers
+  `GET`/`HEAD` only. Status errors from the token endpoint and open circuit breakers are not
+  retried. **Changed:** a mint that fails after the retry throws `BearerTokenTransportException`
+  (`org.opentmf.client.bearer.exception`: `tokenUrl`, `attempts`, cause) instead of the raw
+  `RestClientException`/`ResourceAccessException` (sync) or reactor error — not a response
+  exception, so the retry utilities never retry it; map it to 503. One `INFO` line per successful
+  mint (issuer URL, scope, attempt, duration) and, with a `MeterRegistry` bean, the counter
+  `opentmf.client.token.fetch{client=<id>, outcome=ok|retried|failed}` (Prometheus
+  `opentmf_client_token_fetch_total`); `TokenFetchListener` / `TokenFetchMeters` for hand-wired
+  token clients; `RestClientRegistrar.createTokenService(String, RestClient, ClientProperties)`
+  overload (the 2-arg form opts out of the counter). README corrected: only the reactive token
+  client retries retryable statuses per `num-retries`. Spring Boot 4.1.1; build tooling bumps.
+- Updated `openid-rbac-security` to **3.2.2** (from 3.2.1). The typed `503` shipped `Retry-After`
+  twice (`30, 30`) in 3.2.1 when nothing in the application handled `ErrorResponseException` and it
+  fell to Spring's default resolver, which copies the exception's headers with `addHeader` and then
+  `sendError`s (after which the 3.2.1 collapse-after-rendering never ran). The resolvers now see a
+  response on which re-adding a value the header already carries is a no-op, so the wire carries
+  each value exactly once whoever renders — a mapper that rebuilds the response without headers,
+  Spring's default resolver, the bare fallback, or a resolver that sets its own different value
+  (kept). Servlet only.
+
 ## [2.1.28] - 2026-09-16
 
 ### Fixed
