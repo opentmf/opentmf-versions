@@ -14,9 +14,7 @@ artifact, as every release since 2.1.14 — including the ones that carried a li
 |---|---|---|
 | `tmf630-toolkit` | 3.2.2 → **3.3.0** | The paging `Link` header is **omitted** over a size budget (any query-parameter value > 256 chars, or an assembled header > 2048 chars); adopters and their clients must treat `Link` as optional and page by `offset`/`limit` against `X-Total-Count`. A query-parameter value > 2048 chars answers **400** and a query string > 4096 chars answers **414**, before any handler, as TMF `ErrorMessage` bodies. |
 | `opentmf-http-clients` | 2.1.8 → **2.2.0** | A bearer token mint is retried once on a transport failure; a mint that still fails throws `BearerTokenTransportException` (was the raw `ResourceAccessException`/reactor error); new counter `opentmf.client.token.fetch{client, outcome}` and one `INFO` per mint. |
-| `openid-rbac-security` | 3.2.1 → **3.2.2** | The typed `503` carries `Retry-After` exactly once, whichever resolver renders it (3.2.1 could send `30, 30` under Spring's default resolver). Servlet only. |
-
-<!-- TODO before the cut: openid-rbac-security 3.3.0 (JWKS readiness indicator) — pin it, add its row, and rewrite the row from the tagged CHANGELOG -->
+| `openid-rbac-security` | 3.2.1 → **3.3.0** | 3.2.2: the typed `503` carries `Retry-After` exactly once, whichever resolver renders it (servlet). 3.3.0: opt-in `jwks` health contributor per issuer (`opentmf.security.jwks.readiness: true`, default off) that joins the `readiness` group so a pod whose keys are unavailable goes NotReady instead of answering 503s, and a NotReady probe triggers one paced background JWKS retry; always-on `opentmf.security.jwks.*` meters when Micrometer is present; the boot line names the JWKS host and route (proxy/direct). |
 
 ### Updated
 - Updated `tmf630-toolkit` to **3.3.0** (from 3.2.2). Fixes a `500` with an empty body and
@@ -54,7 +52,29 @@ artifact, as every release since 2.1.14 — including the ones that carried a li
   token clients; `RestClientRegistrar.createTokenService(String, RestClient, ClientProperties)`
   overload (the 2-arg form opts out of the counter). README corrected: only the reactive token
   client retries retryable statuses per `num-retries`. Spring Boot 4.1.1; build tooling bumps.
-- Updated `openid-rbac-security` to **3.2.2** (from 3.2.1). The typed `503` shipped `Retry-After`
+- Updated `openid-rbac-security` to **3.3.0** (from 3.2.1 — 3.2.2 and 3.3.0 in one step; both
+  additive, nothing changes without a decision). **3.3.0 — `jwks` health, behind an opt-in.**
+  `opentmf.security.jwks.readiness: true` (default `false`) registers a `jwks` health contributor
+  with one component per issuer, read from the same key source the wire answers from: `UP` when a
+  set is loaded and fresh; `UP` with `stale: true`, the age and the last failure when refreshes fail
+  but the cached set still serves (readiness must not flip while tokens still validate); `DOWN`
+  with the issuer, the last failure and since when, exactly when every bearer request from that
+  issuer answers `503` (never loaded, or older than the outage TTL). It joins the `readiness` health
+  group when Kubernetes probes are enabled (Boot's default), so the pod goes NotReady instead of
+  serving `503`s, without touching `management.endpoint.health.group.readiness.include`; Boot's
+  `management.health.jwks.enabled` still switches it off. A readiness probe that finds the keys
+  unavailable also retries the load in the background (one attempt in flight, paced by the refresh
+  interval), so a pod heals while NotReady; the probe never waits on the network. **Metrics, always
+  on when Micrometer is present**, per issuer (tag `issuer`): `opentmf.security.jwks.keys`,
+  `opentmf.security.jwks.keys.age` (seconds, `NaN` before the first load),
+  `opentmf.security.jwks.fetch.failures` (Prometheus `opentmf_security_jwks_keys`,
+  `opentmf_security_jwks_keys_age_seconds`, `opentmf_security_jwks_fetch_failures_total`). The boot
+  line names the JWKS host and route — `… loaded (2 keys) from idp.example (via proxy
+  10.0.0.1:3128)` / `… could not be loaded from … (direct): …` — host only, never a path or query,
+  and a URL inside a Nimbus message is reduced to its host in the log and the health details; the
+  `503` body still names the issuer alone. `spring-boot-health` and `micrometer-core` are optional
+  dependencies; each half of `JwksObservabilityAutoConfiguration` is conditional on its own classes.
+  **3.2.2:** the typed `503` shipped `Retry-After`
   twice (`30, 30`) in 3.2.1 when nothing in the application handled `ErrorResponseException` and it
   fell to Spring's default resolver, which copies the exception's headers with `addHeader` and then
   `sendError`s (after which the 3.2.1 collapse-after-rendering never ran). The resolvers now see a

@@ -66,8 +66,7 @@
 
     <!-- Single-module libraries -->
     <opentmf-errors.version>1.0.0</opentmf-errors.version>
-    <!-- TODO before the cut: openid-rbac-security 3.3.0 (JWKS readiness indicator) once it is tagged and resolvable -->
-    <openid-rbac-security.version>3.2.2</openid-rbac-security.version>
+    <openid-rbac-security.version>3.3.0</openid-rbac-security.version>
     <opentmf-commons.version>2.2.0</opentmf-commons.version>
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
     <opentmf-db-lock-service.version>2.2.2</opentmf-db-lock-service.version>
