@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.29] - 2026-09-17
+## [2.1.29] - 2026-09-21
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
 artifact, as every release since 2.1.14 — including the ones that carried a library major.
@@ -15,6 +15,7 @@ artifact, as every release since 2.1.14 — including the ones that carried a li
 | `tmf630-toolkit` | 3.2.2 → **3.3.0** | The paging `Link` header is **omitted** over a size budget (any query-parameter value > 256 chars, or an assembled header > 2048 chars); adopters and their clients must treat `Link` as optional and page by `offset`/`limit` against `X-Total-Count`. A query-parameter value > 2048 chars answers **400** and a query string > 4096 chars answers **414**, before any handler, as TMF `ErrorMessage` bodies. |
 | `opentmf-http-clients` | 2.1.8 → **2.2.0** | A bearer token mint is retried once on a transport failure; a mint that still fails throws `BearerTokenTransportException` (was the raw `ResourceAccessException`/reactor error); new counter `opentmf.client.token.fetch{client, outcome}` and one `INFO` per mint. |
 | `openid-rbac-security` | 3.2.1 → **3.3.0** | 3.2.2: the typed `503` carries `Retry-After` exactly once, whichever resolver renders it (servlet). 3.3.0: opt-in `jwks` health contributor per issuer (`opentmf.security.jwks.readiness: true`, default off) that joins the `readiness` group so a pod whose keys are unavailable goes NotReady instead of answering 503s, and a NotReady probe triggers one paced background JWKS retry; always-on `opentmf.security.jwks.*` meters when Micrometer is present; the boot line names the JWKS host and route (proxy/direct). |
+| `opentmf-outbox-service` | 1.2.0 → **1.2.1** | A consumer **without `spring-kafka`** on the classpath now starts (1.0.0–1.2.0 failed at context start with `NoClassDefFoundError: org/springframework/kafka/core/KafkaTemplate`) and gets the HTTP publisher only; a web-less consumer starts with the Kafka one only. No behaviour change for a consumer that has both; the publisher configurations are not scan candidates, so a consumer whose scan root covers `org.opentmf.outbox` is safe. |
 
 ### Updated
 - Updated `tmf630-toolkit` to **3.3.0** (from 3.2.2). Fixes a `500` with an empty body and
@@ -82,6 +83,30 @@ artifact, as every release since 2.1.14 — including the ones that carried a li
   each value exactly once whoever renders — a mapper that rebuilds the response without headers,
   Spring's default resolver, the bare fallback, or a resolver that sets its own different value
   (kept). Servlet only.
+- Updated `opentmf-outbox-service` to **1.2.1** (from 1.2.0). **Fixed:** a consumer without
+  `spring-kafka` on the classpath could not start. `OutboxAutoConfiguration` named `KafkaTemplate` in
+  a bean-method signature; the method-level `@ConditionalOnClass` did skip the bean, but Spring
+  still introspects the auto-configuration class reflectively to resolve its other factory
+  methods, and the missing type threw `NoClassDefFoundError: org/springframework/kafka/core/KafkaTemplate`
+  before any context came up (found on the first Kafka-less consumer; consumers that carry Kafka
+  were never affected, which is why 1.0.0–1.2.0 never hit it). The Kafka publisher now lives in a
+  nested, name-guarded member class (`KafkaPublisherConfiguration`), so a Kafka-less consumer
+  starts with the HTTP publisher only and nothing Kafka-typed is linked. **Changed, same reason:**
+  the HTTP publisher's guard is name-based and nested too (`HttpPublisherConfiguration`,
+  `@ConditionalOnClass(name = "org.springframework.web.client.RestClient")`), so a web-less
+  consumer (a pure Kafka relay) also starts; no behaviour change for any consumer that has
+  `spring-web`. Neither nested class is `@Configuration` — a stereotype would make it a
+  component-scan candidate, and a consumer whose scan root covers `org.opentmf.outbox` would
+  register it ahead of the auto-configuration order, where `@ConditionalOnBean(KafkaTemplate)`
+  evaluates before `KafkaAutoConfiguration` exists and the publisher silently vanishes; lite
+  member classes are processed only through the outer auto-configuration. Compiled against
+  `tmf630-toolkit-all` 3.3.0 (was 3.1.1), the line this BOM pins; the dependency stays optional.
+  No schema, relay or failure-policy change — 1.2.0's surface stands. `KafkaLessStartupTests`
+  pins all of it (a child-first classloader that defines the library classes without the hidden
+  package, a signature scan of the outer class, the no-stereotype rule on the nested ones).
+  - **Consumer action:** a Kafka-less consumer that worked around this by adding `spring-kafka` and
+    excluding `KafkaAutoConfiguration` can drop both at its next touch. Consumers with Kafka pick
+    1.2.1 up through the BOM with no behaviour change.
 
 ## [2.1.28] - 2026-09-16
 
