@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.30] - 2026-09-24
+
+Only one managed version moves (no BOM structure change), so this is a patch of the BOM as an
+artifact.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `tmf630-toolkit` | 3.3.0 → **3.4.0** | **None for a service that has not enabled regex** (`opentmf.tmf630.attribute-filtering.regex.enabled` still defaults to `false`, and that gate runs first on every backend). With regex enabled: `.regex`/`.regexi`/Part 6 `=~` on a JPA `@Entity` root answers `200` with the same rows as Mongo/JSONB for the `LIKE`-expressible subset, and `400` naming the subset for anything else (was `400` for every pattern, or a `500` under the compat flag for `^`, `[...]`, `\d`); JSONB `filter=` with `=~` answers rows instead of a `500`. |
+
+### Updated
+- Updated `tmf630-toolkit` to **3.4.0** (from 3.3.0). **Regex on JPA roots renders the
+  `LIKE`-expressible subset and rejects the rest.** A new translator in `PredicateFactory` (used by
+  attribute-side `.regex`/`.regexi`, the Part 1 `%3D~` form and the Part 6 `=~` literal alike)
+  renders literal characters (with `%`, `_` and the escape character escaped so they match
+  themselves), `\`-escaped metacharacters, `.` → `_`, `.*` and `.*?` → `%`, a leading `^` and a
+  trailing `$` as anchors, and the `i` flag as `lower(column) LIKE lower(pattern)`; an unanchored
+  side is padded with `%`, so `name.regex=p` means *contains* and `/^p$/` means *equals*, as the
+  regex does. Anything outside the subset (`+`, `?` other than in `.*?`, `*` not after `.`, `[ ]`,
+  `( )`, `{ }`, `|`, `\d`/`\w`/`\s`/back-references, `^`/`$` away from the ends) is a `400` whose
+  message names the supported subset and the JSONB/Mongo escape. Mongo and JSONB keep real regex;
+  inside the subset all three backends return identical rows. **Adopter note:** the bump changes
+  nothing for a service that has not set `regex.enabled: true` — a test pinning `.regex` →
+  `400 "Regex operator is disabled."` stays green; a test that pinned the pre-3.4.0 JPA refusal is
+  re-pinned in the same change that enables the operator. **Deprecated:**
+  `opentmf.tmf630.attribute-filtering.regex.allow-jpa-like-semantics` is inert (still binds, logs
+  one warning asking for its removal; removal is a 4.0.0 item). **Fixed:** `=~` inside a JSONB
+  `filter=` now lowers to Postgres `like_regex` (plus `flag "i"`) instead of failing with a
+  `BadSqlGrammarException` `500`, gated by `regex.enabled` and accepting only the `i` flag
+  (`JsonbJsonPathTranslator` gained a third constructor argument `regexEnabled`; the two-argument
+  constructor keeps regex disabled). **Fixed:** under the compat flag (3.0.0 – 3.3.0), a pattern
+  with `^`, `[`, `]` or a class escape reached querydsl-jpa's `regexToLike` at JPQL serialization
+  and threw an unmapped `QueryException` — a `500` by default; every such pattern is now a `400` at
+  parse time, and `%`/`_` typed by the caller match literally on every backend instead of acting
+  as SQL wildcards on JPA. **Fixed:** `tmf630-toolkit-attribute-filtering-autoconfigure` ships
+  `spring-configuration-metadata.json` again (no release up to 3.3.0 carried metadata for the 20
+  `opentmf.tmf630.attribute-filtering.*` properties).
+
 ## [2.1.29] - 2026-09-21
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
