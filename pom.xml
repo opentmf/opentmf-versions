@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.30</opentmf-versions.version>
+    <opentmf-versions.version>2.1.31</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -76,10 +76,10 @@
     <camunda7-bpmn-sync-service.version>2.1.1</camunda7-bpmn-sync-service.version>
     <dnext-catalog-sync-service.version>2.0.4</dnext-catalog-sync-service.version>
     <camunda7-incident-logger.version>2.0.1</camunda7-incident-logger.version>
-    <opentmf-mockserver.version>2.1.11</opentmf-mockserver.version>
+    <opentmf-mockserver.version>2.1.12</opentmf-mockserver.version>
     <camunda7-test-framework.version>2.1.0</camunda7-test-framework.version>
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
-    <opentmf-cadenzaflow.version>1.3.0</opentmf-cadenzaflow.version>
+    <opentmf-cadenzaflow.version>1.4.1</opentmf-cadenzaflow.version>
 
     <!-- OpenTMF HTTP Clients -->
     <opentmf-http-clients.version>2.2.0</opentmf-http-clients.version>
