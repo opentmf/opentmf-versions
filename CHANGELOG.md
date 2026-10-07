@@ -5,6 +5,100 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.31] - 2026-10-07
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-cadenzaflow` | 1.3.0 → **1.4.1** | **Breaking for incident-report clients:** `GET /engine-rest/extensions/incident/groups` returns one entry per definition **version** (`processDefinitionVersion` integer replaces the `processDefinitionVersions` array, `rootProcessDefinitionKey` leaves each entry), and a selector posted back to `.../incident/retry` retries that version only. Unknown application-port paths outside `/engine-rest/**` answer `404` instead of `401`; a signing-key outage answers `503` + `Retry-After` instead of `500`. 1.4.1 closes HIGH CVE-2026-68497 shipped in 1.4.0's images. |
+| `opentmf-outbox-service` | 1.2.1 → **1.3.0** | **Behaviour change:** HTTP rows leave the ordered relay. They are sent in parallel on a lease, with no `id` order against Kafka rows or other receivers; order holds per receiver only on the happy path. A publisher's own DB write moves from `publish` to `onBooked`. Cancelling an in-flight row succeeds at once. A crash between send and booking redelivers once the lease lapses. Metrics scrapes no longer touch the database. Prune and unpark return `moreToPrune`/`moreToUnpark`; call again while true. Two new Liquibase changesets build eight indexes `CONCURRENTLY` on first start. |
+| `opentmf-mockserver` (+ `-parent`, `-test-support`) | 2.1.11 → **2.1.12** | None — security and dependency patch (netty CRITICAL CVE-2026-75595, jackson-databind HIGH CVE-2026-68497); same API and behaviour. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-cadenzaflow` to **1.4.1** (from 1.3.0; covers 1.4.0 and 1.4.1). **BREAKING
+  (1.4.0) — the grouped incident report no longer merges definition versions.** The grouping
+  columns are `processDefinitionKey`, `processDefinitionVersion`, `activityId`, `incidentType`,
+  `tenantId` and `calledFrom`: a task failing in two versions comes back as **two** entries with
+  their own counts; `processDefinitionVersions` (array) is replaced by `processDefinitionVersion`
+  (integer); `rootProcessDefinitionKey` is removed from each entry (it stays in `selector`); each
+  `selector` carries `processDefinitionVersion`, so a selector posted back verbatim retries that
+  version only (omit the field in a hand-written request to retry every version); and
+  `processDefinitionName`, `activityName`, `activityType`, `sampleMessage` come from the entry's
+  own version. **Added:** the OpenAPI document is served unauthenticated at
+  `GET /engine-rest/extensions/openapi.yaml` (moved from `docs/openapi.yaml` to
+  `src/main/resources/openapi/openapi.yaml`); a deployment that authors its own
+  `opentmf.security.whitelist` must add that path to serve it anonymously. **Changed** via
+  openid-rbac-security 3.0.0 → 3.3.0: an unknown path outside `/engine-rest/**` answers `404`
+  before authentication (was `401`; Jersey-served `/engine-rest/…` and unexposed actuator paths
+  still answer `401`); signing keys are cached through an IdP outage and an issuer whose keys were
+  never obtained answers a typed `503` with `Retry-After` instead of `500`; the JWKS fetch honours
+  `HTTPS_PROXY`/`HTTP_PROXY`/`NO_PROXY` (a deployment exporting a proxy but reaching its IdP
+  directly must list the IdP host in `NO_PROXY`); `opentmf_security_jwks_*` meters per issuer and
+  the opt-in `opentmf.security.jwks.readiness`. Also Tomcat 11.0.26, GraalJS 25.4.4.1.1, AWS SDK
+  2.55.6 aligned across every module and aws-msk-iam-auth 2.3.9 (`-aws`), tmf630-toolkit 3.4.0.
+  **Fixed (1.4.0):** `minIncidents` no longer hides groups whose incidents are spread across
+  versions. **Security (1.4.1):** Jackson pinned to 2.21.7 / 3.1.7, closing HIGH CVE-2026-68497 in
+  `jackson-databind` that 1.4.0's images carried in every flavour; otherwise a drop-in replacement
+  for 1.4.0.
+- Updated `opentmf-outbox-service` to **1.3.0** (from 1.2.1). **HTTP lane with the lease:** every
+  row is claimed by lease, not by one transaction around a batch. A short claim transaction
+  stamps the new `claimed_until`. The send runs in no transaction and holds no connection. A short
+  booking transaction then writes the outcome, guarded on the stamp. A publisher picks its lane
+  with `OutboxPublisher.lane(event)`. `ORDERED` (default, Kafka) is the single relay thread in
+  `id` order, with a 15 s lease renewed row by row (`opentmf.outbox.ordered.lease`, which must
+  exceed `send-timeout`). `CONCURRENT` (the HTTP publisher) runs parallel sends, at most
+  `opentmf.outbox.concurrent.max-in-flight` (8) per pod, on virtual threads where enabled, under
+  `opentmf.outbox.lease` (2 min). **Cross-pod window closed:** rows sharing an
+  `OutboxPublisher.orderingKey(event)` are never in flight together, across pods too. A keyed
+  claim takes a transaction-scoped PostgreSQL advisory lock (`pg_try_advisory_xact_lock`, never
+  waited for) and re-checks in a fresh snapshot. **Gauges off the scrape path:** `pending`,
+  `parked` and `relay-lag` read a snapshot refreshed every `opentmf.outbox.metrics-refresh` (15 s),
+  served by partial indexes over open rows (they were 7–20 s full scans on multi-million-row
+  tables). They read NaN before the first refresh and after a failed one. The new
+  `opentmf.outbox.metrics-age` gives seconds since the last good refresh: alert on it beside
+  `parked`. New gauge `opentmf.outbox.in-flight`. **Bounded set-based prune:** it deletes in
+  batches (`opentmf.outbox.maintenance.batch-size` 5,000, each batch `REQUIRES_NEW`) within
+  `maintenance.time-budget` (10 s). The endpoint answers
+  `{"outboxRowsPruned": n, "moreToPrune": bool}`; call again while `moreToPrune` is true.
+  `pruneExpired()` returns `OutboxPruneResult`, and `prune()`/`pruneRelayed()` may leave rows for
+  the next call. **Unpark by filter:** `POST /ops/outbox/unpark` / `OutboxMaintenanceService.unpark(destination, parkedFrom, parkedTo, reference)`
+  returns every parked row of one destination to delivery, bounded the same way
+  (`{"outboxRowsUnparked": n, "moreToUnpark": bool}`). **Ops OAS fragment:**
+  `META-INF/openapi/opentmf-outbox-ops.oas.yaml` (`OutboxOpsOpenApi.fragment()`) documents the
+  eight `/ops/outbox` routes and the TMF630 paging they answer; consumers paste it instead of
+  hand-describing the surface. **Upgrade notes — behaviour changes:**
+  - A publisher's own database write moves from `publish` (now outside any transaction) to
+    `OutboxPublisher.onBooked(event, OutboxBooking)`, which runs in the booking transaction for
+    every outcome. `OutboxRelayedListener.onRelayed` keeps its guarantee.
+  - HTTP rows keep no `id` order against Kafka rows or other receivers. Rows to the same receiver
+    keep it on the happy path only.
+  - Cancelling an in-flight row succeeds at once. A send that still succeeds is booked
+    *sent-but-cancelled*, with both `relayed_on` and `cancelled_on` set.
+  - A crash between send and booking redelivers after the lease lapses (up to 15 s ORDERED,
+    2 min CONCURRENT).
+  - A booking refused by a hook or listener counts one attempt.
+  - Lane and ordering key are stamped at append. Rows not written via `OutboxWriter`, including
+    pre-1.3.0 rows, ride `ORDERED`.
+  - While 1.2.x and 1.3.0 pods overlap in a rolling upgrade, sends are not duplicated but per-key
+    order is not guaranteed.
+  - Changesets `004-outbox-claim-lease` and `005-outbox-gauge-and-prune-indexes` are additive.
+    They build eight indexes `CONCURRENTLY` (about 2.3 s per million rows), so the consumer's
+    startup probe must allow for the first start.
+  - New `opentmf.outbox.shutdown-grace` (10 s).
+  - Compiled against tmf630-toolkit 3.4.0.
+- Updated `opentmf-mockserver`, `opentmf-mockserver-parent` and `opentmf-mockserver-test-support`
+  to **2.1.12** (from 2.1.11). **Security:** netty 4.2.18.Final closes CRITICAL CVE-2026-75595 in
+  `netty-handler`, and Jackson 3.2.3 closes HIGH CVE-2026-68497 in
+  `tools.jackson.core:jackson-databind`, both present in the published 2.1.11 image (2.1.12 image:
+  0 HIGH/CRITICAL). Dependency and build-plugin patch bumps otherwise;
+  `opentmf-mockserver-test-support` compiles against Spring Framework 6.2.19 / Spring Boot 3.5.16,
+  both still `provided`/optional, so consumers keep their own versions.
+
 ## [2.1.30] - 2026-09-24
 
 Only one managed version moves (no BOM structure change), so this is a patch of the BOM as an
