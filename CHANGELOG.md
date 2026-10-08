@@ -12,12 +12,31 @@ artifact. Every pin with a newer release is current, except the one named hold b
 
 | Library | From → To | Wire-visible effect |
 |---|---|---|
+| `opentmf-http-clients` | 2.2.0 → **2.3.0** | **Default-behaviour change:** library-built **sync** bearer token clients now retry a retryable status from the token endpoint (`503`, `429`, …) per the client's `num-retries` (default **3**), `retry-wait-duration` and `max-retry-after`, as the reactive clients always did; set `num-retries: 0` to keep the 2.2.x behaviour. A servlet-only service carrying `spring-webflux` transitively no longer fails at startup with `NoClassDefFoundError` (2.2.1). The transport-retry `WARN` and `BearerTokenTransportException` message carry the whole cause chain. |
 | `opentmf-outbox-service` | 1.3.0 → **1.4.0** | **Metric shape change:** `pending`, `in-flight`, `parked`, `relay-lag` gauges carry a `lane` tag (`ordered`/`concurrent`), two series each — re-point dashboards (1.3.0 value = `sum without (lane)`, `max` for `relay-lag`). `POST /ops/outbox/{id}/cancel` on a row under a live lease now answers **409** (`OutboxRowInFlightException`) instead of success. `GET /ops/outbox` takes `?state=`. Changeset 006 builds three indexes `CONCURRENTLY` and drops `ix_outbox_open_since`. |
 
 **Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
 maintainer, outside the 673-v4 release train.
 
 ### Updated
+- Updated `opentmf-http-clients` to **2.3.0** (from 2.2.0; covers 2.2.1 and 2.3.0; module list
+  unchanged). **Adopter-visible default change (2.3.0) — sync token clients retry retryable
+  statuses:** a `503`/`429`/… from the token endpoint is now retried by the library-built sync
+  clients per `num-retries` (default 3) / `retry-wait-duration` / `max-retry-after`, each attempt
+  owning its own single transport retry, as the reactive clients already did. A service that
+  relied on a sync mint failing fast on the first `503` now waits through up to three retries; set
+  `num-retries: 0` on the client to keep the previous behaviour. **Added (2.3.0):** constructor
+  `SyncTokenClientImpl(RestClient, ClientProperties, BearerAuthConfig, TokenFetchListener)` for
+  hand-wired clients (the existing constructors keep the transport retry only), and
+  `TransportFailures.describeChain(Throwable)`. **Changed (2.3.0):** the transport-retry `WARN`
+  and the `BearerTokenTransportException` message carry the whole cause chain, outermost first,
+  not only its root — log-based alerts matching the old message text may need updating.
+  **Fixed (2.2.1):** the client registrars condition on their own module as well as the Spring
+  class — `ReactiveClientRegistrar` also requires
+  `org.opentmf.client.reactive.service.api.TokenService`, `RestClientRegistrar` also requires
+  `org.opentmf.client.rest.service.api.SyncTokenService` — so a servlet-only service that carries
+  `spring-webflux` transitively (e.g. via Spring AI's Ollama module) no longer fails at startup
+  with `NoClassDefFoundError` on the absent `opentmf-http-clients-reactive` classes.
 - Updated `opentmf-outbox-service` to **1.4.0** (from 1.3.0). **Changed — gauges per lane
   (metric shape):** `opentmf.outbox.pending`, `in-flight`, `parked` and `relay-lag` each carry a
   `lane` tag, `ordered` or `concurrent` (a pre-1.3.0 row counts as `ordered`), so each is two

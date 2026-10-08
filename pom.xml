@@ -82,7 +82,7 @@
     <opentmf-cadenzaflow.version>1.4.1</opentmf-cadenzaflow.version>
 
     <!-- OpenTMF HTTP Clients -->
-    <opentmf-http-clients.version>2.2.0</opentmf-http-clients.version>
+    <opentmf-http-clients.version>2.3.0</opentmf-http-clients.version>
 
     <!-- OpenTMF API Clients -->
     <opentmf-api-clients.version>3.0.0</opentmf-api-clients.version>
