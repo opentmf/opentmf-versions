@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.32] - 2026-10-08
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.3.0 → **1.4.0** | **Metric shape change:** `pending`, `in-flight`, `parked`, `relay-lag` gauges carry a `lane` tag (`ordered`/`concurrent`), two series each — re-point dashboards (1.3.0 value = `sum without (lane)`, `max` for `relay-lag`). `POST /ops/outbox/{id}/cancel` on a row under a live lease now answers **409** (`OutboxRowInFlightException`) instead of success. `GET /ops/outbox` takes `?state=`. Changeset 006 builds three indexes `CONCURRENTLY` and drops `ix_outbox_open_since`. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.4.0** (from 1.3.0). **Changed — gauges per lane
+  (metric shape):** `opentmf.outbox.pending`, `in-flight`, `parked` and `relay-lag` each carry a
+  `lane` tag, `ordered` or `concurrent` (a pre-1.3.0 row counts as `ordered`), so each is two
+  series. The 1.3.0 value is `sum without (lane) (...)`, or `max without (lane) (...)` for
+  `relay-lag`. A threshold alert such as `opentmf_outbox_parked > 0` keeps working and fires per
+  lane. `metrics-age` and the counters are unchanged. Changeset `006-outbox-lane-gauge-indexes`
+  builds `ix_outbox_parked_lane`, `ix_outbox_open_since_ordered` and
+  `ix_outbox_open_since_concurrent` `CONCURRENTLY` and drops 005's `ix_outbox_open_since`;
+  1.3.0-migrated databases upgrade with checksums intact. **Added:** `GET /ops/outbox?state=`
+  (`pending`, `parked`, `relayed`, `cancelled`; unknown → 400), the same path as
+  `/ops/outbox/state/{state}` (which stays), passed through the TMF630 filter grammar with
+  `@Tmf630PassThrough` (tmf630-toolkit 3.4.0 — the BOM's pin). **Fixed:** `cancel` accepted a
+  row whose send was in flight (since 1.3.0): `OutboxMaintenanceService.cancel(id)` now refuses a
+  row under a live lease, on both lanes, with `OutboxRowInFlightException` (an
+  `IllegalStateException`; `claimedUntil()` names the lease end), so
+  `POST /ops/outbox/{id}/cancel` answers **409** at once. Cancel again once the send is booked: a
+  failed send in backoff is cancellable, a delivered one refuses "already relayed". A caller that
+  treated cancel success as "it will not go out" was being told so while the row was delivered.
+
 ## [2.1.31] - 2026-10-07
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
