@@ -5,6 +5,75 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.32] - 2026-10-08
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` | 2.2.0 → **2.3.0** | **Default-behaviour change:** library-built **sync** bearer token clients now retry a retryable status from the token endpoint (`503`, `429`, …) per the client's `num-retries` (default **3**), `retry-wait-duration` and `max-retry-after`, as the reactive clients always did; set `num-retries: 0` to keep the 2.2.x behaviour. A servlet-only service carrying `spring-webflux` transitively no longer fails at startup with `NoClassDefFoundError` (2.2.1). The transport-retry `WARN` and `BearerTokenTransportException` message carry the whole cause chain. |
+| `opentmf-mockserver` (+ `-parent`, `-test-support`) | 2.1.12 → **2.1.13** | New `mockserver.initializationYamlPath` (`MOCKSERVER_INITIALIZATION_YAML_PATH`) beside the JSON one. **Behaviour change:** a configured JSON or YAML init path that matches no file or does not parse now **fails startup by name and exits 1** (upstream warned and started empty); an unset path and an existing empty file stay lenient. A failed startup exits 1 instead of 0. |
+| `opentmf-outbox-service` | 1.3.0 → **1.4.0** | **Metric shape change:** `pending`, `in-flight`, `parked`, `relay-lag` gauges carry a `lane` tag (`ordered`/`concurrent`), two series each — re-point dashboards (1.3.0 value = `sum without (lane)`, `max` for `relay-lag`). `POST /ops/outbox/{id}/cancel` on a row under a live lease now answers **409** (`OutboxRowInFlightException`) instead of success. `GET /ops/outbox` takes `?state=`. Changeset 006 builds three indexes `CONCURRENTLY` and drops `ix_outbox_open_since`. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-http-clients` to **2.3.0** (from 2.2.0; covers 2.2.1 and 2.3.0; module list
+  unchanged). **Adopter-visible default change (2.3.0) — sync token clients retry retryable
+  statuses:** a `503`/`429`/… from the token endpoint is now retried by the library-built sync
+  clients per `num-retries` (default 3) / `retry-wait-duration` / `max-retry-after`, each attempt
+  owning its own single transport retry, as the reactive clients already did. A service that
+  relied on a sync mint failing fast on the first `503` now waits through up to three retries; set
+  `num-retries: 0` on the client to keep the previous behaviour. **Added (2.3.0):** constructor
+  `SyncTokenClientImpl(RestClient, ClientProperties, BearerAuthConfig, TokenFetchListener)` for
+  hand-wired clients (the existing constructors keep the transport retry only), and
+  `TransportFailures.describeChain(Throwable)`. **Changed (2.3.0):** the transport-retry `WARN`
+  and the `BearerTokenTransportException` message carry the whole cause chain, outermost first,
+  not only its root — log-based alerts matching the old message text may need updating.
+  **Fixed (2.2.1):** the client registrars condition on their own module as well as the Spring
+  class — `ReactiveClientRegistrar` also requires
+  `org.opentmf.client.reactive.service.api.TokenService`, `RestClientRegistrar` also requires
+  `org.opentmf.client.rest.service.api.SyncTokenService` — so a servlet-only service that carries
+  `spring-webflux` transitively (e.g. via Spring AI's Ollama module) no longer fails at startup
+  with `NoClassDefFoundError` on the absent `opentmf-http-clients-reactive` classes.
+- Updated `opentmf-mockserver`, `opentmf-mockserver-parent` and `opentmf-mockserver-test-support`
+  to **2.1.13** (from 2.1.12; module list unchanged). **Added:** YAML expectations initializer
+  (issue #21): `mockserver.initializationYamlPath` (`MOCKSERVER_INITIALIZATION_YAML_PATH`) beside
+  `mockserver.initializationJsonPath` — the same expectation document written as YAML (comments
+  allowed), parsed into the same model; both may be set, globs supported;
+  `jackson-dataformat-yaml` is now a declared dependency. **Behaviour change vs upstream
+  MockServer:** a configured JSON or YAML initialization path that matches no file, or a file that
+  does not parse into expectations, now **fails startup by name**
+  (`failed to load JSON initialization file "<path>" (mockserver.initializationJsonPath): ...`)
+  and the process **exits 1** — it used to log a warning and start with zero expectations from it.
+  An unset path is still a no-op and an existing empty file still loads nothing (persisting to the
+  init file keeps working on first boot); hot reloads via `watchInitializationJson` stay lenient.
+  A deployment or IT whose init path was silently missing will now fail to start — check mounts
+  and paths before upgrading. **Changed:** a failed startup exits with status 1 (was 0, so a
+  container ended "Completed" instead of crash-looping). Release images are now Trivy-gated before
+  push and keyless-cosign-signed on the index digest. Dependency bumps: netty 4.2.19.Final,
+  json-schema-validator 3.0.8, ClassGraph 4.8.197.
+- Updated `opentmf-outbox-service` to **1.4.0** (from 1.3.0). **Changed — gauges per lane
+  (metric shape):** `opentmf.outbox.pending`, `in-flight`, `parked` and `relay-lag` each carry a
+  `lane` tag, `ordered` or `concurrent` (a pre-1.3.0 row counts as `ordered`), so each is two
+  series. The 1.3.0 value is `sum without (lane) (...)`, or `max without (lane) (...)` for
+  `relay-lag`. A threshold alert such as `opentmf_outbox_parked > 0` keeps working and fires per
+  lane. `metrics-age` and the counters are unchanged. Changeset `006-outbox-lane-gauge-indexes`
+  builds `ix_outbox_parked_lane`, `ix_outbox_open_since_ordered` and
+  `ix_outbox_open_since_concurrent` `CONCURRENTLY` and drops 005's `ix_outbox_open_since`;
+  1.3.0-migrated databases upgrade with checksums intact. **Added:** `GET /ops/outbox?state=`
+  (`pending`, `parked`, `relayed`, `cancelled`; unknown → 400), the same path as
+  `/ops/outbox/state/{state}` (which stays), passed through the TMF630 filter grammar with
+  `@Tmf630PassThrough` (tmf630-toolkit 3.4.0 — the BOM's pin). **Fixed:** `cancel` accepted a
+  row whose send was in flight (since 1.3.0): `OutboxMaintenanceService.cancel(id)` now refuses a
+  row under a live lease, on both lanes, with `OutboxRowInFlightException` (an
+  `IllegalStateException`; `claimedUntil()` names the lease end), so
+  `POST /ops/outbox/{id}/cancel` answers **409** at once. Cancel again once the send is booked: a
+  failed send in backoff is cancellable, a delivered one refuses "already relayed". A caller that
+  treated cancel success as "it will not go out" was being told so while the row was delivered.
+
 ## [2.1.31] - 2026-10-07
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
