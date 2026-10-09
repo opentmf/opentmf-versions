@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.33] - 2026-10-09
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.4.0 → **1.5.0** | New `opentmf.outbox.kafka.lane: ORDERED \| CONCURRENT` (default `ORDERED`, so **nothing changes until a consumer opts in**). On `CONCURRENT`, the Kafka publisher keys each row by `opentmf.outbox.kafka.ordering-key` (`AGGREGATE_ID` default, or `NONE`): one aggregate's rows are never in flight together on any pod and go in `id` order, while different aggregates relay in parallel — **per-aggregate Kafka order across several pods** (on `ORDERED` several relays could interleave one aggregate's rows). Record key, partitioning and headers are unchanged. New `opentmf.outbox.kafka.lease` (default 15 s, must exceed `send-timeout`). |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.5.0** (from 1.4.0; OUTBOX-KAFKA-PER-KEY-ORDER-1, the
+  cross-pod Kafka ordering fix). **Added:** `opentmf.outbox.kafka.lane` (`ORDERED` default |
+  `CONCURRENT`), `opentmf.outbox.kafka.ordering-key` (`AGGREGATE_ID` default | `NONE`) and
+  `opentmf.outbox.kafka.lease` (default 15 s, validated to exceed `send-timeout`). With several
+  pods the `ORDERED` lane never takes one row twice but can deliver one aggregate's rows out of
+  order (e.g. an adapter's `delivered` ahead of its `accepted`); on `CONCURRENT` one aggregate's
+  rows are never in flight together on any pod and relay in `id` order on the happy path, while
+  different aggregates relay in parallel. The Kafka record key stays the raw `aggregateId`, so
+  partitioning does not move; the header contract is unchanged. **Upgrade notes:** the lane is
+  stamped at append, so after the switch rows already pending keep `ORDERED` and drain as before
+  (an aggregate's old `ORDERED` row and new `CONCURRENT` row are not ordered against each other
+  while both are open); per-aggregate order is complete once every pod that appends runs 1.5.0
+  with the setting (a 1.4.x relay honours the stamped lane and key). On `CONCURRENT`, Kafka rows
+  share `concurrent.max-in-flight` (default 8 per pod) with HTTP rows — raise it if a pod relays
+  many Kafka rows and slow HTTP rows at once; the gauges count them under `lane="concurrent"`.
+
 ## [2.1.32] - 2026-10-08
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
