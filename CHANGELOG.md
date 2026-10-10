@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.34] - 2026-10-10
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-api-clients` | 3.0.0 → **3.1.0** | **No request is retried automatically any more.** Up to 3.0.0 every client verb was retried (default 3 times, 5 s doubling backoff) on 408/429/500/502–504/509 — including `POST`, which could duplicate a create. Each request is now sent exactly once. No signature or configuration change. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+**Jackson:** this BOM neither manages nor imports Jackson (it imports no Spring Boot BOM), so the
+Jackson 3.1.5 CVE override is not applied here. A consumer's Jackson version comes from its own
+Spring Boot BOM, so each Boot 4.1.1 consumer applies the estate override itself (`jackson-bom`
+3.1.7 / `jackson-2-bom` 2.21.7) until Boot manages a fixed version.
+
+### Updated
+- Updated `opentmf-api-clients` (`-common`, `-rest`, `-reactive`, `-hub`) to **3.1.0** (from
+  3.0.0). **Behaviour change:** `TmfClient`, `ReactiveTmfClient`, `TmfHubClient` and
+  `ReactiveTmfHubClient` no longer retry any request; `num-retries` / `retry-wait-duration`
+  drive bearer-token retrieval only, as the `opentmf-http-clients` contract documents. **Upgrade
+  notes:** callers that relied on the implicit retry (typically for a `GET`) wrap the call in
+  `SyncClientUtil.executeWithRetry(...)` or `.retryWhen(WebClientUtil.retry(...))` — see the
+  library's MIGRATION.md, "From 3.0 to 3.1". Also moves its own dependencies: opentmf-http-clients
+  2.3.0 (already the BOM's pin) and Jackson 3.1.7.
+
 ## [2.1.33] - 2026-10-09
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
