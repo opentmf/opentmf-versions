@@ -5,6 +5,69 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.35] - 2026-10-13
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.5.0 → **1.6.0** | No wire change: same topics, keys, headers and per-key order. **One pod relays an order of magnitude more `CONCURRENT` rows** (measured 49 → 562 rows/s at the default `max-in-flight` 8, 79 → 1,520 at 64), and `concurrent.max-in-flight` now actually sets the lane's throughput. The `opentmf.outbox.in-flight` gauge (lane `concurrent`) reads up to `batch-size` higher per pod. |
+| `tmf630-toolkit` | 3.4.0 → **3.5.0** | **None until a service opts in.** New `opentmf.tmf630.undeclared-query-params.on-undeclared` defaults to `IGNORE`, which registers nothing. On `WARN` a `GET`/`HEAD` carrying a query parameter its handler does not declare is served, logged and counted. On `REJECT` it answers **400** (`"reason": "Unknown query parameter."`), and Spring's `page`/`size` are refused on `Pageable` reads. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.6.0** (from 1.5.0; OUTBOX-RELAY-CLAIM-CADENCE-1, the
+  relay throughput fix from the 2026-10-13 load test). The `CONCURRENT` claim now runs ahead of
+  the sending slots: the relay fills a hand-off queue up to `batch-size` rows, and
+  `max-in-flight` workers send them in claim order. Each claim is one statement for the key
+  locks plus one for the leases, whatever the row count, and a RELAYED booking is one guarded
+  statement. A queued row whose wait reached a tenth of its lease is renewed right before its
+  send, and the ORDERED claim runs only when ORDERED rows may be due (every sweep still checks).
+  `CONCURRENT` bookings and renewals now run at the application's default isolation; claims and
+  ORDERED bookings keep the READ COMMITTED pin. No schema change and no new or renamed
+  property, and 1.5.x and 1.6.0 pods share lock ids and lease columns, so per-key order holds
+  through a rolling deploy. **Upgrade notes:**
+  - `opentmf.outbox.in-flight` (lane `concurrent`) now also counts queued rows, up to
+    `batch-size` more per pod. An alert threshold tuned to `max-in-flight` fires under
+    ordinary load.
+  - Each sending slot holds a connection while it books, so size the pool above
+    `max-in-flight` + 2.
+  - On shutdown the rows still queued are dropped unsent, then redelivered once their leases
+    lapse.
+- Updated `tmf630-toolkit` (`-all` and every module) to **3.5.0** (from 3.4.0;
+  TOOLKIT-UNDECLARED-QUERY-PARAM-1), an opt-in undeclared query-parameter guard. Spring MVC
+  silently ignores a query parameter no argument binds, so a typo became a confident wrong
+  answer. Two precedents: `?variantKey=` on dnms-catalog served the default variant, and
+  `?rendtion=` on dnms-journal served the masked rendition. With
+  `opentmf.tmf630.undeclared-query-params.on-undeclared`:
+  - `IGNORE` (default) registers nothing;
+  - `WARN` serves, logs and counts (`opentmf.tmf630.undeclared.query.params`, tagged
+    `method`/`uri`/`outcome`);
+  - `REJECT` answers 400 before any argument resolver runs.
+
+  The declared set is read off each handler's signature (`@RequestParam`s; `offset`/`limit`/
+  `sort` for a `Pageable`; `fields` where `@Tmf630Response` runs). TMF-630 filter lists and
+  handlers the guard cannot see into stay open. `@Tmf630AcceptsQueryParameters({...})` names
+  a handler's vocabulary, `@Tmf630AcceptsAnyQueryParameter` exempts one. The refusal is
+  `TmfUndeclaredQueryParameterException`, a `ServletRequestBindingException`, rendered in
+  the TMF-630 error shape unless
+  `opentmf.tmf630.undeclared-query-params.exception-handler.enabled: false`. Contract-test
+  API: `Tmf630DeclaredQueryParameters.of(HandlerMethod)` and `Tmf630QueryParameterContract`,
+  which checks every judged GET route against its OAS operation's query parameters. New
+  optional dependencies `snakeyaml` and `micrometer-core`, both BOM-managed. **Upgrade
+  notes:**
+  - The bump itself changes no request.
+  - Switch a service to `WARN` for one release to audit callers, then to `REJECT`.
+  - Under `REJECT`, Spring's `page`/`size` on a `Pageable` read are refused.
+  - Under `REJECT`, run the OAS parity check: each OAS must declare `fields` on every
+    `@Tmf630Response` read and `sort` on every `Pageable` read.
+  - Services that render `ProblemDetail` turn the toolkit's handler off.
+  - Services with their own argument resolvers list the non-query ones under
+    `non-query-arguments`.
+
 ## [2.1.34] - 2026-10-11
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
