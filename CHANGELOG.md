@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.36] - 2026-10-13
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `tmf630-toolkit` | 3.5.0 → **3.5.1** | **None on the default `IGNORE`.** A service on `WARN`/`REJECT` now also judges TMF-630 **lists**: bare `page`/`size` there are reported (`WARN`) or refused with `400` (`REJECT`), and the message says the list pages with `offset`/`limit`. Under 3.5.0 they passed unjudged (`GET /sampleRecord?page=0&size=10` → `200`). `page.eq=` / `size.eq=` stay filters. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `tmf630-toolkit` (`-all` and every module) to **3.5.1** (from 3.5.0;
+  TOOLKIT-LIST-PAGE-SIZE-REFUSE-1). The 3.5.0 guard left every TMF-630 list handler unjudged,
+  and the filter parser skips `page`/`size` as reserved names. Spring's bare `page`/`size`
+  therefore reached the paging resolver unjudged on the routes callers page the most: a
+  `TmfRichPageable` list ignored both and served its default limit, and a plain-`Pageable`
+  list read them through Spring's fallback. Under `WARN`/`REJECT` a list now reports or
+  refuses them with the same `TmfUndeclaredQueryParameterException` (`isListRoute()` is
+  `true`; `unknown query parameters 'page', 'size' — GET /x is a TMF-630 list, which pages
+  with offset and limit`), under the same handler and counter tags. Untouched: `page.eq=` /
+  `size.eq=` filters, a list that binds the name itself (`@RequestParam`,
+  `@Tmf630PassThrough`, `@Tmf630AcceptsQueryParameters`, a classifier), and every handler
+  open for another reason. Binary-compatible additions:
+  `Tmf630DeclaredQueryParameters.listRefusals(HandlerMethod)` and `SPRING_PAGING`, and
+  `TmfUndeclaredQueryParameterException.onList(...)` / `describeOnList(...)` /
+  `isListRoute()`. **Upgrade notes:**
+  - On `IGNORE` (the default) nothing changes.
+  - On `WARN`/`REJECT`, list callers sending `page`/`size` now appear in the log and counter
+    or get a `400`. They must page with `offset`/`limit`.
+  - A list that genuinely takes a `size` parameter binds it on the handler.
+
 ## [2.1.35] - 2026-10-13
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
