@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.37] - 2026-10-14
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` | 2.3.0 → **2.4.0** | **None unless a service declares the new bean.** An `OutboundInterceptorContribution` puts one application interceptor at the head of every synchronous client the library builds. Without one, every client is built exactly as before. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-http-clients` (every module) to **2.4.0** (from 2.3.0; decision #116).
+  **Added:** `OutboundInterceptorContribution` (in `opentmf-http-clients-rest`), a
+  `ClientHttpRequestInterceptor` plus an order. Declared as a bean, it runs first on every sync
+  client the library builds, ahead of resilience, gzip, fixed headers and Logbook:
+  - the `<id>RestTemplate` / `<id>RestClient` beans;
+  - the token calls of `<id>TokenService`;
+  - the sync clients of `HttpClientRegistry`.
+
+  Several contributions run in ascending order, and an `@Order` on the `@Bean` method wins. A
+  contribution that throws stops the call before anything goes on the wire, and the circuit
+  breaker does not count it. Reactive (`WebClient`) clients do not take contributions. This is
+  the hook dnms-service-template 1.4.19 uses for its no-HTTP-in-transaction guard. **Upgrade
+  notes:**
+  - `JdkRestTemplateFactory` and `ApacheRestTemplateFactory` take one more constructor
+    argument (`ObjectProvider<OutboundInterceptorContribution>`). This matters only to code
+    that constructs them by hand.
+  - Declare a contribution in a configuration class that does not itself inject the library's
+    client beans, or the two depend on each other.
+  - A header a contribution sets wins over a `fixed-headers` default.
+  - Also moves its own test dependency to opentmf-mockserver 2.1.13, already the BOM's pin.
+- Updated the build plugin `central-publishing-maven-plugin` to **0.12.0** (from 0.11.0, used
+  only by the `release` profile to publish this BOM). Consumers are not affected.
+
 ## [2.1.36] - 2026-10-13
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
