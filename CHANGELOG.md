@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.39] - 2026-10-15
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.6.0 → **1.7.0** | **On wrong paths only.** Under `/ops/outbox`, a row-id segment that is not digits matches no route: `/ops/outbox/state`, `/ops/outbox/-1` or `POST /ops/outbox/abc/cancel` answer `404` where they answered `400`, and `GET /ops/outbox/unpark` is a `405`. Every valid request answers as before. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.7.0** (from 1.6.0). It fixes three contract defects
+  found by the first black-box suites run against the pasted OAS fragment:
+  - **The row routes take an id of digits only** (OUTBOX-OPS-ID-PATH-DIGITS-1).
+    `GET /ops/outbox/{id}` and the `{id}/unpark` and `{id}/cancel` POSTs are `{id:\d+}`, so
+    `GET /ops/outbox/unpark` no longer reaches the inspect route.
+  - **`limit` declares no `maximum`** (OUTBOX-OAS-LIMIT-CLAMP-1). The fragment said
+    `maximum: 500`, while the toolkit clamps a larger value to `paging.max-limit`
+    (`limit=501` is a `200`). The clamp stays, and the schema now agrees with it.
+  - **Every error is documented, with its body** (OUTBOX-OAS-FRAGMENT-SECURITY-RESPONSES-1).
+    Each operation names, by `$ref`, the consumer's own 401/403/405/406/503 (and 415 on the
+    bulk unpark's body). Every error carries `OutboxProblem`, a generic RFC 9457 problem;
+    the toolkit's 400s keep `Tmf630Error`. Components marked `x-opentmf-refinable: true` may
+    be redefined under the same name.
+
+  **Upgrade notes:**
+  - Re-paste the fragment (`META-INF/openapi/opentmf-outbox-ops.oas.yaml`,
+    `info.version` 1.7.0). Hand-layered 401/403/405/406/415/503 on the ops routes are now
+    part of it, and a named waiver for the `limit` bound or for `/ops/outbox/unpark` can go.
+  - A check that expected `400` on a wrong path now sees `404` (or `405` for
+    `GET /ops/outbox/unpark`).
+  - The library's own `tmf630-toolkit` dependency moves to 3.5.1, already this BOM's pin.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains the 1.7.0 ops contract and its upgrade note,
+  and the file is verified against this BOM.
+
 ## [2.1.38] - 2026-10-15
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
