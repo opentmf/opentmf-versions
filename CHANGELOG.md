@@ -5,6 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.38] - 2026-10-15
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact, even though the one library that moves takes a major. Every pin with a newer release
+is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-db-lock-service` | 2.2.2 → **3.0.0** | **None.** Locks are taken the same way, with the same tables and config. The major is for one removed Java method (below). |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-db-lock-service` to **3.0.0** (from 2.2.2), a review of the library's
+  transaction handling. **⚠ 3.0.0 upgrade — one removed method:**
+  `JdbcHelper.createTables(JdbcTemplate)`, deprecated for removal since 2.2.0, is gone. Call
+  `createTables(JdbcTemplate, Dialect)` instead (`Dialect.POSTGRESQL` reproduces what the
+  removed overload did), or `createTables(JdbcTemplate, Resource)` for a script of your own.
+  No DNMS service calls the removed method, and nothing else in the release breaks binary
+  compatibility. **Fixed:**
+  - The lock tables and the `lock_version` widening persist under a pool whose auto-commit
+    default is off (Hikari `auto-commit: false`). Before, they were rolled back. On SQL Server
+    and DB2 the bundled tables were never created, and the first `acquireLock` failed.
+  - Instances starting together against an empty PostgreSQL schema all start.
+  - On every dialect other than PostgreSQL, each recorded release after the first now updates
+    `DB_LOCK_LATEST`. Before, work under `@UsingClusterLock` re-ran on every start.
+  - A waiter decides on the version the previous holder recorded, even under a snapshot
+    isolation level such as MySQL/MariaDB's default.
+  - A lock's age and the `downgradeAllowedAfter` period are measured with the database's
+    clock, not the JVM's.
+  - On DB2, timestamps are read back at all.
+  - An interrupted waiter gives up with a `DbLockException`.
+  - No transaction is left open for the pool to finish.
+
+  **Changed:** each lock step runs in its own short READ COMMITTED transaction on a
+  connection borrowed for it alone, so a waiter no longer holds a pooled connection for its
+  whole wait. Hold-timeouts share one daemon thread per service instance. `db/postgresql.sql`
+  no longer carries its own `BEGIN`/`COMMIT`. The library builds on Spring Boot 4.1.1.
+  **Added:** `JdbcHelper.inTransaction(JdbcTemplate, SqlWork)`,
+  `JdbcHelper.getOffsetDateTime(ResultSet, String)`, `Dialect.getCurrentTimestampSql()`,
+  `DialectDetector.fromConnection(Connection)` and `LatestLock.getReadAt()`.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md` is verified against this BOM (it said 2.1.16). It gains the notes
+  that releases 2.1.17 – 2.1.22 never added:
+  - `opentmf-http-clients` 2.1.7: outbound `traceparent` via the `ObservationRegistry`.
+  - `tmf630-toolkit` 3.1.0 and 3.1.1: `@Tmf630JsonbFilter` URL binding; the JSONB module on
+    Jackson 3; the configured default page size honoured on plain `Pageable`.
+  - `opentmf-db-lock-service` 2.2.2: no `ACCESS EXCLUSIVE` lock on every PostgreSQL boot.
+  - `camunda7-test-framework` 2.1.0: the chaos, clock and lock test tools, and `VariableUtil`
+    becoming `final`.
+  - `opentmf-outbox-service` 1.1.0 and 1.2.0: scheduled sends, cancel, the per-publisher
+    failure policy, the private `reference`, `OutboxHeaders`, and the 1.2.0 consumer actions.
+
+  It also adds this release's db-lock 3.0.0 notes, and the db-lock config line gains the
+  `dialect` and `ddl-location` keys it never listed. The outbox entry no longer claims the
+  auto-configuration waits for a `DataSource`.
+
 ## [2.1.37] - 2026-10-14
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
