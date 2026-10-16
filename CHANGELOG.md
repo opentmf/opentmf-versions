@@ -12,14 +12,15 @@ artifact. Every pin with a newer release is current, except the one named hold b
 
 | Library | From → To | Wire-visible effect |
 |---|---|---|
-| `opentmf-outbox-service` | 1.7.0 → **1.8.0** | **On the bulk unpark only.** `POST /ops/outbox/unpark` with a wrongly typed body field (`{"destination": false}`, a number, an array, a date-time without an offset) answers `400` naming the field, where a coercing mapper made it a `200`. A sent offset comes back as sent, not normalised to UTC. Every other request answers as before; relay delivery is unchanged except that the `CONCURRENT` lane no longer waits behind an ORDERED batch. |
+| `opentmf-outbox-service` | 1.7.0 → **1.9.0** | **Ops surface:** `POST /ops/outbox/unpark` with a wrongly typed body field (`{"destination": false}`, a number, an array, a date-time without an offset) answers `400` naming the field, where a coercing mapper made it a `200`, and a sent offset comes back as sent. The cancel `409`'s message now says the row is claimed (queued or sending). **Outbound relay:** an HTTP receiver answering `3xx` no longer counts as delivered (the attempt fails and the redirect is not followed); a row naming an unknown client profile parks instead of going out unauthenticated; the plain HTTP client now times out (connect 10 s, read 108 s by default). |
 | `opentmf-cadenzaflow` | 1.4.1 → **1.4.3** | **New opt-in engine fields only.** `GET`/`POST /engine-rest/process-instance` accepts `sortBy=startTime`, and `withStartTimeInReturn=true` adds `startTime` to each result; without the flag the response is unchanged. It is a deployable service, so a deployment moves when it takes the 1.4.3 image. |
 
 **Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
 maintainer, outside the 673-v4 release train.
 
 ### Updated
-- Updated `opentmf-outbox-service` to **1.8.0** (from 1.7.0):
+- Updated `opentmf-outbox-service` to **1.9.0** (from 1.7.0; 1.8.0 was never in a released BOM).
+  From 1.8.0:
   - **The `CONCURRENT` lane no longer waits behind an ORDERED batch**
     (OUTBOX-CONCURRENT-CLAIM-INDEPENDENT-1). The ORDERED batch sends on the ORDERED lane's own
     thread (`opentmf-outbox-ordered`), and the relay thread only claims. ORDERED keeps one
@@ -33,10 +34,60 @@ maintainer, outside the 673-v4 release train.
     content is the consumer's rendering. A consumer whose errors are not RFC 9457 pastes the
     paths verbatim.
 
+
+  From 1.9.0, the release of the relay invariants suite (OUTBOX-RELAY-INVARIANTS-IT-1: 39
+  scenarios over two or three real pods, a toxic-proxied database and a real broker). Several
+  fixes change behaviour a consumer can see:
+  - **A lease is a liveness lease.** A heartbeat thread per pod (`opentmf-outbox-heartbeat`)
+    renews the lease of every send in flight up to the send's bound: the larger of its lease
+    and its send timeout (`send-timeout`, or the new `OutboxPublisher.sendTimeout(event)`). A
+    send still running at its bound is presumed hung and interrupted once.
+  - **A lapsed lease counts as a failed attempt when its send was under way.** The row carries
+    `sending_since` (changeset 007). The lapse is booked like any failure
+    (`OutboxLeaseLapsedException`) under the publisher's backoff and budget. Before, a send that
+    always outlived its lease was re-sent forever and stalled its lane or key. A lapse on a row
+    still held unsent costs it nothing.
+  - **Anything a publisher, booking hook or relayed listener throws is a failed attempt**,
+    including an `Error` (booked as the cause of an `OutboxSendError`).
+  - **Time is the database's.** Leases, retries, holds and `created_on` use the JVM clock plus an
+    offset measured against the database every 30 s (`OutboxClock`, replaceable as a bean). A
+    skew above a second logs a WARN.
+  - **The plain HTTP client has timeouts**: `opentmf.outbox.http.connect-timeout` (10 s) and
+    `opentmf.outbox.http.read-timeout` (default: the larger of `lease` and `send-timeout`, less
+    a tenth, so 108 s; when set it must be below that, checked at startup). A profile's own
+    client keeps its own timeouts.
+  - **Only a 2xx relays an HTTP row.** A 3xx fails the attempt and is never followed.
+  - **A row naming an unknown client profile parks** at once (`TerminalOutboxException`),
+    including when no `OutboxClientProfileResolver` exists. A row that names no profile is
+    unchanged.
+  - **The Kafka publisher waits for its producer's own verdict** (`delivery.timeout.ms` plus
+    `linger.ms`), so a key stays in flight until the broker or producer answers.
+  - **The `CONCURRENT` claim stays bounded whatever the statistics say.** Changeset 008 rebuilds
+    `ix_outbox_concurrent_keyed` and `ix_outbox_concurrent_unkeyed` `CONCURRENTLY`. The ORDERED
+    claim is native SQL, so it keeps its index under a generic plan.
+  - **A short-lease `CONCURRENT` row no longer starves in the hand-off queue behind slow
+    sends** (OUTBOX-QUEUED-LEASE-STARVATION-1). The queue runs only as deep as the live slots
+    start within about a second, and a queue stranded behind slots that turned slow is given
+    back.
+
   **Upgrade notes:**
-  - Size the connection pool above `concurrent.max-in-flight` + **3** (was + 2).
-  - Re-paste the fragment: four inline error responses became `$ref`s. A drift test that
-    refines a refusal's content compares those components by description and headers.
+  - Size the connection pool above `concurrent.max-in-flight` + **4** (1.7.0 said + 2).
+  - Re-paste the OAS fragment: four inline error responses became `$ref`s (1.8.0), and the
+    cancel description changed (1.9.0). A drift test that refines a refusal's content compares
+    those components by description and headers.
+  - Lapses now count against the publisher's budget: a send that routinely outlives its lease
+    parks or drops instead of being re-sent. Declare a long send with `sendTimeout(event)`.
+  - An HTTP receiver slower than the read timeout (108 s by default) now fails the attempt.
+    A receiver that answers with a redirect now fails it too.
+  - A row that names a client profile the resolver does not know now parks.
+  - During a broker outage each Kafka send holds its slot up to the producer's delivery
+    timeout (120 s by default, plus 60 s of `max.block.ms`). Lower them on the producer to fail
+    faster.
+  - Changesets 007 and 008 apply on the first start. While 1.8.x pods still run, their
+    `CONCURRENT` claim has no index of its own after 008, so roll 1.8.x → 1.9.0 at a low
+    backlog.
+  - The `opentmf.outbox.in-flight` gauge reads lower behind slow sends. Re-check dashboards and
+    alerts on it.
 - Updated `opentmf-cadenzaflow` to **1.4.3** (from 1.4.1; 1.4.2 was never in a released BOM). It is
   a deployable service; the BOM carries its managed version the way it carries `opentmf-camunda7`.
   From 1.4.2:
@@ -63,8 +114,8 @@ maintainer, outside the 673-v4 release train.
   that created `act_idx_job_priority` itself keeps working and can be retired.
 
 ### Documentation
-- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and the cadenzaflow entry 1.4.2 and 1.4.3,
-  each with its upgrade note, and the file is verified against this BOM.
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and 1.9.0, and the cadenzaflow entry
+  1.4.2 and 1.4.3, each with its upgrade note. The file is verified against this BOM.
 
 ## [2.1.39] - 2026-10-15
 
