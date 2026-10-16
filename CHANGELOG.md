@@ -13,7 +13,7 @@ artifact. Every pin with a newer release is current, except the one named hold b
 | Library | From → To | Wire-visible effect |
 |---|---|---|
 | `opentmf-outbox-service` | 1.7.0 → **1.8.0** | **On the bulk unpark only.** `POST /ops/outbox/unpark` with a wrongly typed body field (`{"destination": false}`, a number, an array, a date-time without an offset) answers `400` naming the field, where a coercing mapper made it a `200`. A sent offset comes back as sent, not normalised to UTC. Every other request answers as before; relay delivery is unchanged except that the `CONCURRENT` lane no longer waits behind an ORDERED batch. |
-| `opentmf-cadenzaflow` | 1.4.1 → **1.4.2** | **New opt-in engine fields only.** `GET`/`POST /engine-rest/process-instance` accepts `sortBy=startTime`, and `withStartTimeInReturn=true` adds `startTime` to each result; without the flag the response is unchanged. It is a deployable service, so a deployment moves when it takes the 1.4.2 image. |
+| `opentmf-cadenzaflow` | 1.4.1 → **1.4.3** | **New opt-in engine fields only.** `GET`/`POST /engine-rest/process-instance` accepts `sortBy=startTime`, and `withStartTimeInReturn=true` adds `startTime` to each result; without the flag the response is unchanged. It is a deployable service, so a deployment moves when it takes the 1.4.3 image. |
 
 **Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
 maintainer, outside the 673-v4 release train.
@@ -37,8 +37,9 @@ maintainer, outside the 673-v4 release train.
   - Size the connection pool above `concurrent.max-in-flight` + **3** (was + 2).
   - Re-paste the fragment: four inline error responses became `$ref`s. A drift test that
     refines a refusal's content compares those components by description and headers.
-- Updated `opentmf-cadenzaflow` to **1.4.2** (from 1.4.1), found by the versions goal. It is a
-  deployable service; the BOM carries its managed version the way it carries `opentmf-camunda7`.
+- Updated `opentmf-cadenzaflow` to **1.4.3** (from 1.4.1; 1.4.2 was never in a released BOM). It is
+  a deployable service; the BOM carries its managed version the way it carries `opentmf-camunda7`.
+  From 1.4.2:
   - **One stated schema** (estate decision #117). `cadenzaflow.schema` (env
     `CADENZAFLOW_SCHEMA`, default `cadenzaflow`) feeds the engine's schema name and its table
     prefix, and must equal the JDBC URL's `currentSchema`. A boot guard refuses to start,
@@ -50,14 +51,20 @@ maintainer, outside the 673-v4 release train.
   - OCI provenance labels on the images.
   - The base image is pinned by digest, closing HIGH CVE-2026-84782 (openssl).
 
+  From 1.4.3: the release images really carry their provenance.
+  `org.opencontainers.image.revision` is the source commit (it was empty on the published 1.4.2
+  images), and `org.opencontainers.image.version` is the release tag (every earlier release
+  reported `24.04`, inherited from the Ubuntu base). A guard fails the release before any tag
+  is written when either is wrong.
+
   **Upgrade note:** a deployment that set `SPRING_DATASOURCE_HIKARI_SCHEMA` or
   `CADENZAFLOW_BPM_DATABASE_TABLE_PREFIX` replaces both with `currentSchema=<schema>` on
   `SPRING_DATASOURCE_URL` plus an explicit `CADENZAFLOW_SCHEMA: <schema>`. A deployment step
   that created `act_idx_job_priority` itself keeps working and can be retired.
 
 ### Documentation
-- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and the cadenzaflow entry 1.4.2, each
-  with its upgrade note, and the file is verified against this BOM.
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and the cadenzaflow entry 1.4.2 and 1.4.3,
+  each with its upgrade note, and the file is verified against this BOM.
 
 ## [2.1.39] - 2026-10-15
 
