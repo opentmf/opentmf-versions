@@ -5,6 +5,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.40] - 2026-10-16
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.7.0 → **1.8.0** | **On the bulk unpark only.** `POST /ops/outbox/unpark` with a wrongly typed body field (`{"destination": false}`, a number, an array, a date-time without an offset) answers `400` naming the field, where a coercing mapper made it a `200`. A sent offset comes back as sent, not normalised to UTC. Every other request answers as before; relay delivery is unchanged except that the `CONCURRENT` lane no longer waits behind an ORDERED batch. |
+| `opentmf-cadenzaflow` | 1.4.1 → **1.4.2** | **New opt-in engine fields only.** `GET`/`POST /engine-rest/process-instance` accepts `sortBy=startTime`, and `withStartTimeInReturn=true` adds `startTime` to each result; without the flag the response is unchanged. It is a deployable service, so a deployment moves when it takes the 1.4.2 image. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.8.0** (from 1.7.0):
+  - **The `CONCURRENT` lane no longer waits behind an ORDERED batch**
+    (OUTBOX-CONCURRENT-CLAIM-INDEPENDENT-1). The ORDERED batch sends on the ORDERED lane's own
+    thread (`opentmf-outbox-ordered`), and the relay thread only claims. ORDERED keeps one
+    batch in flight per pod, rows one at a time in `id` order.
+  - **The unpark by filter types its body strictly** (OUTBOX-UNPARK-FILTER-STRICT-TYPES-1).
+    The library reads the JSON itself, whatever the consumer's mapper does, and never
+    coerces.
+  - **Every error in the OAS fragment's paths is a `$ref`**
+    (OUTBOX-FRAGMENT-ERROR-MEDIA-TYPE-REFINABLE-1). The library's refusals are marked
+    `x-opentmf-refinable: content`: their description and headers stay verbatim, and their
+    content is the consumer's rendering. A consumer whose errors are not RFC 9457 pastes the
+    paths verbatim.
+
+  **Upgrade notes:**
+  - Size the connection pool above `concurrent.max-in-flight` + **3** (was + 2).
+  - Re-paste the fragment: four inline error responses became `$ref`s. A drift test that
+    refines a refusal's content compares those components by description and headers.
+- Updated `opentmf-cadenzaflow` to **1.4.2** (from 1.4.1), found by the versions goal. It is a
+  deployable service; the BOM carries its managed version the way it carries `opentmf-camunda7`.
+  - **One stated schema** (estate decision #117). `cadenzaflow.schema` (env
+    `CADENZAFLOW_SCHEMA`, default `cadenzaflow`) feeds the engine's schema name and its table
+    prefix, and must equal the JDBC URL's `currentSchema`. A boot guard refuses to start,
+    before any DDL, when they differ.
+  - CadenzaFlow engine 1.2.4, with the `startTime` sort and the opt-in `startTime` field
+    above.
+  - On PostgreSQL the engine creates its own job-priority index (`act_idx_job_priority`) on
+    the first boot, and two replicas can boot together against an empty database.
+  - OCI provenance labels on the images.
+  - The base image is pinned by digest, closing HIGH CVE-2026-84782 (openssl).
+
+  **Upgrade note:** a deployment that set `SPRING_DATASOURCE_HIKARI_SCHEMA` or
+  `CADENZAFLOW_BPM_DATABASE_TABLE_PREFIX` replaces both with `currentSchema=<schema>` on
+  `SPRING_DATASOURCE_URL` plus an explicit `CADENZAFLOW_SCHEMA: <schema>`. A deployment step
+  that created `act_idx_job_priority` itself keeps working and can be retired.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and the cadenzaflow entry 1.4.2, each
+  with its upgrade note, and the file is verified against this BOM.
+
 ## [2.1.39] - 2026-10-15
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
