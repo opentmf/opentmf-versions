@@ -5,6 +5,118 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.40] - 2026-10-16
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.7.0 → **1.9.0** | **Ops surface:** `POST /ops/outbox/unpark` with a wrongly typed body field (`{"destination": false}`, a number, an array, a date-time without an offset) answers `400` naming the field, where a coercing mapper made it a `200`, and a sent offset comes back as sent. The cancel `409`'s message now says the row is claimed (queued or sending). **Outbound relay:** an HTTP receiver answering `3xx` no longer counts as delivered (the attempt fails and the redirect is not followed); a row naming an unknown client profile parks instead of going out unauthenticated; the plain HTTP client now times out (connect 10 s, read 108 s by default). |
+| `opentmf-cadenzaflow` | 1.4.1 → **1.4.3** | **New opt-in engine fields only.** `GET`/`POST /engine-rest/process-instance` accepts `sortBy=startTime`, and `withStartTimeInReturn=true` adds `startTime` to each result; without the flag the response is unchanged. It is a deployable service, so a deployment moves when it takes the 1.4.3 image. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.9.0** (from 1.7.0; 1.8.0 was never in a released BOM).
+  From 1.8.0:
+  - **The `CONCURRENT` lane no longer waits behind an ORDERED batch**
+    (OUTBOX-CONCURRENT-CLAIM-INDEPENDENT-1). The ORDERED batch sends on the ORDERED lane's own
+    thread (`opentmf-outbox-ordered`), and the relay thread only claims. ORDERED keeps one
+    batch in flight per pod, rows one at a time in `id` order.
+  - **The unpark by filter types its body strictly** (OUTBOX-UNPARK-FILTER-STRICT-TYPES-1).
+    The library reads the JSON itself, whatever the consumer's mapper does, and never
+    coerces.
+  - **Every error in the OAS fragment's paths is a `$ref`**
+    (OUTBOX-FRAGMENT-ERROR-MEDIA-TYPE-REFINABLE-1). The library's refusals are marked
+    `x-opentmf-refinable: content`: their description and headers stay verbatim, and their
+    content is the consumer's rendering. A consumer whose errors are not RFC 9457 pastes the
+    paths verbatim.
+
+
+  From 1.9.0, the release of the relay invariants suite (OUTBOX-RELAY-INVARIANTS-IT-1: 39
+  scenarios over two or three real pods, a toxic-proxied database and a real broker). Several
+  fixes change behaviour a consumer can see:
+  - **A lease is a liveness lease.** A heartbeat thread per pod (`opentmf-outbox-heartbeat`)
+    renews the lease of every send in flight up to the send's bound: the larger of its lease
+    and its send timeout (`send-timeout`, or the new `OutboxPublisher.sendTimeout(event)`). A
+    send still running at its bound is presumed hung and interrupted once.
+  - **A lapsed lease counts as a failed attempt when its send was under way.** The row carries
+    `sending_since` (changeset 007). The lapse is booked like any failure
+    (`OutboxLeaseLapsedException`) under the publisher's backoff and budget. Before, a send that
+    always outlived its lease was re-sent forever and stalled its lane or key. A lapse on a row
+    still held unsent costs it nothing.
+  - **Anything a publisher, booking hook or relayed listener throws is a failed attempt**,
+    including an `Error` (booked as the cause of an `OutboxSendError`).
+  - **Time is the database's.** Leases, retries, holds and `created_on` use the JVM clock plus an
+    offset measured against the database every 30 s (`OutboxClock`, replaceable as a bean). A
+    skew above a second logs a WARN.
+  - **The plain HTTP client has timeouts**: `opentmf.outbox.http.connect-timeout` (10 s) and
+    `opentmf.outbox.http.read-timeout` (default: the larger of `lease` and `send-timeout`, less
+    a tenth, so 108 s; when set it must be below that, checked at startup). A profile's own
+    client keeps its own timeouts.
+  - **Only a 2xx relays an HTTP row.** A 3xx fails the attempt and is never followed.
+  - **A row naming an unknown client profile parks** at once (`TerminalOutboxException`),
+    including when no `OutboxClientProfileResolver` exists. A row that names no profile is
+    unchanged.
+  - **The Kafka publisher waits for its producer's own verdict** (`delivery.timeout.ms` plus
+    `linger.ms`), so a key stays in flight until the broker or producer answers.
+  - **The `CONCURRENT` claim stays bounded whatever the statistics say.** Changeset 008 rebuilds
+    `ix_outbox_concurrent_keyed` and `ix_outbox_concurrent_unkeyed` `CONCURRENTLY`. The ORDERED
+    claim is native SQL, so it keeps its index under a generic plan.
+  - **A short-lease `CONCURRENT` row no longer starves in the hand-off queue behind slow
+    sends** (OUTBOX-QUEUED-LEASE-STARVATION-1). The queue runs only as deep as the live slots
+    start within about a second, and a queue stranded behind slots that turned slow is given
+    back.
+
+  **Upgrade notes:**
+  - Size the connection pool above `concurrent.max-in-flight` + **4** (1.7.0 said + 2).
+  - Re-paste the OAS fragment: four inline error responses became `$ref`s (1.8.0), and the
+    cancel description changed (1.9.0). A drift test that refines a refusal's content compares
+    those components by description and headers.
+  - Lapses now count against the publisher's budget: a send that routinely outlives its lease
+    parks or drops instead of being re-sent. Declare a long send with `sendTimeout(event)`.
+  - An HTTP receiver slower than the read timeout (108 s by default) now fails the attempt.
+    A receiver that answers with a redirect now fails it too.
+  - A row that names a client profile the resolver does not know now parks.
+  - During a broker outage each Kafka send holds its slot up to the producer's delivery
+    timeout (120 s by default, plus 60 s of `max.block.ms`). Lower them on the producer to fail
+    faster.
+  - Changesets 007 and 008 apply on the first start. While 1.8.x pods still run, their
+    `CONCURRENT` claim has no index of its own after 008, so roll 1.8.x → 1.9.0 at a low
+    backlog.
+  - The `opentmf.outbox.in-flight` gauge reads lower behind slow sends. Re-check dashboards and
+    alerts on it.
+- Updated `opentmf-cadenzaflow` to **1.4.3** (from 1.4.1; 1.4.2 was never in a released BOM). It is
+  a deployable service; the BOM carries its managed version the way it carries `opentmf-camunda7`.
+  From 1.4.2:
+  - **One stated schema** (estate decision #117). `cadenzaflow.schema` (env
+    `CADENZAFLOW_SCHEMA`, default `cadenzaflow`) feeds the engine's schema name and its table
+    prefix, and must equal the JDBC URL's `currentSchema`. A boot guard refuses to start,
+    before any DDL, when they differ.
+  - CadenzaFlow engine 1.2.4, with the `startTime` sort and the opt-in `startTime` field
+    above.
+  - On PostgreSQL the engine creates its own job-priority index (`act_idx_job_priority`) on
+    the first boot, and two replicas can boot together against an empty database.
+  - OCI provenance labels on the images.
+  - The base image is pinned by digest, closing HIGH CVE-2026-84782 (openssl).
+
+  From 1.4.3: the release images really carry their provenance.
+  `org.opencontainers.image.revision` is the source commit (it was empty on the published 1.4.2
+  images), and `org.opencontainers.image.version` is the release tag (every earlier release
+  reported `24.04`, inherited from the Ubuntu base). A guard fails the release before any tag
+  is written when either is wrong.
+
+  **Upgrade note:** a deployment that set `SPRING_DATASOURCE_HIKARI_SCHEMA` or
+  `CADENZAFLOW_BPM_DATABASE_TABLE_PREFIX` replaces both with `currentSchema=<schema>` on
+  `SPRING_DATASOURCE_URL` plus an explicit `CADENZAFLOW_SCHEMA: <schema>`. A deployment step
+  that created `act_idx_job_priority` itself keeps working and can be retired.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.8.0 and 1.9.0, and the cadenzaflow entry
+  1.4.2 and 1.4.3, each with its upgrade note. The file is verified against this BOM.
+
 ## [2.1.39] - 2026-10-15
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
