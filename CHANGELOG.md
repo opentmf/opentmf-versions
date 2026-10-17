@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.41] - 2026-10-17
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` | 2.4.0 → **2.5.0** | **On the token call only.** A bearer-token request no longer carries the client's `fixed-headers` (e.g. a backend `x-api-key` stops reaching the identity provider); it carries its protocol headers plus the new `bearer-auth.headers`. API calls are unchanged, except that a reactive client no longer picks up headers or a base URL from clients built before it. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-http-clients` (every module) to **2.5.0** (from 2.4.0; decision #286):
+  - **A client's `fixed-headers` no longer reach its token endpoint**, on every client type and
+    for the dynamic clients of `HttpClientRegistry` (since 2.0.0 an API key meant for the backend
+    was also sent to the identity provider). The token call carries only `Content-Type`, Basic
+    `Authorization` when client-id and client-secret are set, `Accept` on `netty`, and the new
+    `bearer-auth.headers`. The sync token call still shares the pool, the
+    `OutboundInterceptorContribution`s, resilience and Logbook.
+  - **Added `bearer-auth.headers`** (name → value): headers on the token call only. They never
+    reach API calls and cannot replace the token call's `Content-Type` or its Basic
+    `Authorization`.
+  - **Reactive clients no longer leak into each other.** Each library-built `WebClient` now comes
+    from its own clone of the builder. Before, each one carried the fixed headers, base URL and
+    error filter of every client built before it, and a client without a `base-url` resolved
+    relative URIs against an earlier client's (since 2.0.0).
+  - Added `FixedHeadersClientHttpRequestInterceptor` (the sync fixed-headers interceptor, now a
+    named class, same semantics) and `createTokenWebClient` on `WebClientConfigUtil` and
+    `ReactiveClientRegistrar`.
+
+  **Upgrade note:** a client whose identity provider needs one of its fixed headers repeats it
+  under `bearer-auth.headers`; otherwise its token mint fails after the upgrade.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the http-clients entry gains 2.5.0 and its upgrade note, and the file
+  is verified against this BOM.
+
 ## [2.1.40] - 2026-10-16
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
