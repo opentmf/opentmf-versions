@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.42] - 2026-10-17
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` | 2.5.0 → **2.5.1** | None on a good token answer. A token endpoint that answers without `access_token` now fails the mint with a named error instead of an unnamed one further down. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-http-clients` (every module) to **2.5.1** (from 2.5.0; decision #291):
+  - **A token answer without `access_token` fails with a named error.** An identity provider
+    that answers the token call without an `access_token` now fails the mint with an error that
+    says so, instead of failing later without naming the cause.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the http-clients entry gains 2.5.1, and the file is verified against
+  this BOM.
+
 ## [2.1.41] - 2026-10-17
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an

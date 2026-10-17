@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.41</opentmf-versions.version>
+    <opentmf-versions.version>2.1.42</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -82,7 +82,7 @@
     <opentmf-cadenzaflow.version>1.4.3</opentmf-cadenzaflow.version>
 
     <!-- OpenTMF HTTP Clients -->
-    <opentmf-http-clients.version>2.5.0</opentmf-http-clients.version>
+    <opentmf-http-clients.version>2.5.1</opentmf-http-clients.version>
 
     <!-- OpenTMF API Clients -->
     <opentmf-api-clients.version>3.1.0</opentmf-api-clients.version>
