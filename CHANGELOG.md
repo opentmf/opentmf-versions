@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.42] - 2026-10-17
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` | 2.5.0 → **2.5.1** | None on a good token answer. A success answer from the token endpoint without a usable token now fails the mint with `BearerTokenResponseException` (before: a bare `NullPointerException`, a parser error quoting the body, an empty reactive token, or a blank token used as one). |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-http-clients` (every module) to **2.5.1** (from 2.5.0; decision #291):
+  - **A token answer without a usable token fails by name.** On both token paths
+    (`SyncTokenClientImpl`, `BearerTokenClientImpl`) a success answer that has no token now throws
+    `BearerTokenResponseException`, naming the token endpoint, the HTTP status and the token field
+    (`bearer-auth.token-field`, default `access_token`), never the body. It is not retried and
+    nothing is cached. Before, a missing field threw a bare `NullPointerException`, an empty body
+    did the same on the sync path and made the reactive `getToken()` complete empty, a non-JSON
+    body surfaced as a parser error quoting the body, and a `null` or blank token was handed back
+    as a token (since 2.0.0).
+  - Added `BearerTokenResponseException` (`org.opentmf.client.bearer.exception`, an
+    `OpenTmfClientResponseException` with `tokenUrl`, `tokenField` and a `reason`: `EMPTY_BODY`,
+    `NOT_A_JSON_OBJECT`, `FIELD_MISSING`, `FIELD_NOT_A_STRING`, `FIELD_BLANK`) and
+    `BearerTokenUtil.readTokenResponse`, the shared check for code that mints tokens by hand.
+
+  **Upgrade note:** the exception's status is the **success** status the token endpoint sent, so
+  a handler that maps `OpenTmfClientResponseException` by status sees a 2xx; map this one on its
+  type.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the http-clients entry gains 2.5.1, and the file is verified against
+  this BOM.
+
 ## [2.1.41] - 2026-10-17
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
