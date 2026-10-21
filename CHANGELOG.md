@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.43] - 2026-10-21
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-cadenzaflow` | 1.4.3 → **1.5.0** | **Standalone profile only (the image's own defaults):** `GET` on `/engine-rest/user`, `/group`, `/identity` and `/tenant`, and every method on `/engine-rest/authorization`, answer `403` to a non-`admin` token (before: any `reader` could list every user, any `writer` could edit authorizations). **Every profile:** changing or deleting an authorization of the administrator group answers `403`. A deployment that activates a profile keeps its own ACL. It is a deployable service, so a deployment moves when it takes the 1.5.0 image. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-cadenzaflow` to **1.5.0** (from 1.4.3; decision #583):
+  - **The standalone ACL closes the identity and authorization endpoints** (pentest finding V02,
+    config half). Eleven `admin`-only rules sit above the `/engine-rest/**` wildcards: `GET` on
+    `/user`, `/group`, `/identity` and `/tenant`, and all four methods on `/authorization`. The
+    `/engine-rest/external-task/**` whitelist entry is unchanged.
+  - **A third identity provider, `plugin.identity.provider: token`** (an option; the default
+    stays `keycloak`). The engine's one user is the signed-in principal and its groups are the
+    token's authorities (an `authority-prefix` strips converter prefixes). No directory and no
+    `User.Read.All` / Admin-API credentials are needed, and users cannot be enumerated. The
+    configured `administrator-group-name` is still granted ALL at boot. Trade-offs are in the
+    cadenzaflow README §8.3.
+  - **The administrator group can no longer lock itself out** (pentest finding V01). Changing
+    the group, resource, resource id or permissions of an existing authorization of an admin
+    group, or deleting one, is refused with `AuthorizationException` (`403` over REST), through
+    the webapp `/api`, `/engine-rest` and the Java API alike. New grants for the admin group
+    and every other group's or user's grants are unaffected.
+  - **Two replicas booting together can no longer deadlock between the schema lock and the
+    index build.** The `act_idx_job_priority` build serializes on its own advisory key, and a
+    failed schema-lock acquisition now fails the boot with the real cause (before, Postgres
+    killed one boot with "deadlock detected" and it died later as a misleading ENGINE-03018).
+  - AWS SDK BOM 2.56.0 → 2.57.1 (`-aws` flavour), Jackson 2.21.7 → 2.21.8 and 3.1.7 → 3.1.8.
+
+  **Upgrade note:** on the standalone profile, a non-`admin` token that read users, groups,
+  tenants or identity, or edited authorizations, now gets `403`. A deployment that activates a
+  profile owns its ACL and should add the same eleven rules to close V02. A script that edited
+  or deleted the administrator group's own authorizations now gets `403`.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the cadenzaflow entry gains 1.5.0 and its upgrade note, and the file
+  is verified against this BOM.
+
 ## [2.1.42] - 2026-10-17
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
