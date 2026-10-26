@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.44] - 2026-10-26
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.9.0 → **1.9.1** | None. Dependencies and the build only; a drop-in upgrade. |
+| `opentmf-mockserver` (+ `-test-support`) | 2.1.13 → **2.1.14** | Opt-in only. Generated ids keep the bare TSID unless `ID_FORMATS` / `ID_FORMAT_DEFAULT` are set; a `TSID_NODE` that is not an integer below the node count now answers 500 on id generation (before: silently wrapped or random). `MockServerSupport.start()` no longer races for its port. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.9.1** (from 1.9.0; train 7). Nothing a consumer can
+  see in the API, configuration or schema changes:
+  - `spring-boot-starter-parent` 4.1.1 → 4.1.2, the Boot line its consumers run (their own
+    parent wins at runtime).
+  - Build only: the gate is now `-Pmutation,sonar,invariants clean verify`, and a release
+    refuses to build without `invariants`. Tests that read the host clock run on simulated
+    time.
+- Updated `opentmf-mockserver` (with `opentmf-mockserver-parent` and
+  `opentmf-mockserver-test-support`) to **2.1.14** (from 2.1.13; train 7):
+  - **Configurable generated-id format.** `ID_FORMATS` (comma-separated
+    `<domain>=<template>`, e.g. `document=urn:example:document-id:{tsidNumber}`) and
+    `ID_FORMAT_DEFAULT` set the shape of an id the server generates; a template carries one
+    placeholder (`{tsid}`, `{tsidNumber}` or `{uuid}`). Unset, ids stay the bare 13-character
+    TSID, and a client-supplied `id` is always kept. A malformed setting answers 500 on every
+    request that would generate an id, naming the bad entry.
+  - **`TSID_NODE` is validated.** A node that is not an integer below `TSID_NODE_COUNT`
+    (default 1024) makes id generation answer 500 instead of being wrapped or replaced by a
+    random node.
+  - **Test support:** `MockServerSupport.start()` binds port 0 and reads back the bound port,
+    so parallel builds no longer fail with `BindException: Address already in use`;
+    `port()` and `baseUrl()` are unchanged.
+  - Jackson 3.2.4, commons-codec 1.23.0, ClassGraph 4.8.199. Spring Framework 6.2 / Spring
+    Boot 3.5 and Testcontainers 1.21 stay at their major (held by Gökhan).
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.9.1, the mockserver and test-support
+  entries gain 2.1.14, and the file is verified against this BOM.
+
 ## [2.1.43] - 2026-10-21
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
