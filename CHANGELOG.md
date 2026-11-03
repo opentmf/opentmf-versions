@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.46] - 2026-11-03
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.10.0 → **1.11.0** | None on the wire and no schema change. A pod whose Kafka sends keep failing as out of reach now leaves Kafka rows to the other pods (on by default, `opentmf.outbox.claim-pause.after-failures: 0` switches it off). The `/ops/outbox` OAS fragment declares the list filters, so a consumer that pastes it re-pastes it. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.11.0** (from 1.10.0):
+  - **Fix: a pod whose every send fails no longer takes rows from the healthy pods**
+    (OUTBOX-FAILING-RELAY-CLAIMS-1). Before, a pod that could not reach its transport kept
+    claiming, and each row it took paid a failed attempt and a backoff while a healthy pod could
+    have sent it at once; with the defaults it could park rows for about half an hour.
+  - **The claim pause, per transport** (`opentmf.outbox.claim-pause.*`). After `after-failures`
+    (default 5) failures in a row over one named transport, with no success between them, a pod
+    leaves that transport's rows to the other pods. It sends one probe row now and then (backoff
+    up to `max`, default 1 min), and one successful send ends the pause. The library's Kafka
+    publisher names the transport `kafka`; its HTTP publisher names none, so a dead HTTP receiver
+    pauses nothing. `OutboxPublisher` gains two default methods, `transport(event)` and
+    `transportDown(event, failure)`, so a custom publisher can take part.
+  - New gauge `opentmf.outbox.claims.paused{transport}` (1 while paused), and a WARN line at each
+    pause and resume.
+  - The OAS fragment declares the equality list filters (`aggregateType`, `aggregateId`,
+    `eventType`, `destination`, `clientProfile`, `reference`) on the three list operations
+    (`info.version` 1.11.0). No behaviour change, but a drift test is red until the consumer
+    re-pastes it.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.11.0, and the file is verified against this
+  BOM.
+
 ## [2.1.45] - 2026-11-03
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
