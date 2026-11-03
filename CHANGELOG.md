@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.45] - 2026-11-03
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-outbox-service` | 1.9.1 → **1.10.0** | None on the wire, in configuration or in the schema. The `/ops/outbox` OAS fragment now declares its security, so a consumer that pastes it re-pastes it. |
+| `opentmf-mockserver` (+ `-test-support`) | 2.1.14 → **2.1.15** | None on the wire. The served `/mockserver/openapi` now declares its security; no operation, parameter or schema changes. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `opentmf-outbox-service` to **1.10.0** (from 1.9.1). Nothing changes in the API,
+  configuration or schema:
+  - **The OAS fragment declares its security.** Each of the eight `/ops/outbox` operations
+    carries `security: [{ bearerAuth: [] }]`, and the fragment adds the HTTP bearer (JWT) scheme
+    `components.securitySchemes.bearerAuth`, marked `x-opentmf-refinable: true` (a consumer with
+    another scheme keeps its own definition under that name). A consumer's drift test is red
+    until it re-pastes the fragment (`info.version` 1.10.0).
+  - **Fix: a `CONCURRENT` claim no longer skips a block of keys for a whole cursor cycle.** With
+    two or more pods, a pass that came back short because another pod held its heads locked
+    wrapped its cursor to the first keys, so every due key above it waited a full cycle. A
+    short pass now checks the head keys it walked and does not wrap while due heads remain.
+- Updated `opentmf-mockserver` (with `opentmf-mockserver-parent` and
+  `opentmf-mockserver-test-support`) to **2.1.15** (from 2.1.14):
+  - The served OpenAPI declares `security: [bearer]` at the document level and `security: []`
+    on the four anonymous OIDC discovery/token endpoints; `redocly lint` is clean of
+    `security-defined` errors.
+  - netty-tcnative 2.0.85.Final. Spring Boot 3.5 / Spring Framework 6.2 and ClassGraph 4.8.199
+    stay where they are (held by name in the mock server's own release).
+
+### Build
+- `maven-enforcer-plugin` 3.6.3 → 3.7.0 (this BOM's own build; not managed for consumers).
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the outbox entry gains 1.10.0, the mockserver entry gains 2.1.15,
+  and the file is verified against this BOM.
+
 ## [2.1.44] - 2026-10-26
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
