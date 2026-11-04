@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.47] - 2026-11-04
+
+Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
+artifact. Every pin with a newer release is current, except the one named hold below.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `tmf630-toolkit` | 3.5.1 → **3.5.2** | None. A startup warning is gone; behaviour is unchanged. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
+maintainer, outside the 673-v4 release train.
+
+### Updated
+- Updated `tmf630-toolkit` to **3.5.2** (from 3.5.1):
+  - **No more `BeanPostProcessorChecker` warning at startup.** The resolver-ordering
+    `BeanPostProcessor` of `Tmf630AttributeFilteringAutoConfiguration`
+    (`tmf630ResolverOrderingPostProcessor`) is now declared by a `static` `@Bean` method, so
+    applications no longer log that a bean "is not eligible for getting processed by all
+    BeanPostProcessors". Code that called the method on an instance must call it on the class.
+  - Built on Spring Boot 4.1.2.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md`: the tmf630-toolkit entry gains 3.5.2, and the file is verified against
+  this BOM.
+
 ## [2.1.46] - 2026-11-03
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an
