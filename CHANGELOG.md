@@ -12,12 +12,24 @@ artifact. Every pin with a newer release is current, except the one named hold b
 
 | Library | From → To | Wire-visible effect |
 |---|---|---|
+| `opentmf-mockserver` (+ `-test-support`) | 2.1.15 → **2.1.16** | None on the wire. `MockServerSupport.start()` detects a port shadowed by another loopback listener and rebinds; after three attempts it fails naming `MOCKSERVER-SUPPORT-PORT-SHADOW-1`. |
 | `tmf630-toolkit` | 3.5.1 → **3.5.2** | None. A startup warning is gone; behaviour is unchanged. |
 
 **Held:** `opentmf-673-v4-model` stays at 4.0.0.11 (4.0.1.5 is available) — pinned by hand by the
 maintainer, outside the 673-v4 release train.
 
 ### Updated
+- Updated `opentmf-mockserver` (with `opentmf-mockserver-parent` and
+  `opentmf-mockserver-test-support`) to **2.1.16** (from 2.1.15):
+  - **Test support: `MockServerSupport.start()` detects a shadowed port.** On macOS another process
+    listening on `127.0.0.1` can share the port of MockServer's wildcard bind, so requests to
+    `baseUrl()` reached that process and got its 404. After binding, the support checks its own
+    `baseUrl()` with `PUT /mockserver/status`; a port that does not answer as this server is
+    released and a new one bound, up to three attempts, after which the start fails with an
+    `IllegalStateException` naming `MOCKSERVER-SUPPORT-PORT-SHADOW-1` and the ports tried.
+  - Netty 4.2.20.Final, Guava 33.8.0-jre, json-schema-validator 3.0.9. Spring Boot 3.5 / Spring
+    Framework 6.2, Testcontainers 1.21 and ClassGraph 4.8.199 stay where they are (held by name
+    in the mock server's own release).
 - Updated `tmf630-toolkit` to **3.5.2** (from 3.5.1):
   - **No more `BeanPostProcessorChecker` warning at startup.** The resolver-ordering
     `BeanPostProcessor` of `Tmf630AttributeFilteringAutoConfiguration`
@@ -27,8 +39,8 @@ maintainer, outside the 673-v4 release train.
   - Built on Spring Boot 4.1.2.
 
 ### Documentation
-- `OPENTMF-LIBRARIES.md`: the tmf630-toolkit entry gains 3.5.2, and the file is verified against
-  this BOM.
+- `OPENTMF-LIBRARIES.md`: the tmf630-toolkit entry gains 3.5.2, the mockserver test-support
+  entry gains 2.1.16, and the file is verified against this BOM.
 
 ## [2.1.46] - 2026-11-03
 
