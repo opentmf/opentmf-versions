@@ -50,6 +50,25 @@ Then depend on any OpenTMF artifact without specifying its version:
 </dependencies>
 ```
 
+### json-path 3
+
+The BOM manages one artifact that is not an OpenTMF artifact: `com.jayway.jsonpath:json-path` at
+${json-path.version}. `tmf630-toolkit` is built and tested on it (the first json-path release with
+native Jackson 3 support). Spring Boot manages 2.10.0, and in Maven the first management a project
+sees for an artifact wins. So the BOM's entry reaches your jar only when nothing put Boot's entry
+there first. Measured on the jar's `BOOT-INF/lib` with Spring Boot 4.1.2:
+
+| Your project | json-path in the jar with the BOM alone | What you still do |
+|---|---|---|
+| `<parent>` is `spring-boot-starter-parent` | 2.10.0 | Set `<json-path.version>${json-path.version}</json-path.version>` in your `<properties>`. |
+| Imports `spring-boot-dependencies`, then this BOM | 2.10.0 | Import this BOM **before** `spring-boot-dependencies`. A property does not help here. |
+| Imports this BOM, then `spring-boot-dependencies` | ${json-path.version} | Nothing. |
+
+Importing this BOM first changes nothing else: Spring Boot manages no OpenTMF artifact, so json-path
+is the only artifact both manage. From Spring Boot 4.2.0 on, Boot itself manages json-path 3.0.0, so
+on Boot 4.2.x the table does not apply and you do nothing. The entry goes when no consumer is on a
+Spring Boot line below 4.2 any more.
+
 ## Artifacts
 
 > The **Current** column below is auto-populated from `pom.xml` properties at build time via `maven-resources-plugin`. Do not edit this table directly — edit `src/main/templates/README.md` and run `mvn generate-resources`.
