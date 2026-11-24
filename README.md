@@ -23,7 +23,7 @@ Pin the BOM version in your `<properties>` and import it under `<dependencyManag
 
 ```xml
 <properties>
-  <opentmf-versions.version>2.1.47</opentmf-versions.version>
+  <opentmf-versions.version>2.1.48</opentmf-versions.version>
 </properties>
 
 <dependencyManagement>
@@ -50,6 +50,25 @@ Then depend on any OpenTMF artifact without specifying its version:
 </dependencies>
 ```
 
+### json-path 3
+
+The BOM manages one artifact that is not an OpenTMF artifact: `com.jayway.jsonpath:json-path` at
+3.0.0. `tmf630-toolkit` is built and tested on it (the first json-path release with
+native Jackson 3 support). Spring Boot manages 2.10.0, and in Maven the first management a project
+sees for an artifact wins. So the BOM's entry reaches your jar only when nothing put Boot's entry
+there first. Measured on the jar's `BOOT-INF/lib` with Spring Boot 4.1.2:
+
+| Your project | json-path in the jar with the BOM alone | What you still do |
+|---|---|---|
+| `<parent>` is `spring-boot-starter-parent` | 2.10.0 | Set `<json-path.version>3.0.0</json-path.version>` in your `<properties>`. |
+| Imports `spring-boot-dependencies`, then this BOM | 2.10.0 | Import this BOM **before** `spring-boot-dependencies`. A property does not help here. |
+| Imports this BOM, then `spring-boot-dependencies` | 3.0.0 | Nothing. |
+
+Importing this BOM first changes nothing else: Spring Boot manages no OpenTMF artifact, so json-path
+is the only artifact both manage. From Spring Boot 4.2.0 on, Boot itself manages json-path 3.0.0, so
+on Boot 4.2.x the table does not apply and you do nothing. The entry goes when no consumer is on a
+Spring Boot line below 4.2 any more.
+
 ## Artifacts
 
 > The **Current** column below is auto-populated from `pom.xml` properties at build time via `maven-resources-plugin`. Do not edit this table directly — edit `src/main/templates/README.md` and run `mvn generate-resources`.
@@ -63,20 +82,20 @@ Then depend on any OpenTMF artifact without specifying its version:
 | org.opentmf.model       | [opentmf-v4-api](https://github.com/opentmf/opentmf-v4-api)                         | pom    | Generated Spring controller interfaces for 80+ TMF v4 API specifications.                                                 | 4.0.5  | 4.1.1   |
 | org.opentmf.util        | [opentmf-v4-utils](https://github.com/opentmf/opentmf-v4-utils)                     | pom    | Convenience utilities for working with TMF v4 model objects.                                                              | 1.0.5  | 2.0.0   |
 | org.opentmf.model       | [dnext-v4-models](https://github.com/opentmf/dnext-v4-models)                       | pom    | Extended model classes covering all available DNext TMF implementations and their custom extensions.                      | 2.11.2 | 2.12.1  |
-| org.opentmf.client      | [opentmf-http-clients](https://github.com/opentmf/opentmf-http-clients)             | pom    | HTTP client foundation for REST and Reactive clients with unified configuration and cached bearer-token and mTLS support. | 2.0.0  | 2.5.1   |
+| org.opentmf.client      | [opentmf-http-clients](https://github.com/opentmf/opentmf-http-clients)             | pom    | HTTP client foundation for REST and Reactive clients with unified configuration and cached bearer-token and mTLS support. | 2.0.0  | 3.0.0   |
 | org.opentmf.client      | [opentmf-api-clients](https://github.com/opentmf/opentmf-api-clients)               | pom    | Ready-to-use TMF-630 compliant API clients for TMF v4 backends (REST and reactive).                                       | 2.0.0  | 3.1.0   |
-| org.opentmf.query       | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit)                         | pom    | TMF-630 compliant filtering, paging, and sorting for Spring Web MVC and MongoDB.                                          | 1.0.0  | 3.5.2   |
-| org.opentmf.mockserver  | [opentmf-mockserver](https://github.com/opentmf/opentmf-mockserver-parent)          | jar    | [MockServer](https://mock-server.com/)-based test double that emulates a TMF-630 compliant backend.                       | 1.0.2  | 2.1.16  |
+| org.opentmf.query       | [tmf630-toolkit](https://github.com/opentmf/tmf630-toolkit)                         | pom    | TMF-630 compliant filtering, paging, and sorting for Spring Web MVC and MongoDB.                                          | 1.0.0  | 3.6.0   |
+| org.opentmf.mockserver  | [opentmf-mockserver](https://github.com/opentmf/opentmf-mockserver-parent)          | jar    | [MockServer](https://mock-server.com/)-based test double that emulates a TMF-630 compliant backend.                       | 1.0.2  | 2.1.17  |
 | org.opentmf.security    | [openid-rbac-security](https://github.com/opentmf/openid-rbac-security)             | jar    | OpenID Connect authentication with role-based access control (RBAC) for Spring Boot.                                      | 1.1.0  | 3.3.0   |
 | org.opentmf.util        | [auditor-aware](https://github.com/opentmf/auditor-aware)                           | jar    | Persistence-agnostic `AuditorAware<String>` and `DateTimeProvider` beans for tracking created/modified-by audit fields.   | 3.0.0  | 3.0.0   |
-| org.opentmf.util        | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service)       | jar    | Database-backed distributed lock service for cluster-level coordination.                                                  | 1.0.8  | 3.0.0   |
-| org.opentmf.util        | [opentmf-outbox-service](https://github.com/opentmf/opentmf-outbox-service)         | jar    | Transactional outbox pattern as a Spring Boot starter, over the client application's JDBC datasource and Kafka/HTTP.      | 1.0.0  | 1.11.0   |
-| org.opentmf.camunda     | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger)     | jar    | Produces structured, easy-to-trace log entries when a Camunda 7 incident occurs.                                          | 1.0.3  | 2.0.1   |
-| org.opentmf.camunda     | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Test harness for verifying Camunda 7 process definitions and task flows.                                                  | 1.0.4  | 2.1.0   |
+| org.opentmf.util        | [opentmf-db-lock-service](https://github.com/opentmf/opentmf-db-lock-service)       | jar    | Database-backed distributed lock service for cluster-level coordination.                                                  | 1.0.8  | 3.1.0   |
+| org.opentmf.util        | [opentmf-outbox-service](https://github.com/opentmf/opentmf-outbox-service)         | jar    | Transactional outbox pattern as a Spring Boot starter, over the client application's JDBC datasource and Kafka/HTTP.      | 1.0.0  | 1.12.0   |
+| org.opentmf.camunda     | [camunda7-incident-logger](https://github.com/opentmf/camunda7-incident-logger)     | jar    | Produces structured, easy-to-trace log entries when a Camunda 7 incident occurs.                                          | 1.0.3  | 2.1.0   |
+| org.opentmf.camunda     | [camunda7-test-framework](https://github.com/opentmf/camunda7-test-framework)       | jar    | Test harness for verifying Camunda 7 process definitions and task flows.                                                  | 1.0.4  | 2.2.0   |
 | org.opentmf.camunda     | [camunda7-bpmn-sync-service](https://github.com/opentmf/camunda7-bpmn-sync-service) | jar    | Deploys BPMN definitions to Camunda 7 on startup with optional process instance migration.                                | 1.1.1  | 2.1.1   |
 | org.opentmf.dnext       | [dnext-catalog-sync-service](https://github.com/opentmf/dnext-catalog-sync-service) | jar    | Keeps versioned resource, service, and product catalogs in sync with DNext catalog backends.                              | 1.0.9  | 2.0.4   |
 | org.opentmf.camunda     | [opentmf-camunda7](https://github.com/opentmf/opentmf-camunda7)                     | jar    | Spring Boot microservice embedding Camunda 7 Community Edition with OpenID SSO and RBAC.                                  | 23.0.0 | 24.0.6  |
-| org.opentmf.cadenzaflow | [opentmf-cadenzaflow](https://github.com/opentmf/opentmf-cadenzaflow)               | jar    | Spring Boot 4 microservice embedding CadenzaFlow CE (the maintained Camunda 7 fork) with Spin, Keycloak OpenID, and RBAC. | 1.0.0  | 1.5.0   |
+| org.opentmf.cadenzaflow | [opentmf-cadenzaflow](https://github.com/opentmf/opentmf-cadenzaflow)               | jar    | Spring Boot 4 microservice embedding CadenzaFlow CE (the maintained Camunda 7 fork) with Spin, Keycloak OpenID, and RBAC. | 1.0.0  | 1.6.0   |
 | N/A                     | [http-endpoint-kicker](https://github.com/opentmf/http-endpoint-kicker)             | docker | Minimal Docker sidecar that optionally obtains an access token, fires a single HTTP request, and exits.                   | 1.0.0  | 1.0.0   |
 
 ## Retired Artifacts
