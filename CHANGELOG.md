@@ -5,6 +5,197 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.48] - 2026-11-24
+
+Eight libraries move, cut together as one batch. One of them, `opentmf-http-clients` 3.0.0, is a
+**MAJOR**: read its row before you take this BOM. The BOM also manages one third-party artifact for
+the first time, `json-path` 3.0.0 (below). Every pin with a newer release is current, except the
+one named hold.
+
+| Library | From → To | Wire-visible effect |
+|---|---|---|
+| `opentmf-http-clients` (10 modules) | 2.5.1 → **3.0.0** (MAJOR) | RestTemplate support removed. A bean conditioned on `RestTemplateFactory` **by string** compiles and is then silently not created. A failed token call is a `BearerTokenException` with the identity provider's body withheld. Token calls of one key share one call. The library's meters now reach Boot's registry. Everything else is opt-in. [Upgrade notes](https://github.com/opentmf/opentmf-http-clients/blob/opentmf-http-clients-3.0.0/docs/upgrade-3.0.md). |
+| `opentmf-outbox-service` | 1.11.0 → **1.12.0** | Two schema changesets (`009`, `010`). The idempotency key gains a random part and is opaque. A row appended inside a span carries its trace. A key's consecutive rows leave as one run (`key-run`, default 8; `1` is the 1.11.0 behaviour). One shutdown deadline of 15 s on the defaults. |
+| `opentmf-db-lock-service` | 3.0.0 → **3.1.0** | New `renewLock`. **Needs `UPDATE` on `DB_LOCK`**, or a crashed holder's lock is never reclaimed. |
+| `tmf630-toolkit` (+ 9 modules) | 3.5.2 → **3.6.0** | JSONB: a URL filter on a `Map` / `JsonNode` field answers instead of `400`; a table name that is not one table reference is refused at startup; many `500`s are now rows or `400`s. JPA case-insensitive filters no longer depend on the JVM locale. Everything else is opt-in. |
+| `opentmf-mockserver` (+ `-test-support`) | 2.1.16 → **2.1.17** | Mustache response templates are served; every other template is refused at load with `400` (it used to hang). `netty-tcnative` no longer reaches consumers. `-test-support` needs Spring Framework 7. |
+| `camunda7-incident-logger` | 2.0.1 → **2.1.0** | An incident without an execution id is no longer logged. Built on CibSeven 3.0.0. |
+| `camunda7-test-framework` | 2.1.0 → **2.2.0** | **Consumers must be on a CibSeven 3.0.0 client.** `queueDepth` no longer counts locked tasks; the simulated engine outage answers JSON. |
+| `opentmf-cadenzaflow` | 1.5.0 → **1.6.0** | The jar on Central catches up with the deployed line (1.5.1–1.5.4 and 1.6.0). Token sign-in for the webapps; PKCE; the engine starts under a Turkish locale; more values masked in the log. A deployable service: run its images. The engine's 1.6.0 images are published by its own release run, after this BOM; a deployment waits for them. |
+
+**Held:** `opentmf-673-v4-model` stays at 4.0.0.11. "4.0.1.5" is not newer content: it is the
+April 2025 artifact, from before the 673 model was renumbered to the specification's 4.0.0
+(2026-03-26), and taking it would be a downgrade. The maintainer pins it by hand, outside the
+673-v4 release train. This hold is standing.
+
+### Added
+- **The BOM manages `com.jayway.jsonpath:json-path` 3.0.0** (new property `json-path.version`).
+  `tmf630-toolkit` is built and tested on it, the first json-path release with native Jackson 3
+  support. Spring Boot 4.0.x and 4.1.x manage 2.10.0; Spring Boot 4.2.0 manages 3.0.0 itself. The
+  entry reaches your jar only where it is the first json-path management Maven sees: under
+  `spring-boot-starter-parent` set `<json-path.version>3.0.0</json-path.version>` yourself, and
+  import this BOM **before** an imported `spring-boot-dependencies`. On Spring Boot 4.2.x neither
+  is needed. The README's "json-path 3" section has the table. The entry goes when no consumer is
+  on a Spring Boot line below 4.2 any more.
+
+### Updated
+- Updated `opentmf-http-clients` to **3.0.0** (from 2.5.1), a **MAJOR**. Spring Framework 7.1
+  marks `RestTemplate` for removal; 3.0.0 removes the library's RestTemplate support, and its
+  synchronous clients use `RestClient`. Read the
+  [upgrade notes](https://github.com/opentmf/opentmf-http-clients/blob/opentmf-http-clients-3.0.0/docs/upgrade-3.0.md)
+  first.
+  - **The change no compiler reports:** `RestTemplateFactory` is gone, so a bean conditioned on it
+    by **string** (`@ConditionalOnBean(type = "…RestTemplateFactory")`, `@ConditionalOnClass(name
+    = …)`) or through a marker type of your own compiles and is then **silently not created**.
+    Condition it on `RestClientFactory` (`org.opentmf.client.rest.service.api`).
+  - **Gone at start:** the `{clientId}RestTemplate` bean (use `{clientId}RestClient`);
+    `JdkRestTemplateFactory` / `ApacheRestTemplateFactory` are renamed `JdkRestClientFactory` /
+    `ApacheRestClientFactory` (bean and logger names follow).
+  - **Removed API**, each replacement in the upgrade notes: `RestTemplateFactory`,
+    `OpenTmfResponseErrorHandler`, `HttpClientRegistry.ManagedSyncClient` / `getOrCreate` /
+    `replace`, `RestClientRegistrar.createRestTemplate` and every method taking a `RestTemplate`,
+    `RestLogbookSupport.addInterceptor(RestTemplate)`, `TokenUtil.REST_TEMPLATE`.
+  - **Unchanged:** every configuration key and value; the `{clientId}RestClient`, `TokenService`,
+    `WebClient` and `ClientProperties` beans; the exceptions; interceptors and their order,
+    resilience, Logbook, observation, mTLS; the reactive side.
+  - **Behaviour changes:** a token endpoint's error status throws `BearerTokenException` (still an
+    `OpenTmfClientResponseException`; `getResponseBody()` is `null`, and a token endpoint's `404`
+    is no longer an `OpenTmfClientNotFoundException`); concurrent callers of one token key share
+    one token call, so `opentmf.client.token.fetch` counts once per burst; a token fetch's
+    observation carries `uri=token-fetch` (was `uri=none`); a `401` with
+    `WWW-Authenticate: Bearer error="invalid_token"` drops that token from the cache. A client with
+    `bearer-auth` but no absolute `http(s)` `token-url` is refused at start. Token URLs are shown
+    without their user part, query and fragment.
+  - **Fixed:** the library's meters (`opentmf.client.token.fetch`, `opentmf.client.pool.*`, the
+    clients' resilience4j meters) were never registered where the `MeterRegistry` comes from
+    Boot's metrics auto-configuration; they now appear on the scrape. On `apache` with Logbook at
+    `TRACE`, a body cut by `response-timeout` no longer comes back as an empty `200`.
+  - **New opt-ins**, each unset or at its old value by default: `exchange-timeout`;
+    `bearer-auth.request-timeout` / `response-timeout` / `num-retries`;
+    `bearer-auth.failure-memory`; `bearer-auth.refusal-memory`; `bearer-auth.log-response-body`;
+    `peer-text-in-message` and `peer-text-cap-length`.
+  - In this BOM, `opentmf-api-clients` 3.1.0, `camunda7-bpmn-sync-service` 2.1.1 and
+    `dnext-catalog-sync-service` 2.0.4 depend on http-clients and get 3.0.0 through it. Their
+    main code uses none of the removed API.
+- Updated `opentmf-outbox-service` to **1.12.0** (from 1.11.0):
+  - **Schema:** changeset `009-outbox-key-token` adds the nullable column `key_token`, and
+    `010-outbox-aggregate-lookup` builds the index `ix_outbox_aggregate` `CONCURRENTLY` (about 10 s
+    at 5,000,000 rows, appends and the relay not stopped). Where the library's changelog is
+    included, nothing to do; a deployment that runs it out of band applies both first (the
+    outbox README, "Upgrading").
+  - **The idempotency key** is `<service>:outbox:<id>:<key_token>`, so a restored database no
+    longer makes new events look like duplicates. The key is opaque: a consumer that parses it
+    must stop. `OutboxHeaders.idempotencyKey(serviceName, id)` is deprecated.
+  - **A row appended inside a span stores its trace context** (`traceparent`, `tracestate`); the
+    relay sends the event in that trace. A test comparing stored headers exactly sees them now;
+    `opentmf.outbox.stamp-trace-context=false` restores the old storage.
+  - **A key's consecutive rows leave as one run** (`opentmf.outbox.concurrent.key-run`, default
+    `8`; `1` is the 1.11.0 behaviour). A cancel of a row inside a claimed run is refused with `409`.
+  - **One shutdown deadline:** `shutdown-grace` plus the new `shutdown-join`, 15 s on the
+    defaults, with every library thread ended; the relay stops before the DataSource closes. The
+    relay starts at context start, not in `@PostConstruct`.
+  - New opt-ins: `GET /ops/outbox/{id}/payload`, `opentmf.outbox.ops.sensitive-in-views`, an
+    `OutboxFailureText` bean. New meters: `opentmf.outbox.pruned`, `opentmf.outbox.relay.running`,
+    the timer `opentmf.outbox.relay`.
+  - The plain HTTP client ends within the send bound, the connect included, and follows no
+    redirect; Apache HttpClient 5 and Jetty client are new optional dependencies. Explicit HTTP
+    timeouts that cannot end before the bound are refused at boot.
+  - Spring Boot 4.2.0 for the build; the requirement stays Spring Boot 4.1+.
+- Updated `opentmf-db-lock-service` to **3.1.0** (from 3.0.0):
+  - **`DbLockService.renewLock(AcquiredLock)`**, a heartbeat for long-held locks: it restarts the
+    hold-timeout by the database's clock, only the acquiring instance can renew, and a renewal
+    after the lease ran out throws the new `DbLockLostException`. A `default` method, so a class
+    implementing the interface against 3.0.x still links.
+  - **New database right: `UPDATE` on `DB_LOCK`** (3.0.x needed `SELECT`, `INSERT`, `DELETE`).
+    Without it a crashed holder's lock is never reclaimed, and `acquireLock` of that type ends in
+    `DbLockTimeoutException` until the row is deleted by hand. No schema change.
+  - Spring Boot 4.2.0; Testcontainers 2.0.5 (test scope).
+- Updated `tmf630-toolkit` to **3.6.0** (from 3.5.2). The defaults are the 3.5.2 behaviour except:
+  - **JSONB:** a URL filter on a field of an open JSON type (`Map`, `JsonNode`) answers (it was a
+    `400`; also on Mongo); startup refuses a table name that is not one table reference (each
+    refused form named in the toolkit's CHANGELOG).
+  - **Fixed, JSONB:** `filter=` with an equality uses `@?`, so a `GIN (payload jsonb_path_ops)`
+    index serves it; array correlation without split collections; enum fields bound by their wire
+    value; null tests, `in` / `nin`, operators inside arrays; `contains` / `startswith` /
+    `endswith` match literally; forms PostgreSQL cannot parse are `400`, not `500`.
+  - **Fixed, JPA:** case-insensitive operators no longer miss values with a capital `I` under a
+    Turkish or Azerbaijani default locale.
+  - **New opt-ins:** `@Tmf630JsonbColumn` (a payload field copied into a real column, used by the
+    URL operators and the sort), `opentmf.tmf630.jsonb.equality=containment`,
+    `jsonb.cast-mode=lenient` (PostgreSQL 16+), `jsonb.apply-regex-max-length`,
+    `jsonb.querydsl-acceptance`.
+  - Spring Boot 4.2.0 (Spring Framework 7.1.0) is the BOM the toolkit's parent imports. A
+    consumer that manages Spring Boot itself keeps its own Spring versions; one without its own
+    Spring Boot management now gets Spring 7.1.0.
+- Updated `opentmf-mockserver` (with `opentmf-mockserver-parent` and
+  `opentmf-mockserver-test-support`) to **2.1.17** (from 2.1.16):
+  - **Added:** Mustache response templates (`"templateType": "MUSTACHE"`) echo a request's body
+    field, path, parameters or headers. `{{value}}` escapes for HTML, not JSON.
+  - **Fixed:** every other template (Velocity, JavaScript, any forward template) is refused at
+    load with `400`; up to 2.1.16 it was accepted and every call it matched hung. The port-shadow
+    WARN names what answered.
+  - **Changed:** `netty-tcnative-boringssl-static` is optional, so a consumer's runtime classpath
+    no longer gets its native jars; an embedded mock server uses the JDK TLS provider. A consumer
+    that relied on getting it from here declares it itself.
+  - **Changed:** `-test-support` is built against Spring Framework 7.1.0 and no longer declares
+    `spring-boot-test` or `spring-boot`. A consumer on Spring Boot 3 keeps 2.1.16.
+  - ClassGraph 5.0.2 (the server ships its split jars), Netty 4.2.21.Final, netty-tcnative
+    2.0.86.Final, Bouncy Castle 1.87, Jackson 3.3.0, Testcontainers 2.0.5 (test scope). Held by
+    name in the mock server's own release: ClassGraph 6.x (needs Java 25).
+- Updated `camunda7-incident-logger` to **2.1.0** (from 2.0.1): an incident without an execution
+  id (for example during a process instance migration) is no longer logged and goes straight to
+  the default handler. Built on CibSeven 3.0.0; the jar is binary compatible with 2.2.0 and 3.0.0
+  engines. Spring Boot 4.2.0.
+- Updated `camunda7-test-framework` to **2.2.0** (from 2.1.0):
+  - **Consumers must be on a CibSeven 3.0.0 client.** A service on a 2.2.0 client gets both lines
+    on its test classpath and fails with duplicate classes or `NoSuchMethodError`; it overrides
+    `camunda7-test-framework.version` to 2.1.0 until it moves. It brings
+    `camunda7-incident-logger` 2.1.0.
+  - **Added:** `@CamundaIT`, the supported way to declare an integration test on `BaseBpmIT`.
+  - **Changed:** `ExternalTaskProbe.queueDepth(topic)` no longer counts locked tasks (the old total
+    is `taskCount(topic)`); `EngineOutageFilter` answers its `503` with a JSON body;
+    `camundaProcessId` comes from a JVM-wide counter; builds on Java 17 through 25.
+  - **Fixed:** `EngineOutage.close()` ends only its own outage; `assertNoIncidentRaised` names the
+    incidents it saw.
+  - Spring Boot 4.2.0, GraalVM polyglot/JS 25.6.5.1, ArchUnit 1.5.1.
+- Updated `opentmf-cadenzaflow` to **1.6.0** (from 1.5.0). 1.5.2–1.5.4 were released as images
+  only; 1.6.0 is the first jar on Central since 1.5.1 and carries them all. The engine's 1.6.0 images are published by its own release run, after this BOM; a deployment waits for them.
+  - **1.5.1, shared browser callback and token sign-in for the webapps** (opt-in, empty defaults
+    change nothing): `cadenzaflow.sso.shared-callback-url`, `cadenzaflow.sso.shared-callback-sign-in`
+    (default `false`; `true` only where the provider has no platform types, e.g. Keycloak),
+    `cadenzaflow.sso.login-page-url` with the new `POST /cadenzaflow/v1/app/login-with-token`
+    (204 / 401 / 403), `cadenzaflow.sso.bearer-session-max` (default `PT8H`),
+    `cadenzaflow.sso.bearer-login.user-token-only` (default `true`) and
+    `cadenzaflow.sso.bearer-login.user-claim`. A malformed value fails the boot.
+  - **1.5.1, PKCE (S256) on every webapp sign-in**, with nothing to configure.
+  - **1.5.1, fixed:** a signed-in user unknown to the identity provider gets `401`, not a `500`
+    NPE (`keycloak` and `entra` providers); Cockpit no longer labels the user "null null"; a user
+    without the Cockpit/Admin/Tasklist grant gets a plain no-access page.
+  - **1.5.2–1.5.4, fixed:** the token sign-in checks `X-ID-Token` with its own audiences (the API
+    audiences of its issuer plus the webapp registration's `client-id`; new
+    `cadenzaflow.sso.id-token-audiences` narrows it), so Entra ID and Keycloak console sign-ins
+    are accepted; single-issuer mode with the shared sign-in starts (1.5.3 crash-looped and is
+    withdrawn); `server.max-http-request-header-size` is `32KB`, so a token login behind an AWS
+    ALB with OIDC is no longer refused with `400`.
+  - **1.6.0, added:** the incident list's `rootCauseOnly=true` (one row per chain) and
+    `rootProcessDefinitionKeyIn`; the retry markers `withoutTenant` and `rootLevelOnly`.
+  - **1.6.0, fixed:** the engine starts on an existing schema under a Turkish default locale; a
+    report group without a tenant or caller, posted back verbatim, retries that group only; the
+    log masks a user and password inside an address, an IBAN in groups of four, card and phone
+    shapes it missed, and values followed by an underscore.
+  - **1.6.0, changed:** Spring Boot 4.2.0 (the image keeps absolute redirects and the observations'
+    long-task timers); GraalJS 25.6.5.1 for JavaScript script tasks and listeners; tmf630-toolkit 3.6.0
+    (the engine uses only its paging and sort parsing, unchanged); AWS SDK 2.59.8, aws-msk-iam-auth
+    2.4.0 and aws-advanced-jdbc-wrapper 4.7.0 in the `-aws` flavour only.
+
+### Documentation
+- `OPENTMF-LIBRARIES.md` updated for every library above, from its release tag; `README.md`
+  regenerated, with a new "json-path 3" section.
+
+### Build (contributors)
+- maven-deploy-plugin 3.2.0 (from 3.1.4).
+- `.gitignore` ignores `graphify-out/`, a local knowledge graph.
+
 ## [2.1.47] - 2026-11-04
 
 Only managed versions move (no BOM structure change), so this is a patch of the BOM as an

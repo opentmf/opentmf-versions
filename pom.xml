@@ -59,7 +59,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Latest published BOM version (shown in README Usage). Bump manually as part of each release. -->
-    <opentmf-versions.version>2.1.47</opentmf-versions.version>
+    <opentmf-versions.version>2.1.48</opentmf-versions.version>
 
     <!-- Docker image, not a Maven dependency. Manually tracked for README display only. -->
     <http-endpoint-kicker.version>1.0.0</http-endpoint-kicker.version>
@@ -69,20 +69,20 @@
     <openid-rbac-security.version>3.3.0</openid-rbac-security.version>
     <opentmf-commons.version>2.2.0</opentmf-commons.version>
     <opentmf-json-patch.version>1.1.0</opentmf-json-patch.version>
-    <opentmf-db-lock-service.version>3.0.0</opentmf-db-lock-service.version>
-    <opentmf-outbox-service.version>1.11.0</opentmf-outbox-service.version>
+    <opentmf-db-lock-service.version>3.1.0</opentmf-db-lock-service.version>
+    <opentmf-outbox-service.version>1.12.0</opentmf-outbox-service.version>
     <auditor-aware-jpa.version>2.0.0</auditor-aware-jpa.version>
     <auditor-aware.version>3.0.0</auditor-aware.version>
     <camunda7-bpmn-sync-service.version>2.1.1</camunda7-bpmn-sync-service.version>
     <dnext-catalog-sync-service.version>2.0.4</dnext-catalog-sync-service.version>
-    <camunda7-incident-logger.version>2.0.1</camunda7-incident-logger.version>
-    <opentmf-mockserver.version>2.1.16</opentmf-mockserver.version>
-    <camunda7-test-framework.version>2.1.0</camunda7-test-framework.version>
+    <camunda7-incident-logger.version>2.1.0</camunda7-incident-logger.version>
+    <opentmf-mockserver.version>2.1.17</opentmf-mockserver.version>
+    <camunda7-test-framework.version>2.2.0</camunda7-test-framework.version>
     <opentmf-camunda7.version>24.0.6</opentmf-camunda7.version>
-    <opentmf-cadenzaflow.version>1.5.0</opentmf-cadenzaflow.version>
+    <opentmf-cadenzaflow.version>1.6.0</opentmf-cadenzaflow.version>
 
     <!-- OpenTMF HTTP Clients -->
-    <opentmf-http-clients.version>2.5.1</opentmf-http-clients.version>
+    <opentmf-http-clients.version>3.0.0</opentmf-http-clients.version>
 
     <!-- OpenTMF API Clients -->
     <opentmf-api-clients.version>3.1.0</opentmf-api-clients.version>
@@ -92,7 +92,7 @@
     <opentmf-api-clients-hub.version>${opentmf-api-clients.version}</opentmf-api-clients-hub.version>
 
     <!-- TMF630 Toolkit -->
-    <tmf630-toolkit.version>3.5.2</tmf630-toolkit.version>
+    <tmf630-toolkit.version>3.6.0</tmf630-toolkit.version>
 
     <!-- OpenTMF v4 API (reactor parent) -->
     <opentmf-v4-api.version>4.1.1</opentmf-v4-api.version>
@@ -315,9 +315,13 @@
     <opentmf-641-v4-util.version>2.0.0</opentmf-641-v4-util.version>
     <opentmf-common-v4-util.version>2.0.0</opentmf-common-v4-util.version>
 
+    <!-- Third-party version this BOM manages over Spring Boot's own management (see the entry
+         under <dependencyManagement> for why, and when it goes). -->
+    <json-path.version>3.0.0</json-path.version>
+
     <!-- Plugins related to release and deployment -->
     <maven-enforcer-plugin.version>3.7.0</maven-enforcer-plugin.version>
-    <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+    <maven-deploy-plugin.version>3.2.0</maven-deploy-plugin.version>
     <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
     <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
@@ -1614,6 +1618,27 @@
         <groupId>org.opentmf.client</groupId>
         <artifactId>opentmf-api-clients-hub</artifactId>
         <version>${opentmf-api-clients-hub.version}</version>
+      </dependency>
+
+      <!-- ==================== Third-party overrides ==================== -->
+
+      <!--
+        json-path 3.0.0 OVERRIDES the version Spring Boot manages (2.10.0 in Boot 4.0.x and 4.1.x;
+        Boot 4.2.0 manages 3.0.0 itself, so on Boot 4.2.x this entry changes nothing).
+        tmf630-toolkit is built and tested on 3.0.0, the first json-path release with native
+        Jackson 3 support; on 2.10.0 a consumer runs the toolkit on a json-path it was never
+        tested with. json-path 3.0.0 everywhere.
+        This entry wins only where it is the first management a consumer sees for json-path;
+        under spring-boot-starter-parent, or with spring-boot-dependencies imported before
+        this BOM, Boot's 2.10.0 wins and the consumer still sets json-path.version itself
+        (see the README, "json-path 3").
+        REMOVE this entry and the json-path.version property when no consumer is on a Spring Boot
+        line below 4.2 any more.
+      -->
+      <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>${json-path.version}</version>
       </dependency>
 
     </dependencies>
