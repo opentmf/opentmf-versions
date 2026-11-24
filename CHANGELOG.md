@@ -21,7 +21,7 @@ one named hold.
 | `opentmf-mockserver` (+ `-test-support`) | 2.1.16 → **2.1.17** | Mustache response templates are served; every other template is refused at load with `400` (it used to hang). `netty-tcnative` no longer reaches consumers. `-test-support` needs Spring Framework 7. |
 | `camunda7-incident-logger` | 2.0.1 → **2.1.0** | An incident without an execution id is no longer logged. Built on CibSeven 3.0.0. |
 | `camunda7-test-framework` | 2.1.0 → **2.2.0** | **Consumers must be on a CibSeven 3.0.0 client.** `queueDepth` no longer counts locked tasks; the simulated engine outage answers JSON. |
-| `opentmf-cadenzaflow` | 1.5.0 → **1.6.0** | The jar on Central catches up with the deployed line (1.5.1–1.5.4 and 1.6.0). Token sign-in for the webapps; PKCE; the engine starts under a Turkish locale; more values masked in the log. A deployable service: run its images. |
+| `opentmf-cadenzaflow` | 1.5.0 → **1.6.0** | The jar on Central catches up with the deployed line (1.5.1–1.5.4 and 1.6.0). Token sign-in for the webapps; PKCE; the engine starts under a Turkish locale; more values masked in the log. A deployable service: run its images. The engine's 1.6.0 images are published by its own release run, after this BOM; a deployment waits for them. |
 
 **Held:** `opentmf-673-v4-model` stays at 4.0.0.11. "4.0.1.5" is not newer content: it is the
 April 2025 artifact, from before the 673 model was renumbered to the specification's 4.0.0
@@ -159,7 +159,7 @@ April 2025 artifact, from before the 673 model was renumbered to the specificati
     incidents it saw.
   - Spring Boot 4.2.0, GraalVM polyglot/JS 25.6.5.1, ArchUnit 1.5.1.
 - Updated `opentmf-cadenzaflow` to **1.6.0** (from 1.5.0). 1.5.2–1.5.4 were released as images
-  only; 1.6.0 is the first jar on Central since 1.5.1 and carries them all:
+  only; 1.6.0 is the first jar on Central since 1.5.1 and carries them all. The engine's 1.6.0 images are published by its own release run, after this BOM; a deployment waits for them.
   - **1.5.1, shared browser callback and token sign-in for the webapps** (opt-in, empty defaults
     change nothing): `cadenzaflow.sso.shared-callback-url`, `cadenzaflow.sso.shared-callback-sign-in`
     (default `false`; `true` only where the provider has no platform types, e.g. Keycloak),
