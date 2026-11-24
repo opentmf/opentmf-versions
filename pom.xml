@@ -1627,7 +1627,7 @@
         Boot 4.2.0 manages 3.0.0 itself, so on Boot 4.2.x this entry changes nothing).
         tmf630-toolkit is built and tested on 3.0.0, the first json-path release with native
         Jackson 3 support; on 2.10.0 a consumer runs the toolkit on a json-path it was never
-        tested with. Decided by Gökhan (ledger #4253): json-path 3.0.0 everywhere.
+        tested with. json-path 3.0.0 everywhere.
         This entry wins only where it is the first management a consumer sees for json-path;
         under spring-boot-starter-parent, or with spring-boot-dependencies imported before
         this BOM, Boot's 2.10.0 wins and the consumer still sets json-path.version itself
