@@ -184,8 +184,9 @@ April 2025 artifact, from before the 673 model was renumbered to the specificati
     log masks a user and password inside an address, an IBAN in groups of four, card and phone
     shapes it missed, and values followed by an underscore.
   - **1.6.0, changed:** Spring Boot 4.2.0 (the image keeps absolute redirects and the observations'
-    long-task timers); AWS SDK 2.59.8 and aws-msk-iam-auth 2.4.0 and aws-advanced-jdbc-wrapper
-    4.7.0 in the `-aws` flavour only.
+    long-task timers); GraalJS 25.6.5.1 for JavaScript script tasks and listeners; tmf630-toolkit 3.6.0
+    (the engine uses only its paging and sort parsing, unchanged); AWS SDK 2.59.8, aws-msk-iam-auth
+    2.4.0 and aws-advanced-jdbc-wrapper 4.7.0 in the `-aws` flavour only.
 
 ### Documentation
 - `OPENTMF-LIBRARIES.md` updated for every library above, from its release tag; `README.md`
